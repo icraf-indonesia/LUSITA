@@ -1282,7 +1282,7 @@ app <- shiny::shinyApp(
           br(),
           h5("Langkah 4: Jalankan Analisis", align = "center"),
           fluidRow(
-            column(6,
+            column(5,
                    
             ),
             column(6,
@@ -3415,7 +3415,7 @@ app <- shiny::shinyApp(
     modalTahunDaurTanam <- function(failed = FALSE) {
       modalDialog( 
         footer=tagList(
-          actionButton(("sunting_button_1"), "Simpan dan Lanjut",style="color: white;background-color: green;")
+          actionButton(("sunting_button_1"), "Simpan dan Lanjutkan",style="color: white;background-color: green;")
         ),
         argonTabSet(
           id = "tabSunting1",
