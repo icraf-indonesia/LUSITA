@@ -42,15 +42,17 @@ indonesia <- read.csv("data/template/prov sampai desa.csv", stringsAsFactors = F
 # readDataAsumsiMakro <- read.table(paste0("data/template/asumsi makro",".csv"), header = T, sep = ",")
 
 
+
 # elements
 source("pamTemplate_modul1.R")
 source("pamBaru_modul2.R")
+source("pamParsial_modul3.R")
 
 
 # App
 app <- shiny::shinyApp(
   ui = argonDashPage(
-    title = "Argon Dashboard Demo",
+    title = "LUSITA",
     author = "Dewi Kiswani Bodro",
     description = "ICRAF",
     sidebar = argonSidebar,
@@ -60,6 +62,7 @@ app <- shiny::shinyApp(
       argonTabItems(
         #home,
         pamTemplate,
+        pamParsial,
         pamBaru
         # ,
         # deskriptifPlot
@@ -1121,7 +1124,7 @@ app <- shiny::shinyApp(
       nameRow <- c("Discount Rate Private", "Discount Rate Social", "Nilai Tukar Rupiah", "Tipe Kebun","Lokasi")
       dataView <- cbind(nameRow,data.frame(dataView))
       
-      colnames(dataView) <- c(" ","Nilai BAU pada Tahun Terpilih, Tipe Kebun & Lokasi")
+      colnames(dataView) <- c(" ","Nilai BAU pada informasi umum yang terpilih")
       dataView
       
     })
@@ -1170,16 +1173,16 @@ app <- shiny::shinyApp(
               # tableOutput("cekTable"),
               
               dataTableOutput("showTablePrice"),
-              actionButton("simPrice_button","Sunting Harga",icon("paper-plane"),style="color: white;
-                           background-color: green;"),
+              # actionButton("simPrice_button","Sunting Harga",icon("paper-plane"),style="color: white;
+              #              background-color: green;"),
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Tabel Kuantitas",
               active = F,
               dataTableOutput(("showTableKuantitas")),
-              actionButton("simIO_button","Sunting Kuantitas",icon("paper-plane"),style="color: white;
-                           background-color: green;"),
+              # actionButton("simIO_button","Sunting Kuantitas",icon("paper-plane"),style="color: white;
+              #              background-color: green;"),
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             ),
             
@@ -1189,8 +1192,8 @@ app <- shiny::shinyApp(
                 active = F,
                 dataTableOutput("showTableScenLand")
                 ,
-                actionButton("simSkenLahan_button","Sunting Skenario Lahan",icon("paper-plane"),style="color: white;
-                           background-color: green;"),
+                # actionButton("simSkenLahan_button","Sunting Skenario Lahan",icon("paper-plane"),style="color: white;
+                #            background-color: green;"),
                 style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
               )
             }else{
@@ -1199,8 +1202,8 @@ app <- shiny::shinyApp(
                   active = F,
                   dataTableOutput("showTableKapital")
                   ,
-                  actionButton("simCapital_button","Sunting Modal Kapital",icon("paper-plane"),style="color: white;
-                           background-color: green;"),
+                  # actionButton("simCapital_button","Sunting Modal Kapital",icon("paper-plane"),style="color: white;
+                  #          background-color: green;"),
                   style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
                 )}
             
@@ -1275,6 +1278,8 @@ app <- shiny::shinyApp(
     })
     
     
+    
+    
     output$showButton <- renderUI({
       argonRow(
         argonColumn(
@@ -1296,6 +1301,7 @@ app <- shiny::shinyApp(
     })
     
     # End - Section tampilkan tabel ---------------------------------------------
+    
     
     # Section Popup Modal Dialog---------------------------------------------
     observeEvent(input$buatPAM_button,{
@@ -1503,7 +1509,8 @@ app <- shiny::shinyApp(
         ),
         fluidRow(
           column(4,
-                 plotlyOutput('plotComparing')
+                 # plotlyOutput('plotComparing')
+                 tags$div(id = 'uiplotComparing')
                  ),
           column(8,
                  tags$div(id = 'uiShowPlotAllKomoditas')
@@ -1547,13 +1554,29 @@ app <- shiny::shinyApp(
     
     
     observeEvent(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+      removeUI(selector = '#showplotComparing')
       removeUI(selector = '#showPlotAllKomoditas')
+      
+      insertUI(selector='#uiplotComparing',
+               where='afterEnd',
+               ui= plotlyOutput('showplotComparing'))
       
       insertUI(selector='#uiShowPlotAllKomoditas',
                where='afterEnd',
                ui= plotlyOutput('showPlotAllKomoditas'))
     })
 
+    output$showplotComparing <- renderPlotly({
+      withProgress(message = 'Collecting data in progress',
+                   detail = 'This may take a while...', value = 0, {
+                     for (i in 1:15) {
+                       incProgress(1/15)
+                       sum(runif(10000000,0,1))
+                     }
+                   })
+      
+      preparePlot()
+    })
     
     output$showPlotAllKomoditas <- renderPlotly({
       withProgress(message = 'Collecting data in progress',
@@ -1564,7 +1587,7 @@ app <- shiny::shinyApp(
                      }
                    })
       
-      plotAllProvinsi() 
+      plotAllKomoditas() 
     })
     ################################################################################
     #                                                                              #
@@ -2928,9 +2951,9 @@ app <- shiny::shinyApp(
       datatable(data.graph.new()$tabel2, option=list(dom = "t"))
     })
     
-    output$plotComparing <- renderPlotly({
-      preparePlot()
-    })
+    # output$plotComparing <- renderPlotly({
+    #   preparePlot()
+    # })
   
     
     preparePlot <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
@@ -2998,10 +3021,10 @@ app <- shiny::shinyApp(
     ################################################################################
     
     # output$plotComparingAllProvinsi <- renderPlotly({
-    #   plotAllProvinsi()
+    #   plotAllKomoditas()
     # })
     # 
-    # plotAllProvinsi <- reactive({
+    # plotAllKomoditas <- reactive({
     #   
     #   print("panggil data plot all")
     #   dataPlotAllProvinsi() %>%
@@ -3009,16 +3032,18 @@ app <- shiny::shinyApp(
     #     plot_ly(x = ~nama.komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~tipe.kebun)
     # })
     
-    plotAllProvinsi <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
-    # plotAllProvinsi <- reactive({
+    plotAllKomoditas <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    # plotAllKomoditas <- reactive({
       print("persiapan membuat plot seluruh komoditas")
       # DATA PLOT BAU -----------------------------------------------------------
       folderSut <- sort(unique(komoditas$sut))
       folderProvinsi <- filter(komoditas, provinsi == input$selected_provinsi)
       folderKom <- sort(unique(folderProvinsi$nama_komoditas))
-      
+
       kombinasiFolder <- as.vector(outer(folderSut, folderKom, paste, sep="/"))
       dirFile <- paste0("data/",kombinasiFolder)
+
+
       
       nameFiles <- list.files(path = paste0(dirFile,"/"),pattern = paste0("resultTemplate"))
       kombinasiFile <- as.vector(outer(dirFile, nameFiles, paste, sep="/"))
@@ -3403,7 +3428,7 @@ app <- shiny::shinyApp(
     # Start - Section sunting_button---------------------------------------------
     ################################################################################
     #                                                                              #
-    #                                 BUTTON IO KUANTITAS                          #
+    #                                 BUTTON SUNTING DARI AWAL                     #
     #                                                                              #
     ################################################################################
     observeEvent(input$sunting_button,{
@@ -4089,7 +4114,7 @@ app <- shiny::shinyApp(
     }
     
     observeEvent(input$batalSunting_button_kuantitasInput,{
-      browser()
+     #  browser()
       removeModal()
     })
     
@@ -4571,6 +4596,13 @@ app <- shiny::shinyApp(
     #                                                                              #
     ################################################################################
     source("server/pamBaru_server.R", local = TRUE)
+    
+    ################################################################################
+    #                                                                              #
+    #                               PROSES 3 PAM BARU                             #
+    #                                                                              #
+    ################################################################################
+    source("server/pamParsial_server.R", local = TRUE)
     
   }
 )
