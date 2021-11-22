@@ -28,7 +28,7 @@ dataTemplate_par <- reactive({
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   print(paste0(datapath," SIMULASI"))
   
-  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
+  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
   readDataTemplate[is.na(readDataTemplate)] <- 0
   
   if (readDataTemplate$tipe.kebun[1] == "LARGE SCALE"){
@@ -62,7 +62,7 @@ dataTemplate_par <- reactive({
     # informasi umum
     sut_par <- input$sut_par
     kom_par <- input$kom_par
-    provinsi <- input$selected_provinsi_par
+    wilayah <- input$selected_wilayah_par
     th_par <- input$th_par
     tipeLahan_par <- input$tipeLahan_par
     tipeKebun <- readDataTemplate$tipe.kebun[1]
@@ -79,7 +79,7 @@ dataTemplate_par <- reactive({
                        cum.landScene = cum.landScene,
                        sut=sut_par,
                        kom=kom_par,
-                       provinsi = provinsi,
+                       wilayah = wilayah,
                        th=th_par,
                        tipeLahan = tipeLahan_par,
                        tipeKebun = tipeKebun,
@@ -94,7 +94,7 @@ dataTemplate_par <- reactive({
     datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
     fileName <- paste0(datapath,"saveParDat","_",
                        input$sut_par,"_",input$kom_par,"_",
-                       input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                       input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
     saveRDS(combineDef,file = fileName)
     
     
@@ -133,7 +133,7 @@ dataTemplate_par <- reactive({
     # informasi umum
     sut_par <- input$sut_par
     kom_par <- input$kom_par
-    provinsi <- input$selected_provinsi_par
+    wilayah <- input$selected_wilayah_par
     th_par <- input$th_par
     tipeLahan_par <- input$tipeLahan_par
     tipeKebun <- readDataTemplate$tipe.kebun[1]
@@ -149,7 +149,7 @@ dataTemplate_par <- reactive({
                        capital=capital, capitalPrivat = capitalPrivat, capitalSosial = capitalSosial,
                        sut=sut_par,
                        kom=kom_par,
-                       provinsi = provinsi,
+                       wilayah = wilayah,
                        th=th_par,
                        tipeLahan_par = tipeLahan_par,
                        tipeKebun = tipeKebun,
@@ -163,7 +163,7 @@ dataTemplate_par <- reactive({
     datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
     fileName <- paste0(datapath,"saveParDat","_",
                        input$sut_par,"_",input$kom_par,"_",
-                       input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                       input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
     saveRDS(combineDef,file = fileName)
     
     
@@ -177,7 +177,7 @@ resultParTemp <- reactive({
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   print(paste0(datapath," BAU"))
   
-  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
+  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
   readDataTemplate[is.na(readDataTemplate)] <- 0
   
   if (readDataTemplate$tipe.kebun[1] == "LARGE SCALE"){
@@ -226,7 +226,7 @@ resultParTemp <- reactive({
     #informasi umum
     dataDefine$sut <- input$sut_par
     dataDefine$kom <- input$kom_par
-    dataDefine$provinsi <- input$selected_provinsi_par
+    dataDefine$wilayah <- input$selected_wilayah_par
     dataDefine$th <- input$th_par
     dataDefine$tipeLahan <- input$tipeLahan_par
     dataDefine$tipeKebun <- readDataTemplate$tipe.kebun[1]
@@ -594,7 +594,7 @@ resultParTemp <- reactive({
     
     fileName <- paste0(datapath,"resultParTemp","_",
                        input$sut_par,"_",input$kom_par,"_",
-                       input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                       input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
     saveRDS(dataDefine,file = fileName)
     
     
@@ -651,7 +651,7 @@ resultParTemp <- reactive({
     #informasi umum
     dataDefine$sut <- input$sut_par
     dataDefine$kom <- input$kom_par
-    dataDefine$provinsi <- input$selected_provinsi_par
+    dataDefine$wilayah <- input$selected_wilayah_par
     dataDefine$th <- input$th_par
     dataDefine$tipeLahan <- input$tipeLahan_par
     dataDefine$tipeKebun <- readDataTemplate$tipe.kebun[1]
@@ -934,7 +934,7 @@ resultParTemp <- reactive({
     
     fileName <- paste0(datapath,"resultParTemp","_",
                        input$sut_par,"_",input$kom_par,"_",
-                       input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                       input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
     saveRDS(dataDefine,file = fileName)
     
     
@@ -949,7 +949,7 @@ resultParTemp <- reactive({
 # end - Section preparation data --------
 
 # Section input informasi umum  dan asumsi makcro---------------------------------------------
-observeEvent(c(input$sut_par,input$kom_par,input$selected_provinsi_par,input$th_par,input$tipeLahan_par), {
+observeEvent(c(input$sut_par,input$kom_par,input$selected_prov_par, input$selected_wilayah_par,input$th_par,input$tipeLahan_par), {
   removeUI(selector='#showResult_par')
   removeUI(selector='#showMakro_par')
   removeUI(selector='#showTable_par')
@@ -957,7 +957,7 @@ observeEvent(c(input$sut_par,input$kom_par,input$selected_provinsi_par,input$th_
   
 })
 
-observeEvent(c(input$rate.p_par,input$rate.s_par,input$nilai.tukar_par), {
+observeEvent(c(input$sut_par,input$kom_par,input$selected_prov_par, input$selected_wilayah_par,input$th_par,input$tipeLahan_par), {
   removeUI(selector='#showResult_par')
   removeUI(selector='#showTable_par')
   removeUI(selector='#showButton_par')
@@ -1016,7 +1016,7 @@ output$showMakroBAU_par <- renderTable({
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"resultParTemp","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   readDataTemplate <- readRDS(fileName)
   dataView <- t(data.frame(rate.p_par.bau = readDataTemplate$rate.p, 
                            rate.s_par.bau = readDataTemplate$rate.s,
@@ -1036,7 +1036,7 @@ output$showMakroBAU_par <- renderTable({
 # End - Section asumsi makro ---------------------------------------------
 
 # Section input informasi umum  dan asumsi makcro---------------------------------------------
-observeEvent(c(input$sut_par,input$kom_par,input$selected_provinsi_par,input$th_par,input$tipeLahan_par), {
+observeEvent(c(input$sut_par,input$kom_par,input$selected_wilayah_par,input$th_par,input$tipeLahan_par), {
   removeUI(selector='#showResult_par')
   removeUI(selector='#showMakro_par')
   removeUI(selector='#showTable_par')
@@ -1074,7 +1074,7 @@ output$showTable_par <- renderUI({
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   argonRow(
@@ -1137,28 +1137,47 @@ output$showTable_par <- renderUI({
   )
 })
 
+
 output$showTablePrice_par <- renderDataTable({
+  viewSimP()
+})
+
+
+viewSimP <- eventReactive(c(input$tampilkanTabel_button_par,input$runSimPrice),{
   datapath_par <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath_par,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   dataView <- rbind(dataDefine$priceInput, dataDefine$priceOutput)
   dataView[is.na(dataView)] <- 0 #NA replace with_par zero
-  dataView
   
+  print("tabel harga yang terupdate")
+  
+  dataView
+
 })
 
 output$showTableKuantitas_par <- renderDataTable({
+  viewSimIO()
+  
+})
+
+viewSimIO <- eventReactive(c(input$tampilkanTabel_button_par,input$runSimIO),{
   datapath_par <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath_par,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   # print("data terakhir tersimpan di rds")
   dataDefine <- readRDS(fileName)
   dataView <- rbind(dataDefine$ioInput, dataDefine$ioOutput)
   dataView[is.na(dataView)] <- 0 #NA replace with_par zero
+  
+  print("tabel harga yang terupdate")
+  
   dataView
+  
+  
   
 })
 
@@ -1167,7 +1186,7 @@ output$showTableKapital_par <- renderDataTable({
   datapath_par <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath_par,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   if (!is.null(dataDefine$capital)){
@@ -1186,7 +1205,7 @@ output$showTableScenLand_par <- renderDataTable({
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   # baseScene <- filter(dataDefine,str_detect(bagian,"dasar"))
@@ -1260,7 +1279,7 @@ output$simHargaOutput <- renderRHandsontable({
 valSimP2 <- eventReactive(input$simPrice_button,{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   
-  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
+  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
   readDataTemplate[is.na(readDataTemplate)] <- 0
   readDataTemplate <- lowcase(readDataTemplate, c("faktor","komponen","jenis","unit.harga","unit"))
   
@@ -1271,7 +1290,7 @@ valSimP2 <- eventReactive(input$simPrice_button,{
   
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   
   dataDefine <- readRDS(fileName)
   
@@ -1301,7 +1320,7 @@ output$simHargaInput <- renderRHandsontable({
 
 valSimP1 <- eventReactive(input$simPrice_button,{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
-  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
+  readDataTemplate <- read.table(paste0(datapath,input$sut_par,"_",input$kom_par,"_",input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".csv"), header = T, sep = ",")
   readDataTemplate[is.na(readDataTemplate)] <- 0
   readDataTemplate <- lowcase(readDataTemplate, c("faktor","komponen","jenis","unit.harga","unit"))
   
@@ -1311,7 +1330,7 @@ valSimP1 <- eventReactive(input$simPrice_button,{
   
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   reactData$tableP1 <- dataDefine$ioInput[,c("komponen","jenis")]
@@ -1342,7 +1361,7 @@ observeEvent(input$runSimPrice,{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   editNewP1<-as.data.frame(hot_to_r(input$simHargaInput))
@@ -1373,7 +1392,7 @@ output$showResult_par <- renderUI({
              br(),
              br(),
              h1(paste0("HASIL ANALISIS"," ",input$kom_par," ",input$sut_par), align = "center"),
-             h1(paste0("di ",input$selected_provinsi_par," pada tahun ",input$th_par," dengan tipe lahan ", input$tipeLahan_par), align = "center"),
+             h1(paste0("di ",input$selected_wilayah_par," pada tahun ",input$th_par," dengan tipe lahan ", input$tipeLahan_par), align = "center"),
              br(),
       )
     ),
@@ -1397,36 +1416,75 @@ output$showResult_par <- renderUI({
       )
     ),
     fluidRow(
-      column(4,
+      column(6,
              dataTableOutput("tableResultBAU1_par"),
       ),
-      column(2,
-             dataTableOutput("tableResultBAU2_par")
-             
-      ),
-      column(4,
+      
+      column(6,
              dataTableOutput("tableResultSimulasi1_par"),
              
       ),
-      column(2,
+      column(6,
+             dataTableOutput("tableResultBAU2_par")
+             
+      ),
+      column(6,
              dataTableOutput("tableResultSimulasi2_par")
              
       ),
     ),
+    
+    br(),
+    br(),
+    column(12,
+           id = 'tableNPV_par',
+           tags$style('#tableNPV_par {
+                            background-color: #CCFFCC;
+                            }'),
+           h3("Tabel NPV dalam 1 Wilayah", align = "center")
+           
+    ),
+    fluidRow(
+      column(12,
+             dataTableOutput('showTableAllKomoditas_par')
+      )
+    ),
+    
+    br(),
+    br(),
     fluidRow(
       column(4,
-             # plotlyOutput('plotComparing_par')
+             id = 'plotCom_par',
+             tags$style('#plotCom_par {
+                            background-color: #CCFFCC;
+                            }'),
+             h3("Barchart NPV BAU vs Simulasi", align = "center")
+             
+      ),
+      column(8,
+             id = 'plotAll_par',
+             tags$style('#plotAll_par {
+                            background-color: #CCFFCC;
+                            }'),
+             h3("Barchart NPV seluruh SUT dalam 1 Wilayah", align = "center")
+             
+      ),
+      column(4,
              tags$div(id = 'uiplotComparing_par')
       ),
       column(8,
              tags$div(id = 'uiShowPlotAllKomoditas_par')
-             # plotlyOutput("plotComparingAllProvinsi")
       )
     ),
-    fluidRow(
-      column(6,
-             dataTableOutput('showTableAllKomoditas_par')
-      )
+    br(),
+    br(),
+    column(12,
+           id = 'grafikProfit_par',
+           tags$style('#grafikProfit_par {
+                            background-color: #CCFFCC;
+                            }'),
+           h3("Grafik Profit Tahunan", align = "center")
+           
     ),
     fluidRow(
       column(6,
@@ -1459,7 +1517,8 @@ output$showResult_par <- renderUI({
 
 
 
-observeEvent(c(input$runSimPrice, input$runSimIO),{
+observeEvent(c(input$runSimPrice, input$runSimIO,
+               input$sut_par,input$kom_par,input$selected_prov_par, input$selected_wilayah_par,input$th_par,input$tipeLahan_par),{
   removeUI(selector = '#showplotComparing_par')
   removeUI(selector = '#showPlotAllKomoditas_par')
   
@@ -1487,13 +1546,13 @@ output$showPlotAllKomoditas_par <- renderPlotly({
 })
 
 output$showplotComparing_par <- renderPlotly({
-  withProgress(message = 'Collecting data in progress',
-               detail = 'This may take a while...', value = 0, {
-                 for (i in 1:15) {
-                   incProgress(1/15)
-                   sum(runif(10000000,0,1))
-                 }
-               })
+  # withProgress(message = 'Collecting data in progress',
+  #              detail = 'This may take a while...', value = 0, {
+  #                for (i in 1:15) {
+  #                  incProgress(1/15)
+  #                  sum(runif(10000000,0,1))
+  #                }
+  #              })
   
   preparePlot_par()
 })
@@ -1553,7 +1612,7 @@ valSimIO2 <- eventReactive(input$simIO_button,{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   reactData$tableIO2 <- dataDefine$ioOutput
@@ -1574,7 +1633,7 @@ valSimIO1 <- eventReactive(input$simIO_button,{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   reactData$tableIO2 <- dataDefine$ioInput
@@ -1589,7 +1648,7 @@ observeEvent(input$runSimIO,{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   editNewOutput<-as.data.frame(hot_to_r(input$simIOOutput))
@@ -1620,7 +1679,7 @@ data.graph_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"resultParTemp","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   #### io  ####    
@@ -2185,11 +2244,22 @@ data.graph_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
     
     # ending  lr ------------------------------------------------------- 
     
+    # tampilan rate.p, rate.s, nilai tukar rupiah --------------------------------------------------------------
+    showRateP <- (dataDefine$rate.p)
+    showRateS <- (dataDefine$rate.s)
+    showExRate <- (dataDefine$nilai.tukar)
+    showBauMacro <- rbind(showRateP,showRateS,showExRate)
+    rownames(showBauMacro)<-c("Discount Rate Private", "Discount Rate Social", "Nilai Tukar Rupiah")
+    colnames(showBauMacro) <- c("Nilai")
+    showBauMacro
+    
+    # ending  ------------------------------------------------------- 
+    
     tabel1 <- rbind(hsl.npv,nlc,ec)
     tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
     tabel1
     
-    tabel2 <- rbind(hp,lr)
+    tabel2 <- rbind(hp,lr,showBauMacro)
     tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
     tabel2
     
@@ -2213,7 +2283,7 @@ data.graph.new_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
 
   
@@ -2789,6 +2859,16 @@ data.graph.new_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
     lr
     
     # ending  lr ------------------------------------------------------- 
+    # tampilan rate.p, rate.s, nilai tukar rupiah --------------------------------------------------------------
+    showRateP <- (dataDefine$rate.p)
+    showRateS <- (dataDefine$rate.s)
+    showExRate <- (dataDefine$nilai.tukar)
+    showBauMacro <- rbind(showRateP,showRateS,showExRate)
+    rownames(showBauMacro)<-c("Discount Rate Private", "Discount Rate Social", "Nilai Tukar Rupiah")
+    colnames(showBauMacro) <- c("Nilai")
+    showBauMacro
+    
+    # ending  ------------------------------------------------------- 
     
     # RESULT 
     dataDefine$npv <- hsl.npv
@@ -2803,7 +2883,7 @@ data.graph.new_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
     tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
     tabel1
     
-    tabel2 <- rbind(hp,lr)
+    tabel2 <- rbind(hp,lr, showBauMacro)
     tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
     tabel2
     
@@ -2853,7 +2933,7 @@ preparePlot_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"resultParTemp","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
 
   
@@ -2864,7 +2944,7 @@ preparePlot_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
 
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
 
   
@@ -2894,8 +2974,8 @@ plotAllKomoditas_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
     
   # DATA PLOT BAU -----------------------------------------------------------
   folderSut <- sort(unique(komoditas$sut))
-  folderProvinsi <- filter(komoditas, provinsi == input$selected_provinsi_par)
-  folderKom <- sort(unique(folderProvinsi$nama_komoditas))
+  folderwilayah <- filter(komoditas, wilayah == input$selected_wilayah_par)
+  folderKom <- sort(unique(folderwilayah$nama_komoditas))
   
   kombinasiFolder <- as.vector(outer(folderSut, folderKom, paste, sep="/"))
   dirFile <- paste0("data/",kombinasiFolder)
@@ -2914,10 +2994,10 @@ plotAllKomoditas_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
     b}
   
   
-  ##### step 2 filter yang ada pattern input$selected_provinsi_par ex: (_ACEH)
+  ##### step 2 filter yang ada pattern input$selected_wilayah_par ex: (_ACEH)
   # cek dari vector kombinasiFile yang sudah di cek T or F nya
   provFile <- kombinasiFile %>% 
-    str_subset(pattern = paste0("_",input$selected_provinsi_par))
+    str_subset(pattern = paste0("_",input$selected_wilayah_par))
   
   
   ##### step 3 filter yang ada pattern input$th_par ex: (_2020)
@@ -2946,7 +3026,7 @@ plotAllKomoditas_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataCheck <- readRDS(fileName)
   
   sut <- unlist(dataCheck[["sut"]])
@@ -2982,8 +3062,8 @@ plotAllKomoditas_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
 tableAllKomoditas_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
 
   folderSut <- sort(unique(komoditas$sut))
-  folderProvinsi <- filter(komoditas, provinsi == input$selected_provinsi)
-  folderKom <- sort(unique(folderProvinsi$nama_komoditas))
+  folderwilayah <- filter(komoditas, wilayah == input$selected_wilayah)
+  folderKom <- sort(unique(folderwilayah$nama_komoditas))
   
   kombinasiFolder <- as.vector(outer(folderSut, folderKom, paste, sep="/"))
   dirFile <- paste0("data/",kombinasiFolder)
@@ -3003,10 +3083,10 @@ tableAllKomoditas_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
     b}
   
   
-  ##### step 2 filter yang ada pattern input$selected_provinsi_par ex: (_ACEH)
+  ##### step 2 filter yang ada pattern input$selected_wilayah_par ex: (_ACEH)
   # cek dari vector kombinasiFile yang sudah di cek T or F nya
   provFile <- kombinasiFile %>% 
-    str_subset(pattern = paste0("_",input$selected_provinsi_par))
+    str_subset(pattern = paste0("_",input$selected_wilayah_par))
   
   
   ##### step 3 filter yang ada pattern input$th_par ex: (_2020)
@@ -3035,7 +3115,7 @@ tableAllKomoditas_par <- eventReactive(c(input$runSimPrice,input$runSimIO),{
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataCheck <- readRDS(fileName)
   
   sut <- unlist(dataCheck[["sut"]])
@@ -3225,13 +3305,13 @@ observeEvent(input$saveNewPAM, {
   datapath <- paste0("data/", input$sut_par, "/",input$kom_par, "/")
   fileName <- paste0(datapath,"saveParDat","_",
                      input$sut_par,"_",input$kom_par,"_",
-                     input$selected_provinsi_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
+                     input$selected_wilayah_par,"_",input$th_par,"_",input$tipeLahan_par,".rds")
   dataDefine <- readRDS(fileName)
   
   #replace informasi umum -- untuk lbh yakin yang tersave adalah pilihan terakhir user
   dataDefine$sut <- input$sut_par
   dataDefine$kom <- input$kom_par
-  dataDefine$provinsi <- input$selected_provinsi_par
+  dataDefine$wilayah <- input$selected_wilayah_par
   dataDefine$th <- input$th_par
   dataDefine$tipeLahan <- input$tipeLahan_par
   # dataDefine$tipeKebun <- readDataTemplate$tipe.kebun
