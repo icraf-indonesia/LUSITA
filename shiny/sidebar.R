@@ -15,6 +15,11 @@ argonSidebar <- argonDashSidebar(
     #  "Home"
     # ),
     argonSidebarItem(
+    tabName = "modul1",
+     icon = argonIcon(name = "tv-2", color = "info"),
+     "PAM Data Template"
+    ),
+    argonSidebarItem(
       tabName = "template",
       icon = argonIcon(name = "atom", color = "danger"),
       "Membangun PAM dari Data Template"

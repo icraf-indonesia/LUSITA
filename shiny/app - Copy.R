@@ -1133,9 +1133,9 @@ app <- shiny::shinyApp(
             circle = FALSE,
             size = "sm",
             width = 12,
-            iconList = lapply(X = 1:4, FUN = argonIcon, name = "atom"),
+            iconList = lapply(X = 1:3, FUN = argonIcon, name = "atom"),
             argonTab(
-              tabName = "Hasil Perhitungan Analisis Profitabilitas",
+              tabName = "Tabel Harga",
               active = F,
               # tableOutput("cekTable"),
               
@@ -1145,48 +1145,36 @@ app <- shiny::shinyApp(
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
-              tabName = "NPV seluruh SUT dalam satu wilayah",
+              tabName = "Tabel Kuantitas",
               active = F,
               dataTableOutput(("showTableKuantitas")),
               # actionButton("simIO_button","Sunting Kuantitas",icon("paper-plane"),style="color: white;
               #              background-color: green;"),
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             ),
-            argonTab(
-              tabName = "Grafik profit tahunan",
-              active = F,
-              dataTableOutput(("showTableKuantitas")),
-              style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
-            ),
-            argonTab(
-              tabName = "Data template",
-              active = F,
-              dataTableOutput(("showTableKuantitas")),
-              style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
-            )
             
-            # if(dataDefine$tipeKebun == "LARGE SCALE"){
-            #   argonTab(
-            #     tabName = "Tabel Skenario Lahan",
-            #     active = F,
-            #     dataTableOutput("showTableScenLand")
-            #     ,
-            #     # actionButton("simSkenLahan_button","Sunting Skenario Lahan",icon("paper-plane"),style="color: white;
-            #     #            background-color: green;"),
-            #     style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
-            #   )
-            # }else{
-            #   argonTab(
-            #       tabName = "Tabel Modal Kapital",
-            #       active = F,
-            #       dataTableOutput("showTableKapital")
-            #       ,
-            #       # actionButton("simCapital_button","Sunting Modal Kapital",icon("paper-plane"),style="color: white;
-            #       #          background-color: green;"),
-            #       style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
-            #     )}
+            if(dataDefine$tipeKebun == "LARGE SCALE"){
+              argonTab(
+                tabName = "Tabel Skenario Lahan",
+                active = F,
+                dataTableOutput("showTableScenLand")
+                ,
+                # actionButton("simSkenLahan_button","Sunting Skenario Lahan",icon("paper-plane"),style="color: white;
+                #            background-color: green;"),
+                style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
+              )
+            }else{
+              argonTab(
+                  tabName = "Tabel Modal Kapital",
+                  active = F,
+                  dataTableOutput("showTableKapital")
+                  ,
+                  # actionButton("simCapital_button","Sunting Modal Kapital",icon("paper-plane"),style="color: white;
+                  #          background-color: green;"),
+                  style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
+                )}
             
-          )
+          ),
         )
       )
     })
