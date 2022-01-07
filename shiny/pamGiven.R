@@ -50,24 +50,31 @@ pamGiven <- argonTabItem(
             )
           ),
           fluidRow(
-            column(10,
+            column(9,
                    br() 
                    
             ),
-            column(2,
+            column(3,
                    br(),
-                   actionButton(("asumsiMakro_button"),"Tentukan Asumsi Makro",icon("paper-plane"),style="color: white; 
+                   actionButton(("box_button"),"Menampilkan daftar data terpilih",icon("paper-plane"),style="color: white; 
                          background-color: green;") 
                    
             )
           )
         )
       ),
+      # argonRow(
+      #   argonColumn(
+      #     width = 12,
+      #     tags$div(id = 'uiShowMakro')
+      # 
+      #   )
+      # ),
       argonRow(
         argonColumn(
           width = 12,
-          tags$div(id = 'uiShowMakro')
-
+          tags$div(id = 'uiShowBox')
+          
         )
       ),
       argonRow(

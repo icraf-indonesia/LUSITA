@@ -1029,6 +1029,150 @@ app <- shiny::shinyApp(
     
     # End - Section input informasi umum  dan asumsi makcro---------------------------------------------
     
+    # Section show box ---------------------------------------------
+    # tableList <-  reactiveValues(
+    # )
+    
+    observeEvent(input$box_button, {
+      # browser()
+      dataTemplate()
+      resultTemplate()
+      
+      datapath <- paste0("data/", input$sut, "/",input$kom, "/")
+      fileName <- paste0(datapath,"resultTemplate","_",
+                         input$sut,"_",input$kom,"_",
+                         input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
+      readDataTemplate <- readRDS(fileName)
+      idData <- paste0(readDataTemplate$sut, "_",readDataTemplate$kom, "_",readDataTemplate$wilayah, "_",readDataTemplate$lokasi, "_",
+                       readDataTemplate$th, "_",readDataTemplate$tipeLahan, "_",readDataTemplate$tipeKebun)
+      dataView <- (data.frame(alamatFile = fileName,
+                              ID = idData,
+                              sut = readDataTemplate$sut,
+                              kom = readDataTemplate$kom,
+                              wilayah = readDataTemplate$wilayah,
+                              lokasi = readDataTemplate$lokasi,
+                              tahun = readDataTemplate$th,
+                              tipeLahan = readDataTemplate$tipeLahan,
+                              tipeKebun = readDataTemplate$tipeKebun
+      ))
+      dataView[is.na(dataView)] <- 0 #NA replace with zero
+      
+      colnames(dataView) <- c("Alamat File","ID","SUT", "KOMODITAS", "WILAYAH", "LOKASI","TAHUN", "TIPE LAHAN","TIPE KEBUN")
+      
+      boxData$data <- rbind(boxData$data,dataView)
+      # tableList$dataFrame <-  boxData$data
+      
+      insertUI(selector='#uiShowBox',
+               where='afterEnd',
+               ui= dashboardBody(uiOutput("showBox"))
+               )
+    }) 
+    
+    
+    
+    
+    output$showBox <- renderUI({
+      argonRow(
+        argonColumn(
+          width = 12,
+          argonH1("Asumsi Makro", display = 4),
+          h5("Langkah 2: menentukan asumsi makro untuk data PAM yang dibangun"),
+          br(),
+          fluidPage(
+            box(width=12,
+                # h3(strong("Actions on datatable with buttons"),align="center"),
+                # hr(),
+                # column(6,offset = 6,
+                #        HTML('<div class="btn-group" role="group" aria-label="Basic example">'),
+                #        actionButton(inputId = "Del_row_head",label = "Delete selected rows"),
+                #        HTML('</div>')
+                # ),
+                
+                column(12,dataTableOutput("Main_table")),
+                tags$script(HTML('$(document).on("click", "input", function () {
+                    var checkboxes = document.getElementsByName("row_selected");
+                    var checkboxesChecked = [];
+                    for (var i=0; i<checkboxes.length; i++) {
+                       if (checkboxes[i].checked) {
+                          checkboxesChecked.push(checkboxes[i].value);
+                       }
+                    }
+                    Shiny.onInputChange("checked_rows",checkboxesChecked);
+                        })')),
+                                  tags$script("$(document).on('click', '#Main_table button', function () {
+                                      Shiny.onInputChange('lastClickId',this.id);
+                                      Shiny.onInputChange('lastClick', Math.random())
+                    });")
+            )
+          ),
+          fluidRow(
+            column(9,
+                   br() 
+                   
+            ),
+            column(3,
+                   br(),
+                   actionButton(("tampilkanTabel_button"),"Tampilkan Hasil Analisis",icon("paper-plane"),style="color: white; 
+                         background-color: green;") 
+                   
+            )
+          )
+        )
+      )
+    })
+
+    
+    boxData <- reactiveValues()
+    
+    boxData$data <- data.table(
+      alamatFile = NULL,
+      ID=NULL,
+      sut = NULL,
+      kom = NULL,
+      wilayah = NULL, 
+      lokasi = NULL, 
+      tahun = NULL,
+      tipeLahan = NULL,
+      tipeKebun = NULL
+    )
+    
+    output$Main_table <- renderDataTable({
+
+      dataView <- boxData$data[,-c(1,2)]
+      
+      # dataView[["Select"]]<-paste0('<input type="checkbox" name="row_selected" value="Row',1:nrow(boxData$data),'"><br>')
+      
+      dataView[["Actions"]]<-
+        paste0('
+             <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary delete" id=delete_',1:nrow(boxData$data),'>Delete</button>
+             </div>
+             
+             ')
+      datatable(dataView,
+                escape=F)
+      
+    })
+
+    observeEvent(input$lastClick,
+                 {
+                   if (input$lastClickId%like%"delete")
+                   {
+                     row_to_del=as.numeric(gsub("delete_","",input$lastClickId))
+                     removeUI(selector='#showResult')
+                     removeUI(selector='#showTable')
+                     print("berhasil check")
+                     boxData$data=boxData$data[-row_to_del]
+                     print("berhasil delete")
+                     
+                     
+                   }
+                 }
+    )
+    
+    
+    # End - Section show box ---------------------------------------------
+    
     # Section asumsi makro ---------------------------------------------
     observeEvent(input$asumsiMakro_button, {
       # browser()
@@ -1064,12 +1208,13 @@ app <- shiny::shinyApp(
             
             column(2,
                    sliderInput(("nilai.tukar"), "Nilai Tukar Rupiah", 14831 ,min = 10000, max = 20000, step = 10)
-            ),
-            column(2,
-                   br(),
-                   actionButton(("tampilkanTabel_button"),"Tampilkan Tabel PAM",icon("paper-plane"),style="color: white; 
-                         background-color: green;")
             )
+            # ,
+            # column(2,
+            #        br(),
+            #        actionButton(("tampilkanTabel_button"),"Tampilkan Tabel PAM",icon("paper-plane"),style="color: white; 
+            #              background-color: green;")
+            # )
           )
         )
       )
@@ -1103,6 +1248,9 @@ app <- shiny::shinyApp(
       # browser()
       dataTemplate()
       resultTemplate()
+      
+      # updateSelectInput(inputId = "filterData", choices = siterefs, selected = siteref)
+      
       insertUI(selector='#uiShowTable',
                where='afterEnd',
                ui= uiOutput('showTable'))
@@ -1137,31 +1285,26 @@ app <- shiny::shinyApp(
             argonTab(
               tabName = "Hasil Perhitungan Analisis Profitabilitas",
               active = F,
-              # tableOutput("cekTable"),
               
-              dataTableOutput("showTablePrice"),
-              # actionButton("simPrice_button","Sunting Harga",icon("paper-plane"),style="color: white;
-              #              background-color: green;"),
+              # dataTableOutput("showTablePrice"),
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "NPV seluruh SUT dalam satu wilayah",
               active = F,
-              dataTableOutput(("showTableKuantitas")),
-              # actionButton("simIO_button","Sunting Kuantitas",icon("paper-plane"),style="color: white;
-              #              background-color: green;"),
+              # dataTableOutput(("showTableKuantitas")),
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Grafik profit tahunan",
               active = F,
-              dataTableOutput(("showTableKuantitas")),
+              uiOutput(("showGrafik")),
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Data template",
               active = F,
-              dataTableOutput(("showTableKuantitas")),
+              uiOutput(("showDataTemplate")),
               style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
             )
             
@@ -1192,82 +1335,315 @@ app <- shiny::shinyApp(
     })
     
     
-    # output$showTablePrice <- renderDataTable({
-    #   datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-    #   fileName <- paste0(datapath,"saveData","_",
-    #                      input$sut,"_",input$kom,"_",
-    #                      input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
-    #   dataDefine <- readRDS(fileName)
-    #   dataView <- rbind(dataDefine$priceInput, dataDefine$priceOutput)
-    #   dataView[is.na(dataView)] <- 0 #NA replace with zero
-    #   dataView
-    #   
+    output$showGrafik <- renderUI({
+      fluidPage(
+        fluidRow(
+          column(11,
+                 br(),
+                 br(),
+                 h1(paste0("HASIL ANALISIS"," ",input$kom," ",input$sut), align = "center"),
+                 h1(paste0("di ",input$selected_wilayah," pada tahun ",input$th," dengan tipe lahan ", input$tipeLahan), align = "center"),
+                 br(),
+          )
+        ),
+        br(),
+        fluidRow(
+          column(6,
+                 id = 'bau',
+                 tags$style('#bau {
+                            background-color: #00cca3;
+                            }'),
+                 h3("Business As Usual (BAU)", align = "center")
+                 
+          ),
+          column(6,
+                 id = 'sim',
+                 tags$style('#sim {
+                            background-color: #b3b3ff;
+                            }'),
+                 h3("Simulasi", align = "center")
+          )
+        ),
+        fluidRow(
+          column(6,
+                 dataTableOutput("tableResultBAU1"),
+          ),
+          
+          column(6,
+                 dataTableOutput("tableResultSimulasi1"),
+                 
+          ),
+          
+          column(6,
+                 dataTableOutput("tableResultBAU2")
+                 
+          ),
+          column(6,
+                 dataTableOutput("tableResultSimulasi2")
+                 
+          ),
+        ),
+        
+        br(),
+        br(),
+        column(12,
+               id = 'tableNPV',
+               tags$style('#tableNPV {
+                            background-color: #CCFFCC;
+                            }'),
+               h3("Tabel NPV seluruh SUT dalam 1 Wilayah", align = "center")
+               
+        ),
+        fluidRow(
+          column(12,
+                 dataTableOutput('showTableAllProvinsi')
+          )
+        ),
+        br(),
+        br(),
+        fluidRow(
+          column(4,
+                 id = 'plotCom',
+                 tags$style('#plotCom {
+                            background-color: #CCFFCC;
+                            }'),
+                 h3("Barchart NPV BAU vs Simulasi", align = "center")
+                 
+          ),
+          column(8,
+                 id = 'plotAll',
+                 tags$style('#plotAll {
+                            background-color: #CCFFCC;
+                            }'),
+                 h3("Barchart NPV seluruh SUT dalam 1 Wilayah", align = "center")
+                 
+          ),
+          column(4,
+                 tags$div(id = 'uiplotComparing')
+          ),
+          column(8,
+                 tags$div(id = 'uiShowPlotAllKomoditas')
+          )
+        ),
+        br(),
+        br(),
+        column(12,
+               id = 'grafikProfit',
+               tags$style('#grafikProfit {
+                            background-color: #CCFFCC;
+                            }'),
+               h3("Grafik Profit Tahunan", align = "center")
+               
+        ),
+        fluidRow(
+          column(6,
+                 plotlyOutput('showPlotProfitPrivat')
+          ),
+          column(6,
+                 plotlyOutput('showPlotProfitSosial')
+          )
+        ),
+        fluidRow(
+          column(6,
+                 plotlyOutput('showPlotKumProfitPrivat')
+          ),
+          column(6,
+                 plotlyOutput('showPlotKumProfitSosial')
+          )
+        ),
+        fluidRow(
+          column(2,
+                 actionButton(("saveNewPAM"),"Simpan PAM baru",icon("paper-plane"),style="color: white;background-color: green;"),
+                 br(),
+                 tags$div(id='teksNewPamSave')
+          )
+        )
+        
+        
+      )
+    })
+    
+    textTerpilih <- reactive({ input$filterData })
+    
+    output$selectedText <- renderText({
+      paste("Kamu memilih: ", textTerpilih() ,sep="")
+      })
+    
+    outSelect <- reactiveValues(
+      alamatFile = NULL,
+      namaKom = NULL
+    )
+    
+
+    
+    
+    output$showDataTemplate <- renderUI({
+      fluidPage(
+        # fluidRow(
+        #   column(2,
+        #          selectInput("filterData","Data yang ditampilkan",choices = paste0(rownames(boxData$data), " - ",boxData$data[[3]]))
+        #          # selectInput("filterData","Data yang ditampilkan",choices = outSelect())
+        #   ),
+        #   column(6,
+        #          textOutput("selectedText")
+        #   )
+        # ),
+        fluidRow(
+          column(11,
+                 br(),
+                 h1("DATA TEMPLATE", align = "center"),
+                 br()
+                 # ,
+                 # h1(paste0("HASIL ANALISIS"," ",input$kom," ",input$sut), align = "center"),
+                 # h1(paste0("di ",input$selected_wilayah," pada tahun ",input$th," dengan tipe lahan ", input$tipeLahan), align = "center"),
+                 # br(),
+          )
+        ),
+        br(),
+        fluidRow(
+          column(12,
+                 id = 'tableP',
+                 tags$style('#tableP {
+                            background-color: #C4CCFF;
+                            }'),
+                 h2("TABEL HARGA", align = "center"),
+                 # dataTableOutput("showTablePrice")
+                 uiOutput("showTablePrice")
+          )
+        ),
+        br(),
+        fluidRow(
+          column(12,
+                 id = 'tableKuan',
+                 tags$style('#tableKuan {
+                            background-color: #B3FAE0;
+                            }'),
+                 h2("TABEL KUANTITAS", align = "center"),
+                 uiOutput("showTableKuantitas")
+                 
+          )
+        ),br(),
+        fluidRow(
+          column(12,
+                 id = 'tableKap',
+                 tags$style('#tableKap {
+                            background-color: #FDFFC6;
+                            }'),
+                 h2("TABEL KAPITAL", align = "center"),
+                 uiOutput("showTableKapital")
+
+          )
+        )
+        
+        
+      )
+    })
+    
+    
+    
+    # observeEvent(input$filterData, priority = 50, {
+    #   if (is.null(boxData$data)) return(NULL)
+       # siteref <- input$filterData
+      # updateSelectInput(inputId = "site_series_feas", choices = uData$siteseries_list[[siteref]])
     # })
     
-    output$showTablePrice <- renderDataTable({
+    
+    output$showTablePrice <- renderUI({
       showTableP()
     })
     
+    tfc = function(m) {
+      force(m)
+      renderDataTable(m)
+    }
     
-    showTableP <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
-      datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-      fileName <- paste0(datapath,"saveData","_",
-                         input$sut,"_",input$kom,"_",
-                         input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
-      dataDefine <- readRDS(fileName)
-      dataView <- rbind(dataDefine$priceInput, dataDefine$priceOutput)
-      dataView[is.na(dataView)] <- 0 #NA replace with zero
-      
-      print("tabel harga yang terupdate")
-      
-      dataView
-      
+    showTableP <- eventReactive(c(input$tampilkanTabel_button, input$filterData),{
+
+        datapath <- boxData$data[,1]
+        nbaris <- nrow(datapath)
+        vectorAlamat <- NULL
+        for (k in 1:nbaris) {
+          ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+          vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+        }
+        
+        listAll <- lapply(vectorAlamat, readRDS)
+        
+        dat_list <- list()
+        for (j in 1:nrow(boxData$data)) {
+          dataDefine <- listAll[[j]]
+          dataView <- rbind(dataDefine$priceInput, dataDefine$priceOutput)
+          dataView[is.na(dataView)] <- 0 #NA replace with zero
+          dat_list[[j]] <- dataView
+        }
+    
+        # tfc = function(m){renderDataTable({m})}
+        yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
+        yes
+
     })
     
-    output$showTableKuantitas <- renderDataTable({
+    
+    output$showTableKuantitas <- renderUI({
       showTableK()
       
     })
     
     showTableK <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
-      datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-      fileName <- paste0(datapath,"saveData","_",
-                         input$sut,"_",input$kom,"_",
-                         input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
-      # print("data terakhir tersimpan di rds")
-      dataDefine <- readRDS(fileName)
-      dataView <- rbind(dataDefine$ioInput, dataDefine$ioOutput)
-      dataView[is.na(dataView)] <- 0 #NA replace with zero
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (i in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[i,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
       
-      print("tabel harga yang terupdate")
-      dataView
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_list <- list()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        dataView <- rbind(dataDefine$ioInput, dataDefine$ioOutput)
+        dataView[is.na(dataView)] <- 0 #NA replace with zero
+        dat_list[[j]] <- dataView
+      }
+      yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
+      yes
       
     })
     
-    output$showTableKapital <- renderDataTable({
+    output$showTableKapital <- renderUI({
       showTableCap()
     })
     
     showTableCap <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
-      # case for modal kapital
-      datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-      fileName <- paste0(datapath,"saveData","_",
-                         input$sut,"_",input$kom,"_",
-                         input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
-      dataDefine <- readRDS(fileName)
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (i in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[i,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
       
-      if (!is.null(dataDefine$capital)){
-        dataView <- dataDefine$capital
-        dataView[is.na(dataView)] <- 0 #NA replace with zero
-        print("tabel harga yang terupdate")
-        dataView    
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_list <- list()
+      for (j in 1:length(listAll)) {
+        dataDefine <- listAll[[j]]
+        if (!is.null(dataDefine$capital)){
+          dataView <- dataDefine$capital
+          dataView[is.na(dataView)] <- 0 #NA replace with zero
+          dat_list[[j]] <- dataView
+        }
+        else if (is.null(dataDefine$capital)){
+          dataView <- data.frame(matrix("tidak terdapat tabel modal kapital",nrow=1,ncol=1))
+          colnames(dataView) <- "Keterangan"
+          dat_list[[j]] <- dataView
+        }
       }
-      else if (is.null(dataDefine$capital)){
-        dataView <- data.frame(matrix("tidak terdapat tabel modal kapital",nrow=1,ncol=1))
-        colnames(dataView) <- "Keterangan"
-        print("tabel harga yang terupdate")
-        dataView
-      }
+      yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
+      yes
+
     })
     
     output$showTableScenLand <- renderDataTable({
@@ -1405,12 +1781,12 @@ app <- shiny::shinyApp(
       showModal(dataModalCreatePam())
     })
     
-    observeEvent(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
-      removeModal()
-      insertUI(selector='#uiShowResult',
-               where='afterEnd',
-               ui= uiOutput('showResult'))
-    })
+    # observeEvent(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    #   removeModal()
+    #   insertUI(selector='#uiShowResult',
+    #            where='afterEnd',
+    #            ui= uiOutput('showResult'))
+    # })
     
     # Start Price Output ------------------------------------------------------
     
@@ -1641,7 +2017,7 @@ app <- shiny::shinyApp(
     #                                RESULT                                        #
     #                                                                              #
     ################################################################################
-    data.graph <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    data.graph <- eventReactive(c(input$tampilkanTabel_button, input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
     # data.graph <- reactive({  
     # observeEvent(input$running_button,{
       # browser()
@@ -2311,7 +2687,7 @@ app <- shiny::shinyApp(
       }
     })
     
-    data.graph.new <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    data.graph.new <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       # observeEvent(input$running_button,{
       # browser()
       # 
@@ -3025,7 +3401,7 @@ app <- shiny::shinyApp(
     # })
   
     
-    preparePlot <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    preparePlot <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
 
       print("persiapan membuat plot komoditas simulasi")
       datapath <- paste0("data/", input$sut, "/",input$kom, "/")
@@ -3090,7 +3466,7 @@ app <- shiny::shinyApp(
     #     plot_ly(x = ~nama.komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~tipe.kebun)
     # })
     
-    plotAllKomoditas <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    plotAllKomoditas <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
     # plotAllKomoditas <- reactive({
       print("persiapan membuat plot seluruh komoditas")
       # DATA PLOT BAU -----------------------------------------------------------
@@ -3181,7 +3557,7 @@ app <- shiny::shinyApp(
           plot_ly(x = ~nama.komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~tipe.kebun) 
     })
     
-    tableAllProvinsi <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    tableAllProvinsi <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       
       # DATA PLOT BAU -----------------------------------------------------------
       folderSut <- sort(unique(komoditas$sut))
@@ -3275,7 +3651,7 @@ app <- shiny::shinyApp(
       profitPlotSosial()
     })
     
-    profitPlotPrivat <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotPrivat <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
@@ -3317,7 +3693,7 @@ app <- shiny::shinyApp(
       # fig
     })
     
-    profitPlotSosial <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotSosial <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
@@ -3369,7 +3745,7 @@ app <- shiny::shinyApp(
       profitPlotKumulatifSosial()
     })
     
-    profitPlotKumulatifPrivat <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotKumulatifPrivat <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
@@ -3410,7 +3786,7 @@ app <- shiny::shinyApp(
       # fig
     })
     
-    profitPlotKumulatifSosial <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotKumulatifSosial <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
