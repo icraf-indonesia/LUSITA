@@ -92,7 +92,7 @@ app <- shiny::shinyApp(
     
     reactData <- reactiveValues(
       timeInput = NULL,
-      tableP1 = NULL, #price input
+      tableP1 = NULL, #price inputF
       tableP2 = NULL, #price output
       tableIO1 = NULL, #io input
       tableIO2 = NULL, #io output
@@ -207,7 +207,10 @@ app <- shiny::shinyApp(
         outputData <- filter(readDataTemplate,faktor == c("output"))
         ioOutput <- outputData[,c("komponen","jenis","unit",paste0(c(rep("Y", yearIO)),1:yearIO))] #memfilter tabel kuantitas
         priceOutput <- outputData[,c("komponen","jenis","unit.harga","harga.privat","harga.sosial")] #memfilter tabel harga
+
         
+        
+                
         
         capital <- filter(readDataTemplate,faktor == c("modal kapital"))
         
@@ -1075,19 +1078,11 @@ app <- shiny::shinyApp(
       argonRow(
         argonColumn(
           width = 12,
-          argonH1("Asumsi Makro", display = 4),
-          h5("Langkah 2: menentukan asumsi makro untuk data PAM yang dibangun"),
+          argonH1("Daftar Informasi Umum Yang Terpilih", display = 4),
+          h5("Langkah 2: mendaftarkan informasi umum untuk data PAM yang ditampilkan"),
           br(),
           fluidPage(
             box(width=12,
-                # h3(strong("Actions on datatable with buttons"),align="center"),
-                # hr(),
-                # column(6,offset = 6,
-                #        HTML('<div class="btn-group" role="group" aria-label="Basic example">'),
-                #        actionButton(inputId = "Del_row_head",label = "Delete selected rows"),
-                #        HTML('</div>')
-                # ),
-                
                 column(12,dataTableOutput("Main_table")),
                 tags$script(HTML('$(document).on("click", "input", function () {
                     var checkboxes = document.getElementsByName("row_selected");
@@ -1112,8 +1107,10 @@ app <- shiny::shinyApp(
             ),
             column(3,
                    br(),
-                   actionButton(("tampilkanTabel_button"),"Tampilkan Hasil Analisis",icon("paper-plane"),style="color: white; 
+                   if (nrow(boxData$data)>0){
+                     actionButton(("tampilkanTabel_button"),"Tampilkan Hasil Analisis",icon("paper-plane"),style="color: white; 
                          background-color: green;") 
+                   }
                    
             )
           )
@@ -1137,18 +1134,20 @@ app <- shiny::shinyApp(
     )
     
     output$Main_table <- renderDataTable({
-
-      dataView <- boxData$data[,-c(1,2)]
-      
-      # dataView[["Select"]]<-paste0('<input type="checkbox" name="row_selected" value="Row',1:nrow(boxData$data),'"><br>')
-      
-      dataView[["Actions"]]<-
-        paste0('
+      if (nrow(boxData$data)>0){
+        dataView <- boxData$data[,-c(1,2)]
+        dataView[["Actions"]]<-
+          paste0('
              <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" class="btn btn-secondary delete" id=delete_',1:nrow(boxData$data),'>Delete</button>
              </div>
              
              ')
+      }
+      else if (nrow(boxData$data)==0){
+        dataView <- data.frame(matrix("Silakan pilih informasi umum terlebih dahulu",nrow=1,ncol=1))
+        colnames(dataView) <- "Keterangan"
+      }
       datatable(dataView,
                 escape=F)
       
@@ -1190,7 +1189,7 @@ app <- shiny::shinyApp(
         argonColumn(
           width = 12,
           argonH1("Asumsi Makro", display = 4),
-          h5("Langkah 2: menentukan asumsi makro untuk data PAM yang dibangun"),
+          h5("Langkah 2: menentukan asumsi makro untuk data PAM yang ditampilkan"),
           br(),
           fluidRow(
             # column(1,
@@ -1255,9 +1254,9 @@ app <- shiny::shinyApp(
                where='afterEnd',
                ui= uiOutput('showTable'))
       
-      insertUI(selector='#uiShowButton',
-               where='afterEnd',
-               ui= uiOutput('showButton'))
+      # insertUI(selector='#uiShowButton',
+      #          where='afterEnd',
+      #          ui= uiOutput('showButton'))
     }) 
     
     output$showTable <- renderUI({
@@ -1284,50 +1283,29 @@ app <- shiny::shinyApp(
             iconList = lapply(X = 1:4, FUN = argonIcon, name = "atom"),
             argonTab(
               tabName = "Hasil Perhitungan Analisis Profitabilitas",
-              active = F,
-              
-              # dataTableOutput("showTablePrice"),
-              style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
+              active = T,
+              uiOutput(("showHitung")),
+              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "NPV seluruh SUT dalam satu wilayah",
               active = F,
               # dataTableOutput(("showTableKuantitas")),
-              style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Grafik profit tahunan",
               active = F,
               uiOutput(("showGrafik")),
-              style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Data template",
               active = F,
               uiOutput(("showDataTemplate")),
-              style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             )
             
-            # if(dataDefine$tipeKebun == "LARGE SCALE"){
-            #   argonTab(
-            #     tabName = "Tabel Skenario Lahan",
-            #     active = F,
-            #     dataTableOutput("showTableScenLand")
-            #     ,
-            #     # actionButton("simSkenLahan_button","Sunting Skenario Lahan",icon("paper-plane"),style="color: white;
-            #     #            background-color: green;"),
-            #     style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
-            #   )
-            # }else{
-            #   argonTab(
-            #       tabName = "Tabel Modal Kapital",
-            #       active = F,
-            #       dataTableOutput("showTableKapital")
-            #       ,
-            #       # actionButton("simCapital_button","Sunting Modal Kapital",icon("paper-plane"),style="color: white;
-            #       #          background-color: green;"),
-            #       style = "height:650px; overflow-y: scroll;overflow-x: scroll;"
-            #     )}
             
           )
         )
@@ -1335,134 +1313,292 @@ app <- shiny::shinyApp(
     })
     
     
-    output$showGrafik <- renderUI({
+    
+    output$showHitung <- renderUI({
       fluidPage(
         fluidRow(
           column(11,
                  br(),
                  br(),
-                 h1(paste0("HASIL ANALISIS"," ",input$kom," ",input$sut), align = "center"),
-                 h1(paste0("di ",input$selected_wilayah," pada tahun ",input$th," dengan tipe lahan ", input$tipeLahan), align = "center"),
-                 br(),
+                 h1(paste0("HASIL PERHITUNGAN BUSINESS AS USUAL (BAU)"), align = "center")
           )
         ),
         br(),
-        fluidRow(
-          column(6,
-                 id = 'bau',
-                 tags$style('#bau {
-                            background-color: #00cca3;
-                            }'),
-                 h3("Business As Usual (BAU)", align = "center")
-                 
-          ),
-          column(6,
-                 id = 'sim',
-                 tags$style('#sim {
-                            background-color: #b3b3ff;
-                            }'),
-                 h3("Simulasi", align = "center")
-          )
-        ),
-        fluidRow(
-          column(6,
-                 dataTableOutput("tableResultBAU1"),
-          ),
-          
-          column(6,
-                 dataTableOutput("tableResultSimulasi1"),
-                 
-          ),
-          
-          column(6,
-                 dataTableOutput("tableResultBAU2")
-                 
-          ),
-          column(6,
-                 dataTableOutput("tableResultSimulasi2")
-                 
-          ),
-        ),
-        
-        br(),
-        br(),
-        column(12,
-               id = 'tableNPV',
-               tags$style('#tableNPV {
-                            background-color: #CCFFCC;
-                            }'),
-               h3("Tabel NPV seluruh SUT dalam 1 Wilayah", align = "center")
-               
-        ),
+        # fluidRow(
+        #   column(12,
+        #          id = 'bau',
+        #          tags$style('#bau {
+        #                     background-color: #00cca3;
+        #                     }'),
+        #          h3("Business As Usual (BAU)", align = "center")
+        #          
+        #   )
+        # ),
         fluidRow(
           column(12,
-                 dataTableOutput('showTableAllProvinsi')
+                id = 'TABEL1',
+                tags$style('#TABEL1 {
+                           background-color: #C4CCFF;
+                           }'),
+                h1("TABEL 1", align = "center"),
+                 uiOutput("hitungBAU1")
           )
-        ),
-        br(),
-        br(),
-        fluidRow(
-          column(4,
-                 id = 'plotCom',
-                 tags$style('#plotCom {
-                            background-color: #CCFFCC;
-                            }'),
-                 h3("Barchart NPV BAU vs Simulasi", align = "center")
-                 
-          ),
-          column(8,
-                 id = 'plotAll',
-                 tags$style('#plotAll {
-                            background-color: #CCFFCC;
-                            }'),
-                 h3("Barchart NPV seluruh SUT dalam 1 Wilayah", align = "center")
-                 
-          ),
-          column(4,
-                 tags$div(id = 'uiplotComparing')
-          ),
-          column(8,
-                 tags$div(id = 'uiShowPlotAllKomoditas')
-          )
-        ),
-        br(),
-        br(),
-        column(12,
-               id = 'grafikProfit',
-               tags$style('#grafikProfit {
-                            background-color: #CCFFCC;
-                            }'),
-               h3("Grafik Profit Tahunan", align = "center")
-               
-        ),
-        fluidRow(
-          column(6,
-                 plotlyOutput('showPlotProfitPrivat')
-          ),
-          column(6,
-                 plotlyOutput('showPlotProfitSosial')
-          )
-        ),
-        fluidRow(
-          column(6,
-                 plotlyOutput('showPlotKumProfitPrivat')
-          ),
-          column(6,
-                 plotlyOutput('showPlotKumProfitSosial')
-          )
-        ),
-        fluidRow(
-          column(2,
-                 actionButton(("saveNewPAM"),"Simpan PAM baru",icon("paper-plane"),style="color: white;background-color: green;"),
-                 br(),
-                 tags$div(id='teksNewPamSave')
+          ,
+          column(12,
+                 id = 'TABEL2',
+                 tags$style('#TABEL2 {
+                           background-color: #B3FAE0;
+                           }'),
+                 h1("TABEL 2", align = "center"),
+                 uiOutput("hitungBAU2")
           )
         )
-        
-        
       )
     })
     
+    output$hitungBAU1 <- renderUI({
+      
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_list <- list()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        
+        if (dataDefine$tipeKebun[1] == "LARGE SCALE"){
+          
+          tabel1 <- rbind(dataDefine$hsl.npv,dataDefine$dec,dataDefine$ypc,dataDefine$lfe,dataDefine$lfo)
+          tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
+          
+         
+          dataView <- datatable(tabel1, option=list(dom = "t")) 
+          dat_list[[j]] <- dataView
+          
+          
+        }else{
+          tabel1 <- rbind(dataDefine$npv,dataDefine$nlc,dataDefine$ec)
+          tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
+          tabel1
+          
+          dataView <- datatable(tabel1, option=list(dom = "t")) 
+          dat_list[[j]] <- dataView
+        }
+      }
+      yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
+      yes
+    })
+    
+    output$hitungBAU2 <- renderUI({
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_list <- list()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        
+        if (dataDefine$tipeKebun[1] == "LARGE SCALE"){
+          
+          
+          # Total area
+          totArea <- data.frame(dataDefine$totalArea)
+          colnames(totArea)<-c("Total Area (Ha)")
+          rownames(totArea) <- c("Value")
+          
+          
+          showHp <- dataDefine$hp
+          
+          
+          tabel2 <- data.frame(t(cbind(showHp,totArea)))
+          colnames(tabel2) <- c("Nilai")
+          tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
+          tabel2
+          
+          dataView <- datatable(tabel2, option=list(dom = "t")) 
+          dat_list[[j]] <- dataView
+          
+          
+        }else{
+        # tampilan rate.p, rate.s, nilai tukar rupiah --------------------------------------------------------------
+        showRateP <- (dataDefine$rate.p)
+        showRateS <- (dataDefine$rate.s)
+        showExRate <- (dataDefine$nilai.tukar)
+        showHp <- dataDefine$hp
+        showLr <- dataDefine$lr
+    
+        showBauMacro <- rbind(showRateP,showRateS,showExRate)
+        rownames(showBauMacro)<-c("Discount Rate Private", "Discount Rate Social", "Nilai Tukar Rupiah")
+        colnames(showBauMacro) <- c("Nilai")
+        showBauMacro
+        
+        rownames(showHp) <- c("Nilai")
+        rownames(showLr) <- c("Nilai")
+        showHp <- data.frame(t(showHp))
+        showLr <- data.frame(t(showLr))
+        
+        
+        
+        # ending  ------------------------------------------------------- 
+
+        tabel2 <- rbind(showHp,showLr,showBauMacro)
+        tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
+
+        dataView <- datatable(tabel2, option=list(dom = "t")) 
+        dat_list[[j]] <- dataView
+      }
+      }
+      yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
+      yes
+      
+    })
+    
+    
+    
+    
+    # output$showHitung <- renderUI({
+    #   fluidPage(
+    #     fluidRow(
+    #       column(11,
+    #              br(),
+    #              br(),
+    #              h1(paste0("HASIL PERHITUNGAN"), align = "center"),
+    #              # h1(paste0("di ",input$selected_wilayah," pada tahun ",input$th," dengan tipe lahan ", input$tipeLahan), align = "center"),
+    #              # br(),
+    #       )
+    #     ),
+    #     br(),
+    #     fluidRow(
+    #       column(12,
+    #              id = 'bau',
+    #              tags$style('#bau {
+    #                         background-color: #00cca3;
+    #                         }'),
+    #              h3("Business As Usual (BAU)", align = "center")
+    #              
+    #       )
+    #       # ,
+    #       # column(6,
+    #       #        id = 'sim',
+    #       #        tags$style('#sim {
+    #       #                   background-color: #b3b3ff;
+    #       #                   }'),
+    #       #        h3("Simulasi", align = "center")
+    #       # )
+    #     ),
+    #     fluidRow(
+    #       column(6,
+    #              dataTableOutput("tableResultBAU1"),
+    #              dataTableOutput("tableResultBAU2")
+    #       ),
+    #       
+    #       # column(6,
+    #       #        dataTableOutput("tableResultSimulasi1"),
+    #       #        
+    #       # ),
+    #       
+    #       # column(6,
+    #       #        dataTableOutput("tableResultBAU2")
+    #       #        
+    #       # )
+    #       # ,
+    #       # column(6,
+    #       #        dataTableOutput("tableResultSimulasi2")
+    #       #        
+    #       # ),
+    #     ),
+    #     
+    #     br(),
+    #     br(),
+    #     column(12,
+    #            id = 'tableNPV',
+    #            tags$style('#tableNPV {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #            h3("Tabel NPV seluruh SUT dalam 1 Wilayah", align = "center")
+    #            
+    #     ),
+    #     fluidRow(
+    #       column(12,
+    #              dataTableOutput('showTableAllProvinsi')
+    #       )
+    #     ),
+    #     br(),
+    #     br(),
+    #     fluidRow(
+    #       column(4,
+    #              id = 'plotCom',
+    #              tags$style('#plotCom {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #              h3("Barchart NPV BAU vs Simulasi", align = "center")
+    #              
+    #       ),
+    #       column(8,
+    #              id = 'plotAll',
+    #              tags$style('#plotAll {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #              h3("Barchart NPV seluruh SUT dalam 1 Wilayah", align = "center")
+    #              
+    #       ),
+    #       column(4,
+    #              tags$div(id = 'uiplotComparing')
+    #       ),
+    #       column(8,
+    #              tags$div(id = 'uiShowPlotAllKomoditas')
+    #       )
+    #     ),
+    #     br(),
+    #     br(),
+    #     column(12,
+    #            id = 'grafikProfit',
+    #            tags$style('#grafikProfit {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #            h3("Grafik Profit Tahunan", align = "center")
+    #            
+    #     ),
+    #     fluidRow(
+    #       column(6,
+    #              plotlyOutput('showPlotProfitPrivat')
+    #       ),
+    #       column(6,
+    #              plotlyOutput('showPlotProfitSosial')
+    #       )
+    #     ),
+    #     fluidRow(
+    #       column(6,
+    #              plotlyOutput('showPlotKumProfitPrivat')
+    #       ),
+    #       column(6,
+    #              plotlyOutput('showPlotKumProfitSosial')
+    #       )
+    #     ),
+    #     fluidRow(
+    #       column(2,
+    #              actionButton(("saveNewPAM"),"Simpan PAM baru",icon("paper-plane"),style="color: white;background-color: green;"),
+    #              br(),
+    #              tags$div(id='teksNewPamSave')
+    #       )
+    #     )
+    #     
+    #     
+    #   )
+    # })
+    # 
     textTerpilih <- reactive({ input$filterData })
     
     output$selectedText <- renderText({
@@ -1529,7 +1665,7 @@ app <- shiny::shinyApp(
                  tags$style('#tableKap {
                             background-color: #FDFFC6;
                             }'),
-                 h2("TABEL KAPITAL", align = "center"),
+                 h2("TABEL KAPITAL ATAU TABEL SKENARIO LAHAN", align = "center"),
                  uiOutput("showTableKapital")
 
           )
@@ -1630,20 +1766,28 @@ app <- shiny::shinyApp(
       dat_list <- list()
       for (j in 1:length(listAll)) {
         dataDefine <- listAll[[j]]
-        if (!is.null(dataDefine$capital)){
-          dataView <- dataDefine$capital
+        
+        if (dataDefine$tipeKebun== "LARGE SCALE"){
+          dataView <- cbind("Total Area (Ha)" = dataDefine$totalArea, dataDefine$cum.landScene)
           dataView[is.na(dataView)] <- 0 #NA replace with zero
           dat_list[[j]] <- dataView
         }
-        else if (is.null(dataDefine$capital)){
-          dataView <- data.frame(matrix("tidak terdapat tabel modal kapital",nrow=1,ncol=1))
-          colnames(dataView) <- "Keterangan"
-          dat_list[[j]] <- dataView
+        else{
+            if (!is.null(dataDefine$capital)){
+            dataView <- dataDefine$capital
+            dataView[is.na(dataView)] <- 0 #NA replace with zero
+            dat_list[[j]] <- dataView
+          }
+          else if (is.null(dataDefine$capital)){
+            dataView <- data.frame(matrix("tidak terdapat tabel modal kapital",nrow=1,ncol=1))
+            colnames(dataView) <- "Keterangan"
+            dat_list[[j]] <- dataView
+          }
         }
       }
       yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
       yes
-
+      
     })
     
     output$showTableScenLand <- renderDataTable({
@@ -2017,477 +2161,256 @@ app <- shiny::shinyApp(
     #                                RESULT                                        #
     #                                                                              #
     ################################################################################
+    # datGraph <- reactiveValues(
+    # )
+    # 
+    # datGraph$data <- list(
+    # )
+    
+    
     data.graph <- eventReactive(c(input$tampilkanTabel_button, input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
-    # data.graph <- reactive({  
-    # observeEvent(input$running_button,{
-      # browser()
-      # 
-      # aktifin dataTemplate
-      # agar ketika run pertama kali yang terbaca tetap data default di excel
       
-      # resultTemplate()
-      # dataTemplate()
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
       
-      #setelah dataTemplate(data default) aktif, 
-      # lalu read kembali file rds yang tersimpan dr hasil edit jika ada yang diedit
-      # datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-      # fileName <- paste0(datapath,"saveData","_",input$th,"_",input$sut,"_",input$kom,"_",input$selected_wilayah,".rds")
-      print("cek data gab ")
-      datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-      fileName <- paste0(datapath,"resultTemplate","_",
-                         input$sut,"_",input$kom,"_",
-                         input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
-      dataDefine <- readRDS(fileName)
+      listAll <- lapply(vectorAlamat, readRDS)
       
-      #### io  ####    
-      io.in <-  dataDefine$ioInput
-      io.in <- cbind(grup="input",io.in)
-      io.out <-  dataDefine$ioOutput
-      io.out <- cbind(grup="output",io.out)
-      
-      io.in[is.na(io.in)] <- 0 #NA replace with zero
-      io.out[is.na(io.out)] <- 0
-      io.all <- rbind(io.in,io.out) #combine all data input-output
-      io.all <- cbind(status="general", io.all) #add variable status
-      io.all <- io.all %>% mutate_if(is.factor,as.character) #change factor var to char var
-      
-      
-      
-      #### price ####
-      price.in <-  dataDefine$priceInput
-      price.in <- cbind(grup="input",price.in)
-      price.out <-  dataDefine$priceOutput
-      price.out <- cbind(grup="output",price.out)
-      price.in[is.na(price.in)] <- 0
-      price.out[is.na(price.out)] <- 0
-      price.all <- rbind(price.in, price.out)
-      
-      
-      if (dataDefine$tipeKebun[1] == "LARGE SCALE"){
-        
-        yearIO <- ncol(io.in)-5 #banyaknya tahun pada tabel io krn ada tambhan kolom bagian pada large scale
-        
-        p.price<-select(price.all, -harga.sosial) #remove harga sosial
-        p.year<-data.frame(replicate(yearIO,p.price$harga.privat)) #replicate nilai private price sebanyak n tahun
-        colnames(p.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
-        p.price<-cbind(status="harga.privat" ,p.price[c("grup", "bagian","komponen", "jenis", "unit.harga")],p.year)
-        p.price <- p.price %>% mutate_if(is.factor,as.character) #change factor var to char var
-        
-        s.price<-select(price.all, -harga.privat) #remove harga privat
-        s.year<-data.frame(replicate(yearIO,s.price$harga.sosial))
-        colnames(s.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
-        s.price<-cbind(status="harga.sosial",s.price[c("grup", "bagian", "komponen", "jenis", "unit.harga")],s.year)
-        s.price <- s.price %>% mutate_if(is.factor,as.character) #change factor var to char
-        
-        price.all.year <- rbind(p.price, s.price)
-        
-        data.gab <- bind_rows(io.all,
-                              price.all.year) ### nanti dibuat if else utk capital jika modal kapital jadi diinputkan
-        
-        # hitung npv --------------------------------------------------------------
-        dataGeneral <- filter(data.gab,status == c("general")) #filter data input output (yg sudah diberi status=general)
-        dataPrivat <- filter(data.gab,status == c("harga.privat")) #filter data private price
-        p.budget <- dataGeneral[-(c(1:6,ncol(dataGeneral)))] * dataPrivat[-c(1:6,ncol(dataPrivat))] #perkalian antara unit pada tabel io dg price tanpa variabel 1 sd 5, kolom terakhir adalah kolom unit harga
-        p.budget <- cbind(dataGeneral[c("status","grup","bagian","komponen","jenis")],dataPrivat["unit.harga"],p.budget) #memunculkan kembali variabel 1 sd 5
-        p.budget <- p.budget %>%mutate(status = case_when(status == "general" ~ "privat budget")) #mengubah status yg General mjd Private Budget (hasil perkalian io dengan harga privat lalu di tambah modal kapital)
-        
-        #perkalian antara general dengan Social Price
-        dataSosial <- filter(data.gab, status == c("harga.sosial")) #filter data social price
-        s.budget <- dataGeneral[-c(1:6,ncol(dataGeneral))] * dataSosial[-c(1:6,ncol(dataSosial))]
-        s.budget <- cbind(dataGeneral[c("status","grup","bagian","komponen","jenis")],dataSosial["unit.harga"],s.budget)
-        s.budget <- s.budget %>%
-          mutate(status = case_when(status == "general" ~ "social budget"))
-        
-        ################ penghitungan NPV
-        p.rev.output <- p.budget %>%
-          filter(str_detect(grup,"output"))
-        s.rev.output <- s.budget %>%
-          filter(str_detect(grup,"output"))
-        
-        p.sum.rev <- p.rev.output[,-(1:6)] %>%
-          colSums(na.rm = T)
-        s.sum.rev <- s.rev.output[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.sum.rev)
-        sum(s.sum.rev)
-        
-        p.trad.input <- p.budget %>%
-          filter(str_detect(bagian,"input"))
-        p.trad.input <- p.trad.input[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.trad.input)
-        s.trad.input <- s.budget %>%
-          filter(str_detect(bagian,"input"))
-        s.trad.input <- s.trad.input[,-(1:6)] %>%
-          colSums(na.rm = T)
-        sum(s.trad.input)
-        
-        p.trad.capital <- p.budget %>%
-          filter(str_detect(bagian,"tradable capital"))
-        p.trad.capital <- p.trad.capital[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.trad.capital)
-        s.trad.capital <- s.budget %>%
-          filter(str_detect(bagian,"tradable capital"))
-        s.trad.capital <- s.trad.capital[,-(1:6)] %>%
-          colSums(na.rm = T)
-        sum(s.trad.capital)
-        
-        p.factor.labor<- p.budget %>%
-          filter(str_detect(bagian,"labor"))
-        
-        p.labor.admin<- p.factor.labor %>%
-          filter(str_detect(komponen,"admin"))
-        p.labor.admin <- p.labor.admin[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.labor.admin)
-        
-        p.labor.skill <- p.factor.labor %>%
-          filter(str_detect(komponen,c("ahli")))
-        p.labor.skill <- p.labor.skill[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.labor.skill)
-        
-        p.labor.unskill<- p.factor.labor %>%
-          filter(str_detect(komponen,c("unskill")))
-        p.labor.unskill <- p.labor.unskill[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.labor.unskill)
-        
-        s.factor.labor<- s.budget %>%
-          filter(str_detect(bagian,"labor"))
-        
-        s.labor.admin<- s.factor.labor %>%
-          filter(str_detect(komponen,"admin"))
-        s.labor.admin <- s.labor.admin[,-(1:6)] %>%
-          colSums(na.rm = T)
-        sum(s.labor.admin)
-        
-        s.labor.skill <- s.factor.labor %>%
-          filter(str_detect(komponen,c("ahli")))
-        s.labor.skill <- s.labor.skill[,-(1:6)] %>%
-          colSums(na.rm = T)
-        sum(s.labor.skill)
-        
-        s.labor.unskill<- s.factor.labor %>%
-          filter(str_detect(komponen,c("unskill")))
-        s.labor.unskill <- s.labor.unskill[,-(1:6)] %>%
-          colSums(na.rm = T)
-        sum(s.labor.unskill)
-        
-        p.working.capital<- p.budget %>%
-          filter(str_detect(bagian,"working capital privat"))
-        p.working.capital <- p.working.capital[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.factor.capital)
-        s.working.capital<- s.budget %>%
-          filter(str_detect(bagian,"working capital sosial"))
-        s.working.capital <- s.working.capital[,-(1:6)] %>%
-          colSums(na.rm = T)
-        
-        
-        p.factor.capital<- p.budget %>%
-          filter(str_detect(bagian,"factor capital"))
-        p.factor.capital <- p.factor.capital[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(p.factor.capital)
-        s.factor.capital<- s.budget %>%
-          filter(str_detect(bagian,"factor capital"))
-        s.factor.capital <- s.factor.capital[,-(1:6)] %>%
-          colSums(na.rm = T)
-        # sum(s.factor.capital)
-        
-        p.total.cost <- p.trad.input + p.trad.capital + p.labor.admin + p.labor.skill + p.labor.unskill + p.working.capital + p.factor.capital
-        s.total.cost <- s.trad.input + s.trad.capital + s.labor.admin + s.labor.skill + s.labor.unskill + s.working.capital + s.factor.capital
-        
-        
-        
-        # PERHITUNGAN MANUAL
-        # p.sum.rev<-c(value0,p.sum.rev)
-        # p.trad.input<-c(value0,p.trad.input)
-        # p.trad.capital<-c(value0,p.trad.capital)
-        # p.labor.admin<-c(value0,p.labor.admin)
-        # p.labor.skill<-c(value0,p.labor.skill)
-        # p.labor.unskill<-c(value0,p.labor.unskill)
-        # p.factor.capital<-c(value0,p.factor.capital)
-        # 
-        # s.sum.rev<-c(value0,s.sum.rev)
-        # s.trad.input<-c(value0,s.trad.input)
-        # s.trad.capital<-c(value0,s.trad.capital)
-        # s.labor.admin<-c(value0,s.labor.admin)
-        # s.labor.skill<-c(value0,s.labor.skill)
-        # s.labor.unskill<-c(value0,s.labor.unskill)
-        # s.factor.capital<-c(value0,s.factor.capital)
-        # 
-        # npv.p.sum.rev<-npv(dataDefine$rate.p/100,p.sum.rev)
-        # npv.p.trad.input<-npv(dataDefine$rate.p/100,p.trad.input)
-        # npv.p.trad.capital<-npv(dataDefine$rate.p/100,p.trad.capital)
-        # npv.p.labor.admin<-npv(dataDefine$rate.p/100,p.labor.admin)
-        # npv.p.labor.skill<-npv(dataDefine$rate.p/100,p.labor.skill)
-        # npv.p.labor.unskill<-npv(dataDefine$rate.p/100,p.labor.unskill)
-        # npv.p.factor.capital<-npv(dataDefine$rate.p/100,p.factor.capital)
-        # npv.p.total.cost <- npv.p.trad.input +npv.p.trad.capital + npv.p.labor.admin + npv.p.labor.skill + npv.p.labor.unskill + npv.p.factor.capital
-        # npv.p <- npv.p.sum.rev - npv.p.total.cost
-        # 
-        # npv.s.sum.rev<-npv(dataDefine$rate.s/100,s.sum.rev)
-        # npv.s.trad.input<-npv(dataDefine$rate.s/100,s.trad.input)
-        # npv.s.trad.capital<-npv(dataDefine$rate.s/100,s.trad.capital)
-        # npv.s.labor.admin<-npv(dataDefine$rate.s/100,s.labor.admin)
-        # npv.s.labor.skill<-npv(dataDefine$rate.s/100,s.labor.skill)
-        # npv.s.labor.unskill<-npv(dataDefine$rate.s/100,s.labor.unskill)
-        # npv.s.factor.capital<-npv(dataDefine$rate.s/100,s.factor.capital)
-        # npv.s.total.cost <- npv.s.trad.input +npv.s.trad.capital + npv.s.labor.admin + npv.s.labor.skill + npv.s.labor.unskill + npv.s.factor.capital
-        # npv.s <- npv.s.sum.rev - npv.s.total.cost
-        
-        
-        p.profit <- p.sum.rev - p.total.cost
-        s.profit <- s.sum.rev - s.total.cost
-        sum(p.profit)
-        sum(s.profit)
-        
-        value0 <- 0
-        p.profit <- c(value0,p.profit)
-        s.profit <- c(value0,s.profit)
-        npv.p<-npv(dataDefine$rate.p/100,p.profit)
-        npv.s<-npv(dataDefine$rate.s/100,s.profit)
-        
-        npv.p.ha <- npv.p/dataDefine$totalArea
-        npv.s.ha <- npv.s/dataDefine$totalArea
-        
-        hsl.npv<-data.frame(PRIVATE=npv.p.ha,SOCIAL=npv.s.ha)
-        
-        npv.p.ha.us<-npv.p.ha/dataDefine$nilai.tukar
-        npv.s.ha.us<-npv.s.ha/dataDefine$nilai.tukar
-        npv.us<-data.frame(PRIVATE=npv.p.ha.us,SOCIAL=npv.s.ha.us)
-        hsl.npv<-rbind(hsl.npv,npv.us)
-        
-        #browser()
-        
-        rownames(hsl.npv)<-c("NPV (Rp/Ha)", "NPV (US/Ha)")
-        hsl.npv
-        # ending  npv --------------------------------------------------------------
-        
-        # hitung Discounted estab cost --------------------------------------------------------------
-        
-        ################ penghitungan dec
-        p.profit.ha <- p.profit/dataDefine$totalArea
-        p.positif.cashflow <- ifelse(p.profit.ha > 0, 1, 0)
-        
-        p.total.cost.0 <- c(value0,p.total.cost)
-        p.est.cost <- ifelse(p.positif.cashflow == 1, 0, p.total.cost.0)
-        
-        # p.est.cost <- length(p.positif.cashflow)
-        # for(i in seq_along(p.positif.cashflow)){
-        #   if(p.positif.cashflow[i] == 1){
-        #     p.est.cost[i] <- 0
-        #   }else{
-        #     p.est.cost[i] <- p.total.cost.0[i]
-        #   }
-        # }
-        
-        s.profit.ha <- s.profit/dataDefine$totalArea
-        s.positif.cashflow <- ifelse(s.profit.ha > 0, 1, 0)
-        
-        s.total.cost.0 <- c(value0,s.total.cost)
-        s.est.cost <- ifelse(s.positif.cashflow == 1, 0, s.total.cost.0)
-        
-        # s.est.cost <- length(s.positif.cashflow)
-        # for(i in seq_along(s.positif.cashflow)){
-        #   if(s.positif.cashflow[i] == 1){
-        #     s.est.cost[i] <- 0
-        #   }else{
-        #     s.est.cost[i] <- s.total.cost.0[i]
-        #   }
-        # }
-        
-        npv.p.dec<-npv(dataDefine$rate.p/100,p.est.cost)
-        npv.s.dec<-npv(dataDefine$rate.s/100,s.est.cost)
-        
-        dec.p <- npv.p.dec/1000/dataDefine$totalArea
-        dec.s <- npv.s.dec/1000/dataDefine$totalArea
-        
-        
-        dec<-data.frame(PRIVATE=dec.p,SOCIAL=dec.s)
-        rownames(dec)<-c("Discounted Est. Cost (MRp/Ha)")
-        dec
-        # ending  Discounted estab cost ------------------------------------------------------- 
-        
-        # hitung Year to positive cashflow --------------------------------------------------------------
-        ############# PERHITUNGAN ypc
-        ypc.p <- yearIO + 1 - sum(p.positif.cashflow)
-        ypc.s <- yearIO + 1 - sum(s.positif.cashflow)
-        
-        ypc<-data.frame(PRIVATE=ypc.p,SOCIAL=ypc.s)
-        rownames(ypc)<-c("Year to positive cashflow")
-        ypc
-        # ending  Year to positive cashflow ------------------------------------------------------- 
-        
-        # hitung Labor for establishment --------------------------------------------------------------
-        # tabel labor/pekerja
-        table.labor<- io.in %>%
-          filter(str_detect(bagian,"labor"))
-        sum.table.labor <- table.labor[,paste0(c(rep("Y", yearIO)),1:yearIO)] %>%
-          colSums(na.rm = T)
-        
-        yearLabor <- ifelse(length(input$tahunPekerja ) == 0,25,numeric(input$tahunPekerja))
-        sum.table.labor.25 <- sum.table.labor[1:yearLabor]
-        total.labor <- sum(sum.table.labor.25)
-        
-        #tabel land/lahan
-        # baseScene <- filter(readDataTemplate,str_detect(bagian,"dasar"))
-        # landScene <- baseScene[,c("bagian","komponen","jenis","unit",paste0(c(rep("Y", yearIO)),1:yearIO))] #memfilter tabel kuantitas
-        # transpose.landScene <- data.frame(t(landScene[,c(paste0(c(rep("Y", yearIO)),1:yearIO))]))
-        # colnames(transpose.landScene) <- c("per.year")
-        # cum.landScene <- within(transpose.landScene,cummulative.land <- cumsum(per.year)) #buat kolom cumulativ land
-        cum.landScene <- as.matrix(dataDefine$cum.landScene)
-        
-        
-        ############# PERHITUNGAN lfe
-        p.total.labor.est <- ifelse(p.profit.ha[1:yearLabor+1] < 0,sum.table.labor.25 , 0)
-        p.total.labor.opr <- ifelse(p.profit.ha[1:yearLabor+1] < 0,0,sum.table.labor.25)
-        p.avg.labor.est <- ifelse(p.total.labor.est > 0,ifelse(p.total.labor.est == 0,0,p.total.labor.est/cum.landScene[2,1:yearLabor]) , p.total.labor.est/cum.landScene[1:yearLabor])
-        p.avg.labor.opr <- ifelse(p.total.labor.opr > 0,ifelse(p.total.labor.opr == 0,0,p.total.labor.opr/cum.landScene[2,1:yearLabor]) , p.total.labor.opr/cum.landScene[1:yearLabor])
-        p.avg.labor.est[is.na(p.avg.labor.est)] <- 0
-        p.avg.labor.opr[is.na(p.avg.labor.opr)] <- 0
-        
-        s.total.labor.est <- ifelse(s.profit.ha[1:yearLabor+1] < 0,sum.table.labor.25 , 0)
-        s.total.labor.opr <- ifelse(s.profit.ha[1:yearLabor+1] < 0,0,sum.table.labor.25)
-        s.avg.labor.est <- ifelse(s.total.labor.est > 0,ifelse(s.total.labor.est == 0,0,s.total.labor.est/cum.landScene[2,1:yearLabor]) , s.total.labor.est/cum.landScene[1:yearLabor])
-        s.avg.labor.opr <- ifelse(s.total.labor.opr > 0,ifelse(s.total.labor.opr == 0,0,s.total.labor.opr/cum.landScene[2,1:yearLabor]) , s.total.labor.opr/cum.landScene[1:yearLabor])
-        s.avg.labor.est[is.na(s.avg.labor.est)] <- 0
-        s.avg.labor.opr[is.na(s.avg.labor.opr)] <- 0
-        
-        lfe.p <- sum(p.avg.labor.est)
-        lfe.s <- sum(s.avg.labor.est)
-        
-        lfe<-data.frame(PRIVATE=lfe.p,SOCIAL=lfe.s)
-        rownames(lfe)<-c("Labor for Est. (HOK/Ha)")
-        lfe
-        # ending  Labor for establishment ------------------------------------------------------- 
-        
-        ############# PERHITUNGAN lfo
-        lfo.p <- mean(p.avg.labor.opr[p.avg.labor.opr!=0])
-        lfo.s <- mean(s.avg.labor.opr[s.avg.labor.opr!=0])
-        
-        lfo<-data.frame(PRIVATE=lfo.p,SOCIAL=lfo.s)
-        rownames(lfo)<-c("Labor for Operation. (HOK/Ha/th)")
-        lfo
-        # ending  Labor for Operation -------------------------------------------------------
-        
-        
-        # hitung hp --------------------------------------------------------------
-        ############# PERHITUNGAN HARVESTING PRODUCT
-        fil.prod <- dataGeneral %>%  filter(str_detect(grup,"output")) #filter io untuk grup output (hasil panen)
-        fil.prod <- fil.prod %>%  filter(str_detect(komponen,"utama"))
-        sum.prod <- fil.prod[,c(paste0(c(rep("Y", yearIO)),1:yearIO))] %>%
-          colSums(na.rm = T)
-        tot.prod <- sum(sum.prod)
-        
-        hp <- data.frame( tot.prod/total.labor)/1000 # karena ton jadi di bagi 1000
-        colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1st year only)")
-        rownames(hp) <- c("Value")
-        hp
-        
-        # ending  hp ------------------------------------------------------- 
-        
-        # Total area
-        totArea <- data.frame(dataDefine$totalArea)
-        colnames(totArea)<-c("Total Area (Ha)")
-        rownames(totArea) <- c("Value")
-        totArea
-        
-        tabel1 <- rbind(hsl.npv,dec,ypc,lfe,lfo)
-        tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
-        tabel1
-        
-        tabel2 <- data.frame(t(cbind(hp,totArea)))
-        tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
-        tabel2
-        
-        # tabel profit 
-        tabel.p.profit <- t(as.data.frame(t(p.profit.ha)))
-        tabel.s.profit <- t(as.data.frame(t(s.profit.ha)))
-        tabel.profit <- cbind(tabel.p.profit,tabel.s.profit)
-        rownames(tabel.profit) <- paste0(c(rep("Y", yearIO)),0:yearIO)
-        colnames(tabel.profit) <- c("p.profit","s.profit")
-        
-        tabelGab <- list(tabel1=tabel1,tabel2=tabel2, tabel.profit = tabel.profit)
-        tabelGab 
-        
-      }else{
-        
-        yearIO <- ncol(io.in)-4 #banyaknya tahun pada tabel io 
-        p.price<-select(price.all, -harga.sosial) #remove harga sosial
-        p.year<-data.frame(replicate(yearIO,p.price$harga.privat)) #replicate nilai private price sebanyak n tahun
-        colnames(p.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
-        p.price<-cbind(status="harga.privat" ,p.price[c(1:4)],p.year)
-        p.price <- p.price %>% mutate_if(is.factor,as.character) #change factor var to char var
-        
-        s.price<-select(price.all, -harga.privat) #remove harga sosial
-        s.year<-data.frame(replicate(yearIO,s.price$harga.sosial))
-        colnames(s.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
-        s.price<-cbind(status="harga.sosial",s.price[c(1:4)],s.year)
-        s.price <- s.price %>% mutate_if(is.factor,as.character) #change factor var to char
-        
-        price.all.year <- rbind(p.price, s.price)
-        
-        if (is.null(dataDefine$capital)){
-          # capital = NULL
+      dat_list <- list()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        
+        print("cek data gab ")
+        # datapath <- paste0("data/", input$sut, "/",input$kom, "/")
+        # fileName <- paste0(datapath,"resultTemplate","_",
+        #                    input$sut,"_",input$kom,"_",
+        #                    input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
+        # dataDefine <- listAll[[j]]
+        
+        #### io  ####    
+        io.in <-  dataDefine$ioInput
+        io.in <- cbind(grup="input",io.in)
+        io.out <-  dataDefine$ioOutput
+        io.out <- cbind(grup="output",io.out)
+        
+        io.in[is.na(io.in)] <- 0 #NA replace with zero
+        io.out[is.na(io.out)] <- 0
+        io.all <- rbind(io.in,io.out) #combine all data input-output
+        io.all <- cbind(status="general", io.all) #add variable status
+        io.all <- io.all %>% mutate_if(is.factor,as.character) #change factor var to char var
+        
+        
+        
+        #### price ####
+        price.in <-  dataDefine$priceInput
+        price.in <- cbind(grup="input",price.in)
+        price.out <-  dataDefine$priceOutput
+        price.out <- cbind(grup="output",price.out)
+        price.in[is.na(price.in)] <- 0
+        price.out[is.na(price.out)] <- 0
+        price.all <- rbind(price.in, price.out)
+        
+        
+        if (dataDefine$tipeKebun[1] == "LARGE SCALE"){
+          
+          yearIO <- ncol(io.in)-5 #banyaknya tahun pada tabel io krn ada tambhan kolom bagian pada large scale
+          
+          p.price<-select(price.all, -harga.sosial) #remove harga sosial
+          p.year<-data.frame(replicate(yearIO,p.price$harga.privat)) #replicate nilai private price sebanyak n tahun
+          colnames(p.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
+          p.price<-cbind(status="harga.privat" ,p.price[c("grup", "bagian","komponen", "jenis", "unit.harga")],p.year)
+          p.price <- p.price %>% mutate_if(is.factor,as.character) #change factor var to char var
+          
+          s.price<-select(price.all, -harga.privat) #remove harga privat
+          s.year<-data.frame(replicate(yearIO,s.price$harga.sosial))
+          colnames(s.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
+          s.price<-cbind(status="harga.sosial",s.price[c("grup", "bagian", "komponen", "jenis", "unit.harga")],s.year)
+          s.price <- s.price %>% mutate_if(is.factor,as.character) #change factor var to char
+          
+          price.all.year <- rbind(p.price, s.price)
+          
           data.gab <- bind_rows(io.all,
                                 price.all.year) ### nanti dibuat if else utk capital jika modal kapital jadi diinputkan
           
           # hitung npv --------------------------------------------------------------
           dataGeneral <- filter(data.gab,status == c("general")) #filter data input output (yg sudah diberi status=general)
           dataPrivat <- filter(data.gab,status == c("harga.privat")) #filter data private price
-          p.budget <- dataGeneral[-(c(1:5,ncol(dataGeneral)))] * dataPrivat[-c(1:5,ncol(dataPrivat))] #perkalian antara unit pada tabel io dg price tanpa variabel 1 sd 5, kolom terakhir adalah kolom unit harga
-          p.budget <- cbind(dataGeneral[c(1:4)],dataPrivat["unit.harga"],p.budget) #memunculkan kembali variabel 1 sd 5
-          p.budget <- p.budget %>%
-            mutate(status = case_when(status == "general" ~ "privat budget")) #mengubah status yg General mjd Private Budget (hasil perkalian io dengan harga privat lalu di tambah modal kapital)
+          p.budget <- dataGeneral[-(c(1:6,ncol(dataGeneral)))] * dataPrivat[-c(1:6,ncol(dataPrivat))] #perkalian antara unit pada tabel io dg price tanpa variabel 1 sd 5, kolom terakhir adalah kolom unit harga
+          p.budget <- cbind(dataGeneral[c("status","grup","bagian","komponen","jenis")],dataPrivat["unit.harga"],p.budget) #memunculkan kembali variabel 1 sd 5
+          p.budget <- p.budget %>%mutate(status = case_when(status == "general" ~ "privat budget")) #mengubah status yg General mjd Private Budget (hasil perkalian io dengan harga privat lalu di tambah modal kapital)
           
           #perkalian antara general dengan Social Price
           dataSosial <- filter(data.gab, status == c("harga.sosial")) #filter data social price
-          s.budget <- dataGeneral[-c(1:5,ncol(dataGeneral))] * dataSosial[-c(1:5,ncol(dataSosial))]
-          s.budget <- cbind(dataGeneral[c(1:4)],dataSosial["unit.harga"],s.budget)
+          s.budget <- dataGeneral[-c(1:6,ncol(dataGeneral))] * dataSosial[-c(1:6,ncol(dataSosial))]
+          s.budget <- cbind(dataGeneral[c("status","grup","bagian","komponen","jenis")],dataSosial["unit.harga"],s.budget)
           s.budget <- s.budget %>%
             mutate(status = case_when(status == "general" ~ "social budget"))
           
           ################ penghitungan NPV
-          p.cost.input <- p.budget %>%
-            filter(str_detect(grup,"input"))
-          
-          s.cost.input <- s.budget %>%
-            filter(str_detect(grup,"input"))
-          
-          p.sum.cost<- p.cost.input[,-(1:5)] %>%
-            colSums(na.rm = T)
-          s.sum.cost<- s.cost.input[,-(1:5)] %>%
-            colSums(na.rm = T)
-          
           p.rev.output <- p.budget %>%
             filter(str_detect(grup,"output"))
           s.rev.output <- s.budget %>%
             filter(str_detect(grup,"output"))
           
-          p.sum.rev <- p.rev.output[,-(1:5)] %>%
+          p.sum.rev <- p.rev.output[,-(1:6)] %>%
             colSums(na.rm = T)
-          s.sum.rev <- s.rev.output[,-(1:5)] %>%
+          s.sum.rev <- s.rev.output[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.sum.rev)
+          sum(s.sum.rev)
+          
+          p.trad.input <- p.budget %>%
+            filter(str_detect(bagian,"input"))
+          p.trad.input <- p.trad.input[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.trad.input)
+          s.trad.input <- s.budget %>%
+            filter(str_detect(bagian,"input"))
+          s.trad.input <- s.trad.input[,-(1:6)] %>%
+            colSums(na.rm = T)
+          sum(s.trad.input)
+          
+          p.trad.capital <- p.budget %>%
+            filter(str_detect(bagian,"tradable capital"))
+          p.trad.capital <- p.trad.capital[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.trad.capital)
+          s.trad.capital <- s.budget %>%
+            filter(str_detect(bagian,"tradable capital"))
+          s.trad.capital <- s.trad.capital[,-(1:6)] %>%
+            colSums(na.rm = T)
+          sum(s.trad.capital)
+          
+          p.factor.labor<- p.budget %>%
+            filter(str_detect(bagian,"labor"))
+          
+          p.labor.admin<- p.factor.labor %>%
+            filter(str_detect(komponen,"admin"))
+          p.labor.admin <- p.labor.admin[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.labor.admin)
+          
+          p.labor.skill <- p.factor.labor %>%
+            filter(str_detect(komponen,c("ahli")))
+          p.labor.skill <- p.labor.skill[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.labor.skill)
+          
+          p.labor.unskill<- p.factor.labor %>%
+            filter(str_detect(komponen,c("unskill")))
+          p.labor.unskill <- p.labor.unskill[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.labor.unskill)
+          
+          s.factor.labor<- s.budget %>%
+            filter(str_detect(bagian,"labor"))
+          
+          s.labor.admin<- s.factor.labor %>%
+            filter(str_detect(komponen,"admin"))
+          s.labor.admin <- s.labor.admin[,-(1:6)] %>%
+            colSums(na.rm = T)
+          sum(s.labor.admin)
+          
+          s.labor.skill <- s.factor.labor %>%
+            filter(str_detect(komponen,c("ahli")))
+          s.labor.skill <- s.labor.skill[,-(1:6)] %>%
+            colSums(na.rm = T)
+          sum(s.labor.skill)
+          
+          s.labor.unskill<- s.factor.labor %>%
+            filter(str_detect(komponen,c("unskill")))
+          s.labor.unskill <- s.labor.unskill[,-(1:6)] %>%
+            colSums(na.rm = T)
+          sum(s.labor.unskill)
+          
+          p.working.capital<- p.budget %>%
+            filter(str_detect(bagian,"working capital privat"))
+          p.working.capital <- p.working.capital[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.factor.capital)
+          s.working.capital<- s.budget %>%
+            filter(str_detect(bagian,"working capital sosial"))
+          s.working.capital <- s.working.capital[,-(1:6)] %>%
             colSums(na.rm = T)
           
           
-          p.profit <- p.sum.rev - p.sum.cost
-          s.profit <- s.sum.rev - s.sum.cost
-          profit0 <- 0
-          p.profit<-c(profit0,p.profit)
-          s.profit<-c(profit0,s.profit)
+          p.factor.capital<- p.budget %>%
+            filter(str_detect(bagian,"factor capital"))
+          p.factor.capital <- p.factor.capital[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(p.factor.capital)
+          s.factor.capital<- s.budget %>%
+            filter(str_detect(bagian,"factor capital"))
+          s.factor.capital <- s.factor.capital[,-(1:6)] %>%
+            colSums(na.rm = T)
+          # sum(s.factor.capital)
           
+          p.total.cost <- p.trad.input + p.trad.capital + p.labor.admin + p.labor.skill + p.labor.unskill + p.working.capital + p.factor.capital
+          s.total.cost <- s.trad.input + s.trad.capital + s.labor.admin + s.labor.skill + s.labor.unskill + s.working.capital + s.factor.capital
+          
+          
+          
+          # PERHITUNGAN MANUAL
+          # p.sum.rev<-c(value0,p.sum.rev)
+          # p.trad.input<-c(value0,p.trad.input)
+          # p.trad.capital<-c(value0,p.trad.capital)
+          # p.labor.admin<-c(value0,p.labor.admin)
+          # p.labor.skill<-c(value0,p.labor.skill)
+          # p.labor.unskill<-c(value0,p.labor.unskill)
+          # p.factor.capital<-c(value0,p.factor.capital)
+          # 
+          # s.sum.rev<-c(value0,s.sum.rev)
+          # s.trad.input<-c(value0,s.trad.input)
+          # s.trad.capital<-c(value0,s.trad.capital)
+          # s.labor.admin<-c(value0,s.labor.admin)
+          # s.labor.skill<-c(value0,s.labor.skill)
+          # s.labor.unskill<-c(value0,s.labor.unskill)
+          # s.factor.capital<-c(value0,s.factor.capital)
+          # 
+          # npv.p.sum.rev<-npv(dataDefine$rate.p/100,p.sum.rev)
+          # npv.p.trad.input<-npv(dataDefine$rate.p/100,p.trad.input)
+          # npv.p.trad.capital<-npv(dataDefine$rate.p/100,p.trad.capital)
+          # npv.p.labor.admin<-npv(dataDefine$rate.p/100,p.labor.admin)
+          # npv.p.labor.skill<-npv(dataDefine$rate.p/100,p.labor.skill)
+          # npv.p.labor.unskill<-npv(dataDefine$rate.p/100,p.labor.unskill)
+          # npv.p.factor.capital<-npv(dataDefine$rate.p/100,p.factor.capital)
+          # npv.p.total.cost <- npv.p.trad.input +npv.p.trad.capital + npv.p.labor.admin + npv.p.labor.skill + npv.p.labor.unskill + npv.p.factor.capital
+          # npv.p <- npv.p.sum.rev - npv.p.total.cost
+          # 
+          # npv.s.sum.rev<-npv(dataDefine$rate.s/100,s.sum.rev)
+          # npv.s.trad.input<-npv(dataDefine$rate.s/100,s.trad.input)
+          # npv.s.trad.capital<-npv(dataDefine$rate.s/100,s.trad.capital)
+          # npv.s.labor.admin<-npv(dataDefine$rate.s/100,s.labor.admin)
+          # npv.s.labor.skill<-npv(dataDefine$rate.s/100,s.labor.skill)
+          # npv.s.labor.unskill<-npv(dataDefine$rate.s/100,s.labor.unskill)
+          # npv.s.factor.capital<-npv(dataDefine$rate.s/100,s.factor.capital)
+          # npv.s.total.cost <- npv.s.trad.input +npv.s.trad.capital + npv.s.labor.admin + npv.s.labor.skill + npv.s.labor.unskill + npv.s.factor.capital
+          # npv.s <- npv.s.sum.rev - npv.s.total.cost
+          
+          
+          p.profit <- p.sum.rev - p.total.cost
+          s.profit <- s.sum.rev - s.total.cost
+          sum(p.profit)
+          sum(s.profit)
+          
+          value0 <- 0
+          p.profit <- c(value0,p.profit)
+          s.profit <- c(value0,s.profit)
           npv.p<-npv(dataDefine$rate.p/100,p.profit)
           npv.s<-npv(dataDefine$rate.s/100,s.profit)
           
-          hsl.npv<-data.frame(PRIVATE=npv.p,SOCIAL=npv.s)
+          npv.p.ha <- npv.p/dataDefine$totalArea
+          npv.s.ha <- npv.s/dataDefine$totalArea
           
-          npv.p.us<-npv.p/dataDefine$nilai.tukar
-          npv.s.us<-npv.s/dataDefine$nilai.tukar
-          npv.us<-data.frame(PRIVATE=npv.p.us,SOCIAL=npv.s.us)
+          hsl.npv<-data.frame(PRIVATE=npv.p.ha,SOCIAL=npv.s.ha)
+          
+          npv.p.ha.us<-npv.p.ha/dataDefine$nilai.tukar
+          npv.s.ha.us<-npv.s.ha/dataDefine$nilai.tukar
+          npv.us<-data.frame(PRIVATE=npv.p.ha.us,SOCIAL=npv.s.ha.us)
           hsl.npv<-rbind(hsl.npv,npv.us)
           
           #browser()
@@ -2496,194 +2419,438 @@ app <- shiny::shinyApp(
           hsl.npv
           # ending  npv --------------------------------------------------------------
           
-        }else if (!is.null(dataDefine$capital)){
-          capital <- cbind(grup="input",dataDefine$capital)
+          # hitung Discounted estab cost --------------------------------------------------------------
           
-          # menambahkan pada tabel io matrix bernilai 1
-          ioKapital <- data.frame(matrix(data=1,nrow = nrow(capital) , ncol = ncol(dataDefine$ioInput)-3))
-          colnames(ioKapital)<-paste0(c(rep("Y", yearIO)),1:yearIO)
-          ioKapital<-cbind(status="modal kapital" ,capital[c(1:4)],ioKapital)
-          ioKapital <- ioKapital %>% mutate_if(is.factor,as.character) #change factor var to char var
+          ################ penghitungan dec
+          p.profit.ha <- p.profit/dataDefine$totalArea
+          p.positif.cashflow <- ifelse(p.profit.ha > 0, 1, 0)
+          
+          p.total.cost.0 <- c(value0,p.total.cost)
+          p.est.cost <- ifelse(p.positif.cashflow == 1, 0, p.total.cost.0)
+          
+          # p.est.cost <- length(p.positif.cashflow)
+          # for(i in seq_along(p.positif.cashflow)){
+          #   if(p.positif.cashflow[i] == 1){
+          #     p.est.cost[i] <- 0
+          #   }else{
+          #     p.est.cost[i] <- p.total.cost.0[i]
+          #   }
+          # }
+          
+          s.profit.ha <- s.profit/dataDefine$totalArea
+          s.positif.cashflow <- ifelse(s.profit.ha > 0, 1, 0)
+          
+          s.total.cost.0 <- c(value0,s.total.cost)
+          s.est.cost <- ifelse(s.positif.cashflow == 1, 0, s.total.cost.0)
+          
+          # s.est.cost <- length(s.positif.cashflow)
+          # for(i in seq_along(s.positif.cashflow)){
+          #   if(s.positif.cashflow[i] == 1){
+          #     s.est.cost[i] <- 0
+          #   }else{
+          #     s.est.cost[i] <- s.total.cost.0[i]
+          #   }
+          # }
+          
+          npv.p.dec<-npv(dataDefine$rate.p/100,p.est.cost)
+          npv.s.dec<-npv(dataDefine$rate.s/100,s.est.cost)
+          
+          dec.p <- npv.p.dec/1000/dataDefine$totalArea
+          dec.s <- npv.s.dec/1000/dataDefine$totalArea
           
           
-          kapitalPrivat <- filter(capital,komponen == c("modal kapital privat"))
-          kapitalPrivat <- cbind(status ="harga.privat",kapitalPrivat )
-          kapitalPrivat <- kapitalPrivat %>% mutate_if(is.factor,as.character) #change factor var to char var
+          dec<-data.frame(PRIVATE=dec.p,SOCIAL=dec.s)
+          rownames(dec)<-c("Discounted Est. Cost (MRp/Ha)")
+          dec
+          # ending  Discounted estab cost ------------------------------------------------------- 
           
-          kapitalSosial <- filter(capital,komponen == c("modal kapital sosial"))
-          kapitalSosial <- cbind(status ="harga.sosial",kapitalSosial )
-          kapitalSosial <- kapitalSosial %>% mutate_if(is.factor,as.character) #change factor var to char var
+          # hitung Year to positive cashflow --------------------------------------------------------------
+          ############# PERHITUNGAN ypc
+          ypc.p <- yearIO + 1 - sum(p.positif.cashflow)
+          ypc.s <- yearIO + 1 - sum(s.positif.cashflow)
           
-          data.gab <- bind_rows(io.all, ioKapital,
-                                price.all.year, 
-                                kapitalPrivat, kapitalSosial) ### nanti dibuat if else utk capital jika modal kapital jadi diinputkan
-          # hitung npv --------------------------------------------------------------
-          dataGeneral <- filter(data.gab,status == c("general")) #filter data input output (yg sudah diberi status=general)
-          dataCapitalAll <- filter(data.gab,status == c("modal kapital"))
+          ypc<-data.frame(PRIVATE=ypc.p,SOCIAL=ypc.s)
+          rownames(ypc)<-c("Year to positive cashflow")
+          ypc
+          # ending  Year to positive cashflow ------------------------------------------------------- 
           
-          
-          dataGeneralPrivat <- filter(dataCapitalAll,komponen == c("modal kapital privat"))
-          dataGeneralPrivat <- rbind(dataGeneral,dataGeneralPrivat)
-          dataPrivat <- filter(data.gab,status == c("harga.privat"))
-          p.budget <- dataGeneralPrivat[-(c(1:5,36))] * dataPrivat[-c(1:5,36)] #perkalian antara unit pada tabel io dg price tanpa variabel 1 sd 5, kolom terakhir adalah kolom unit harga
-          p.budget <- cbind(dataGeneralPrivat[c(1:4)],dataPrivat["unit.harga"],p.budget) #memunculkan kembali variabel 1 sd 5
-          p.budget <- p.budget[-1] #menghilangkan label status yang awal
-          p.budget <- cbind(status = "privat budget", p.budget) #merename keseluruhan tabel status
-          
-          
-          
-          
-          #perkalian antara general dengan Social Price
-          dataGeneralSosial <- filter(dataCapitalAll,komponen == c("modal kapital sosial"))
-          dataGeneralSosial <- rbind(dataGeneral,dataGeneralSosial)
-          dataSosial <- filter(data.gab, status == c("harga.sosial")) #filter data social price
-          s.budget <- dataGeneralSosial[-c(1:5,36)] * dataSosial[-c(1:5,36)]
-          s.budget <- cbind(dataGeneralSosial[c(1:4)],dataSosial["unit.harga"],s.budget)
-          s.budget <- s.budget[-1] #menghilangkan label status yang awal
-          s.budget <- cbind(status = "sosial budget", s.budget) #merename keseluruhan tabel status
-          
-          ################ penghitungan NPV
-          p.cost.input <- p.budget %>%
-            filter(str_detect(grup,"input"))
-          
-          s.cost.input <- s.budget %>%
-            filter(str_detect(grup,"input"))
-          
-          p.sum.cost<- p.cost.input[,-(1:5)] %>%
-            colSums(na.rm = T)
-          s.sum.cost<- s.cost.input[,-(1:5)] %>%
-            colSums(na.rm = T)
-          
-          p.rev.output <- p.budget %>%
-            filter(str_detect(grup,"output"))
-          s.rev.output <- s.budget %>%
-            filter(str_detect(grup,"output"))
-          
-          p.sum.rev <- p.rev.output[,-(1:5)] %>%
-            colSums(na.rm = T)
-          s.sum.rev <- s.rev.output[,-(1:5)] %>%
+          # hitung Labor for establishment --------------------------------------------------------------
+          # tabel labor/pekerja
+          table.labor<- io.in %>%
+            filter(str_detect(bagian,"labor"))
+          sum.table.labor <- table.labor[,paste0(c(rep("Y", yearIO)),1:yearIO)] %>%
             colSums(na.rm = T)
           
+          yearLabor <- ifelse(length(input$tahunPekerja ) == 0,25,numeric(input$tahunPekerja))
+          sum.table.labor.25 <- sum.table.labor[1:yearLabor]
+          total.labor <- sum(sum.table.labor.25)
           
-          p.profit <- p.sum.rev - p.sum.cost
-          s.profit <- s.sum.rev - s.sum.cost
-          profit0 <- 0
-          p.profit<-c(profit0,p.profit)
-          s.profit<-c(profit0,s.profit)
+          #tabel land/lahan
+          # baseScene <- filter(readDataTemplate,str_detect(bagian,"dasar"))
+          # landScene <- baseScene[,c("bagian","komponen","jenis","unit",paste0(c(rep("Y", yearIO)),1:yearIO))] #memfilter tabel kuantitas
+          # transpose.landScene <- data.frame(t(landScene[,c(paste0(c(rep("Y", yearIO)),1:yearIO))]))
+          # colnames(transpose.landScene) <- c("per.year")
+          # cum.landScene <- within(transpose.landScene,cummulative.land <- cumsum(per.year)) #buat kolom cumulativ land
+          cum.landScene <- as.matrix(dataDefine$cum.landScene)
           
-          npv.p<-npv(dataDefine$rate.p/100,p.profit)
-          npv.s<-npv(dataDefine$rate.s/100,s.profit)
           
-          hsl.npv<-data.frame(PRIVATE=npv.p,SOCIAL=npv.s)
+          ############# PERHITUNGAN lfe
+          p.total.labor.est <- ifelse(p.profit.ha[1:yearLabor+1] < 0,sum.table.labor.25 , 0)
+          p.total.labor.opr <- ifelse(p.profit.ha[1:yearLabor+1] < 0,0,sum.table.labor.25)
+          p.avg.labor.est <- ifelse(p.total.labor.est > 0,ifelse(p.total.labor.est == 0,0,p.total.labor.est/cum.landScene[2,1:yearLabor]) , p.total.labor.est/cum.landScene[1:yearLabor])
+          p.avg.labor.opr <- ifelse(p.total.labor.opr > 0,ifelse(p.total.labor.opr == 0,0,p.total.labor.opr/cum.landScene[2,1:yearLabor]) , p.total.labor.opr/cum.landScene[1:yearLabor])
+          p.avg.labor.est[is.na(p.avg.labor.est)] <- 0
+          p.avg.labor.opr[is.na(p.avg.labor.opr)] <- 0
           
-          npv.p.us<-npv.p/dataDefine$nilai.tukar
-          npv.s.us<-npv.s/dataDefine$nilai.tukar
-          npv.us<-data.frame(PRIVATE=npv.p.us,SOCIAL=npv.s.us)
-          hsl.npv<-rbind(hsl.npv,npv.us)
+          s.total.labor.est <- ifelse(s.profit.ha[1:yearLabor+1] < 0,sum.table.labor.25 , 0)
+          s.total.labor.opr <- ifelse(s.profit.ha[1:yearLabor+1] < 0,0,sum.table.labor.25)
+          s.avg.labor.est <- ifelse(s.total.labor.est > 0,ifelse(s.total.labor.est == 0,0,s.total.labor.est/cum.landScene[2,1:yearLabor]) , s.total.labor.est/cum.landScene[1:yearLabor])
+          s.avg.labor.opr <- ifelse(s.total.labor.opr > 0,ifelse(s.total.labor.opr == 0,0,s.total.labor.opr/cum.landScene[2,1:yearLabor]) , s.total.labor.opr/cum.landScene[1:yearLabor])
+          s.avg.labor.est[is.na(s.avg.labor.est)] <- 0
+          s.avg.labor.opr[is.na(s.avg.labor.opr)] <- 0
           
-          #browser()
+          lfe.p <- sum(p.avg.labor.est)
+          lfe.s <- sum(s.avg.labor.est)
           
-          rownames(hsl.npv)<-c("NPV (Rp/Ha)", "NPV (US/Ha)")
-          hsl.npv
-          # ending  npv --------------------------------------------------------------
+          lfe<-data.frame(PRIVATE=lfe.p,SOCIAL=lfe.s)
+          rownames(lfe)<-c("Labor for Est. (HOK/Ha)")
+          lfe
+          # ending  Labor for establishment ------------------------------------------------------- 
           
+          ############# PERHITUNGAN lfo
+          lfo.p <- mean(p.avg.labor.opr[p.avg.labor.opr!=0])
+          lfo.s <- mean(s.avg.labor.opr[s.avg.labor.opr!=0])
+          
+          lfo<-data.frame(PRIVATE=lfo.p,SOCIAL=lfo.s)
+          rownames(lfo)<-c("Labor for Operation. (HOK/Ha/th)")
+          lfo
+          # ending  Labor for Operation -------------------------------------------------------
+          
+          
+          # hitung hp --------------------------------------------------------------
+          ############# PERHITUNGAN HARVESTING PRODUCT
+          fil.prod <- dataGeneral %>%  filter(str_detect(grup,"output")) #filter io untuk grup output (hasil panen)
+          fil.prod <- fil.prod %>%  filter(str_detect(komponen,"utama"))
+          sum.prod <- fil.prod[,c(paste0(c(rep("Y", yearIO)),1:yearIO))] %>%
+            colSums(na.rm = T)
+          tot.prod <- sum(sum.prod)
+          
+          hp <- data.frame( tot.prod/total.labor)/1000 # karena ton jadi di bagi 1000
+          colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1st year only)")
+          rownames(hp) <- c("Value")
+          hp
+          
+          # ending  hp ------------------------------------------------------- 
+          
+          # Total area
+          totArea <- data.frame(dataDefine$totalArea)
+          colnames(totArea)<-c("Total Area (Ha)")
+          rownames(totArea) <- c("Value")
+          totArea
+          
+          tabel1 <- rbind(hsl.npv,dec,ypc,lfe,lfo)
+          tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
+          tabel1
+          
+          tabel2 <- data.frame(t(cbind(hp,totArea)))
+          tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
+          tabel2
+          
+          # tabel profit 
+          tabel.p.profit <- t(as.data.frame(t(p.profit.ha)))
+          tabel.s.profit <- t(as.data.frame(t(s.profit.ha)))
+          tabel.profit <- cbind(tabel.p.profit,tabel.s.profit)
+          rownames(tabel.profit) <- paste0(c(rep("Y", yearIO)),0:yearIO)
+          colnames(tabel.profit) <- c("p.profit","s.profit")
+          
+          dataView <- list(tabel1=tabel1,tabel2=tabel2, tabel.profit = tabel.profit)
+          # tabelGab 
+          # dataView <- datatable(data.graph()$tabel2, option=list(dom = "t"))
+          dat_list[[j]] <- dataView
+          print("cek ending LS")
+          print(dat_list[[j]]$tabel1)
+          
+          # datGraph$data[[j]] <- dataView
+          dat_list
+          
+          
+        }else{
+          
+          yearIO <- ncol(io.in)-4 #banyaknya tahun pada tabel io 
+          p.price<-select(price.all, -harga.sosial) #remove harga sosial
+          p.year<-data.frame(replicate(yearIO,p.price$harga.privat)) #replicate nilai private price sebanyak n tahun
+          colnames(p.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
+          p.price<-cbind(status="harga.privat" ,p.price[c(1:4)],p.year)
+          p.price <- p.price %>% mutate_if(is.factor,as.character) #change factor var to char var
+          
+          s.price<-select(price.all, -harga.privat) #remove harga sosial
+          s.year<-data.frame(replicate(yearIO,s.price$harga.sosial))
+          colnames(s.year)<-paste0(c(rep("Y", yearIO)),1:yearIO)
+          s.price<-cbind(status="harga.sosial",s.price[c(1:4)],s.year)
+          s.price <- s.price %>% mutate_if(is.factor,as.character) #change factor var to char
+          
+          price.all.year <- rbind(p.price, s.price)
+          
+          if (is.null(dataDefine$capital)){
+            # capital = NULL
+            data.gab <- bind_rows(io.all,
+                                  price.all.year) ### nanti dibuat if else utk capital jika modal kapital jadi diinputkan
+            
+            # hitung npv --------------------------------------------------------------
+            dataGeneral <- filter(data.gab,status == c("general")) #filter data input output (yg sudah diberi status=general)
+            dataPrivat <- filter(data.gab,status == c("harga.privat")) #filter data private price
+            p.budget <- dataGeneral[-(c(1:5,ncol(dataGeneral)))] * dataPrivat[-c(1:5,ncol(dataPrivat))] #perkalian antara unit pada tabel io dg price tanpa variabel 1 sd 5, kolom terakhir adalah kolom unit harga
+            p.budget <- cbind(dataGeneral[c(1:4)],dataPrivat["unit.harga"],p.budget) #memunculkan kembali variabel 1 sd 5
+            p.budget <- p.budget %>%
+              mutate(status = case_when(status == "general" ~ "privat budget")) #mengubah status yg General mjd Private Budget (hasil perkalian io dengan harga privat lalu di tambah modal kapital)
+            
+            #perkalian antara general dengan Social Price
+            dataSosial <- filter(data.gab, status == c("harga.sosial")) #filter data social price
+            s.budget <- dataGeneral[-c(1:5,ncol(dataGeneral))] * dataSosial[-c(1:5,ncol(dataSosial))]
+            s.budget <- cbind(dataGeneral[c(1:4)],dataSosial["unit.harga"],s.budget)
+            s.budget <- s.budget %>%
+              mutate(status = case_when(status == "general" ~ "social budget"))
+            
+            ################ penghitungan NPV
+            p.cost.input <- p.budget %>%
+              filter(str_detect(grup,"input"))
+            
+            s.cost.input <- s.budget %>%
+              filter(str_detect(grup,"input"))
+            
+            p.sum.cost<- p.cost.input[,-(1:5)] %>%
+              colSums(na.rm = T)
+            s.sum.cost<- s.cost.input[,-(1:5)] %>%
+              colSums(na.rm = T)
+            
+            p.rev.output <- p.budget %>%
+              filter(str_detect(grup,"output"))
+            s.rev.output <- s.budget %>%
+              filter(str_detect(grup,"output"))
+            
+            p.sum.rev <- p.rev.output[,-(1:5)] %>%
+              colSums(na.rm = T)
+            s.sum.rev <- s.rev.output[,-(1:5)] %>%
+              colSums(na.rm = T)
+            
+            
+            p.profit <- p.sum.rev - p.sum.cost
+            s.profit <- s.sum.rev - s.sum.cost
+            profit0 <- 0
+            p.profit<-c(profit0,p.profit)
+            s.profit<-c(profit0,s.profit)
+            
+            npv.p<-npv(dataDefine$rate.p/100,p.profit)
+            npv.s<-npv(dataDefine$rate.s/100,s.profit)
+            
+            hsl.npv<-data.frame(PRIVATE=npv.p,SOCIAL=npv.s)
+            
+            npv.p.us<-npv.p/dataDefine$nilai.tukar
+            npv.s.us<-npv.s/dataDefine$nilai.tukar
+            npv.us<-data.frame(PRIVATE=npv.p.us,SOCIAL=npv.s.us)
+            hsl.npv<-rbind(hsl.npv,npv.us)
+            
+            #browser()
+            
+            rownames(hsl.npv)<-c("NPV (Rp/Ha)", "NPV (US/Ha)")
+            hsl.npv
+            # ending  npv --------------------------------------------------------------
+            
+          }else if (!is.null(dataDefine$capital)){
+            capital <- cbind(grup="input",dataDefine$capital)
+            
+            # menambahkan pada tabel io matrix bernilai 1
+            ioKapital <- data.frame(matrix(data=1,nrow = nrow(capital) , ncol = ncol(dataDefine$ioInput)-3))
+            colnames(ioKapital)<-paste0(c(rep("Y", yearIO)),1:yearIO)
+            ioKapital<-cbind(status="modal kapital" ,capital[c(1:4)],ioKapital)
+            ioKapital <- ioKapital %>% mutate_if(is.factor,as.character) #change factor var to char var
+            
+            
+            kapitalPrivat <- filter(capital,komponen == c("modal kapital privat"))
+            kapitalPrivat <- cbind(status ="harga.privat",kapitalPrivat )
+            kapitalPrivat <- kapitalPrivat %>% mutate_if(is.factor,as.character) #change factor var to char var
+            
+            kapitalSosial <- filter(capital,komponen == c("modal kapital sosial"))
+            kapitalSosial <- cbind(status ="harga.sosial",kapitalSosial )
+            kapitalSosial <- kapitalSosial %>% mutate_if(is.factor,as.character) #change factor var to char var
+            
+            data.gab <- bind_rows(io.all, ioKapital,
+                                  price.all.year, 
+                                  kapitalPrivat, kapitalSosial) ### nanti dibuat if else utk capital jika modal kapital jadi diinputkan
+            # hitung npv --------------------------------------------------------------
+            dataGeneral <- filter(data.gab,status == c("general")) #filter data input output (yg sudah diberi status=general)
+            dataCapitalAll <- filter(data.gab,status == c("modal kapital"))
+            
+            
+            dataGeneralPrivat <- filter(dataCapitalAll,komponen == c("modal kapital privat"))
+            dataGeneralPrivat <- rbind(dataGeneral,dataGeneralPrivat)
+            dataPrivat <- filter(data.gab,status == c("harga.privat"))
+            p.budget <- dataGeneralPrivat[-(c(1:5,36))] * dataPrivat[-c(1:5,36)] #perkalian antara unit pada tabel io dg price tanpa variabel 1 sd 5, kolom terakhir adalah kolom unit harga
+            p.budget <- cbind(dataGeneralPrivat[c(1:4)],dataPrivat["unit.harga"],p.budget) #memunculkan kembali variabel 1 sd 5
+            p.budget <- p.budget[-1] #menghilangkan label status yang awal
+            p.budget <- cbind(status = "privat budget", p.budget) #merename keseluruhan tabel status
+            
+            
+            
+            
+            #perkalian antara general dengan Social Price
+            dataGeneralSosial <- filter(dataCapitalAll,komponen == c("modal kapital sosial"))
+            dataGeneralSosial <- rbind(dataGeneral,dataGeneralSosial)
+            dataSosial <- filter(data.gab, status == c("harga.sosial")) #filter data social price
+            s.budget <- dataGeneralSosial[-c(1:5,36)] * dataSosial[-c(1:5,36)]
+            s.budget <- cbind(dataGeneralSosial[c(1:4)],dataSosial["unit.harga"],s.budget)
+            s.budget <- s.budget[-1] #menghilangkan label status yang awal
+            s.budget <- cbind(status = "sosial budget", s.budget) #merename keseluruhan tabel status
+            
+            ################ penghitungan NPV
+            p.cost.input <- p.budget %>%
+              filter(str_detect(grup,"input"))
+            
+            s.cost.input <- s.budget %>%
+              filter(str_detect(grup,"input"))
+            
+            p.sum.cost<- p.cost.input[,-(1:5)] %>%
+              colSums(na.rm = T)
+            s.sum.cost<- s.cost.input[,-(1:5)] %>%
+              colSums(na.rm = T)
+            
+            p.rev.output <- p.budget %>%
+              filter(str_detect(grup,"output"))
+            s.rev.output <- s.budget %>%
+              filter(str_detect(grup,"output"))
+            
+            p.sum.rev <- p.rev.output[,-(1:5)] %>%
+              colSums(na.rm = T)
+            s.sum.rev <- s.rev.output[,-(1:5)] %>%
+              colSums(na.rm = T)
+            
+            
+            p.profit <- p.sum.rev - p.sum.cost
+            s.profit <- s.sum.rev - s.sum.cost
+            profit0 <- 0
+            p.profit<-c(profit0,p.profit)
+            s.profit<-c(profit0,s.profit)
+            
+            npv.p<-npv(dataDefine$rate.p/100,p.profit)
+            npv.s<-npv(dataDefine$rate.s/100,s.profit)
+            
+            hsl.npv<-data.frame(PRIVATE=npv.p,SOCIAL=npv.s)
+            
+            npv.p.us<-npv.p/dataDefine$nilai.tukar
+            npv.s.us<-npv.s/dataDefine$nilai.tukar
+            npv.us<-data.frame(PRIVATE=npv.p.us,SOCIAL=npv.s.us)
+            hsl.npv<-rbind(hsl.npv,npv.us)
+            
+            #browser()
+            
+            rownames(hsl.npv)<-c("NPV (Rp/Ha)", "NPV (US/Ha)")
+            hsl.npv
+            # ending  npv --------------------------------------------------------------
+            
+          }
+          
+          
+          # hitung nlc --------------------------------------------------------------
+          
+          ################ penghitungan NLC
+          
+          p.tot.cost<- sum(p.sum.cost)
+          s.tot.cost<- sum(s.sum.cost)
+          
+          p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
+          s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
+          
+          p.sum.labor <- p.labor.input[,-(1:5)] %>%
+            sum(na.rm = T)
+          s.sum.labor <- s.labor.input[,-(1:5)] %>%
+            sum(na.rm = T)
+          
+          
+          
+          nlc.p <- (p.tot.cost - p.sum.labor)/1000000
+          nlc.s <- (s.tot.cost - s.sum.labor)/1000000
+          nlc<-data.frame(PRIVATE=nlc.p,SOCIAL=nlc.s)
+          rownames(nlc)<-c("Non Labor Cost (Juta Rp/Ha)")
+          nlc
+          # ending  nlc ------------------------------------------------------- 
+          
+          # hitung EC --------------------------------------------------------------
+          ############# PERHITUNGAN ESTABLISHMENT COST
+          p.ec <- p.sum.cost[[1]]/1000000
+          s.ec <- s.sum.cost[[1]]/1000000
+          ec <- data.frame(p.ec,s.ec)
+          ec<-data.frame(PRIVATE=p.ec,SOCIAL=s.ec)
+          rownames(ec)<-c("Establishment cost (1 tahun pertama, Juta Rp/Ha)")
+          ec
+          
+          # ending  EC ------------------------------------------------------- 
+          
+          # hitung hp --------------------------------------------------------------
+          ############# PERHITUNGAN HARVESTING PRODUCT
+          fil.prod <- dataGeneral %>%  filter(str_detect(grup,"output")) #filter io untuk grup output (hasil panen)
+          fil.prod <- fil.prod %>%  filter(str_detect(komponen,"utama"))
+          sum.prod <- fil.prod[,-c(1:5,36)] %>%
+            colSums(na.rm = T)
+          tot.prod <- sum(sum.prod)
+          
+          fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja")))
+          fil.labor <- filter(fil.labor, str_detect(unit, c("hok")))
+          sum.labor <- fil.labor[,-c(1:5,36)] %>%
+            colSums(na.rm = T)
+          tot.labor <- sum(sum.labor)
+          
+          hp <- data.frame(tot.prod/tot.labor)/1000 # karena ton jadi di bagi 1000
+          colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1 tahun pertama)")
+          rownames(hp) <- c("Nilai")
+          hp <- data.frame(t(hp))
+          hp
+          # ending  hp ------------------------------------------------------- 
+          
+          # hitung lr --------------------------------------------------------------
+          ############# PERHITUNGAN LABOR REQ FOR EST
+          lr <- data.frame(sum.labor[[1]]) #pekerja pada tahun 1
+          colnames(lr)<-c("Labor Req for Est (1 tahun pertama)")
+          rownames(lr) <- c("Nilai")
+          lr <- data.frame(t(lr))
+          lr
+          
+          # ending  lr ------------------------------------------------------- 
+          
+          # tampilan rate.p, rate.s, nilai tukar rupiah --------------------------------------------------------------
+          showRateP <- (dataDefine$rate.p)
+          showRateS <- (dataDefine$rate.s)
+          showExRate <- (dataDefine$nilai.tukar)
+          showBauMacro <- rbind(showRateP,showRateS,showExRate)
+          rownames(showBauMacro)<-c("Discount Rate Private", "Discount Rate Social", "Nilai Tukar Rupiah")
+          colnames(showBauMacro) <- c("Nilai")
+          showBauMacro
+          
+          # ending  ------------------------------------------------------- 
+          
+          tabel1 <- rbind(hsl.npv,nlc,ec)
+          tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
+          tabel1
+          
+          tabel2 <- rbind(hp,lr, showBauMacro)
+          tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
+          tabel2
+          
+          # tabel profit 
+          tabel.p.profit <- t(as.data.frame(t(p.profit)))
+          tabel.s.profit <- t(as.data.frame(t(s.profit)))
+          tabel.profit <- cbind(tabel.p.profit,tabel.s.profit)
+          rownames(tabel.profit) <- paste0(c(rep("Y", yearIO)),0:yearIO)
+          colnames(tabel.profit) <- c("p.profit","s.profit")
+          
+          dataView <- list(tabel1=tabel1,tabel2=tabel2, tabel.profit = tabel.profit)
+          # dataView <- datatable(data.graph()$tabel2, option=list(dom = "t"))
+          dat_list[[j]] <- dataView
+          print("cek ending ")
+          print(dat_list[[j]]$tabel1)
+          # datGraph$data[[j]] <- dataView
+          dat_list
+          # tabelGab 
         }
-        
-        
-        # hitung nlc --------------------------------------------------------------
-        
-        ################ penghitungan NLC
-        
-        p.tot.cost<- sum(p.sum.cost)
-        s.tot.cost<- sum(s.sum.cost)
-        
-        p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
-        s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
-        
-        p.sum.labor <- p.labor.input[,-(1:5)] %>%
-          sum(na.rm = T)
-        s.sum.labor <- s.labor.input[,-(1:5)] %>%
-          sum(na.rm = T)
-        
-        
-        
-        nlc.p <- (p.tot.cost - p.sum.labor)/1000000
-        nlc.s <- (s.tot.cost - s.sum.labor)/1000000
-        nlc<-data.frame(PRIVATE=nlc.p,SOCIAL=nlc.s)
-        rownames(nlc)<-c("Non Labor Cost (Juta Rp/Ha)")
-        nlc
-        # ending  nlc ------------------------------------------------------- 
-        
-        # hitung EC --------------------------------------------------------------
-        ############# PERHITUNGAN ESTABLISHMENT COST
-        p.ec <- p.sum.cost[[1]]/1000000
-        s.ec <- s.sum.cost[[1]]/1000000
-        ec <- data.frame(p.ec,s.ec)
-        ec<-data.frame(PRIVATE=p.ec,SOCIAL=s.ec)
-        rownames(ec)<-c("Establishment cost (1 tahun pertama, Juta Rp/Ha)")
-        ec
-        
-        # ending  EC ------------------------------------------------------- 
-        
-        # hitung hp --------------------------------------------------------------
-        ############# PERHITUNGAN HARVESTING PRODUCT
-        fil.prod <- dataGeneral %>%  filter(str_detect(grup,"output")) #filter io untuk grup output (hasil panen)
-        fil.prod <- fil.prod %>%  filter(str_detect(komponen,"utama"))
-        sum.prod <- fil.prod[,-c(1:5,36)] %>%
-          colSums(na.rm = T)
-        tot.prod <- sum(sum.prod)
-        
-        fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja")))
-        fil.labor <- filter(fil.labor, str_detect(unit, c("hok")))
-        sum.labor <- fil.labor[,-c(1:5,36)] %>%
-          colSums(na.rm = T)
-        tot.labor <- sum(sum.labor)
-        
-        hp <- data.frame(tot.prod/tot.labor)/1000 # karena ton jadi di bagi 1000
-        colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1 tahun pertama)")
-        rownames(hp) <- c("Nilai")
-        hp <- data.frame(t(hp))
-        hp
-        # ending  hp ------------------------------------------------------- 
-        
-        # hitung lr --------------------------------------------------------------
-        ############# PERHITUNGAN LABOR REQ FOR EST
-        lr <- data.frame(sum.labor[[1]]) #pekerja pada tahun 1
-        colnames(lr)<-c("Labor Req for Est (1 tahun pertama)")
-        rownames(lr) <- c("Nilai")
-        lr <- data.frame(t(lr))
-        lr
-        
-        # ending  lr ------------------------------------------------------- 
-        
-        # tampilan rate.p, rate.s, nilai tukar rupiah --------------------------------------------------------------
-        showRateP <- (dataDefine$rate.p)
-        showRateS <- (dataDefine$rate.s)
-        showExRate <- (dataDefine$nilai.tukar)
-        showBauMacro <- rbind(showRateP,showRateS,showExRate)
-        rownames(showBauMacro)<-c("Discount Rate Private", "Discount Rate Social", "Nilai Tukar Rupiah")
-        colnames(showBauMacro) <- c("Nilai")
-        showBauMacro
-        
-        # ending  ------------------------------------------------------- 
-        
-        tabel1 <- rbind(hsl.npv,nlc,ec)
-        tabel1[] <- lapply(tabel1, function(i) sprintf('%.6g', i))
-        tabel1
-        
-        tabel2 <- rbind(hp,lr, showBauMacro)
-        tabel2[] <- lapply(tabel2, function(i) sprintf('%.6g', i))
-        tabel2
-        
-        # tabel profit 
-        tabel.p.profit <- t(as.data.frame(t(p.profit)))
-        tabel.s.profit <- t(as.data.frame(t(s.profit)))
-        tabel.profit <- cbind(tabel.p.profit,tabel.s.profit)
-        rownames(tabel.profit) <- paste0(c(rep("Y", yearIO)),0:yearIO)
-        colnames(tabel.profit) <- c("p.profit","s.profit")
-        
-        tabelGab <- list(tabel1=tabel1,tabel2=tabel2, tabel.profit = tabel.profit)
-        tabelGab 
       }
     })
     
