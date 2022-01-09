@@ -1290,7 +1290,7 @@ app <- shiny::shinyApp(
             argonTab(
               tabName = "NPV seluruh SUT dalam satu wilayah",
               active = F,
-              # dataTableOutput(("showTableKuantitas")),
+              uiOutput(("showNPV")),
               style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
@@ -1324,16 +1324,6 @@ app <- shiny::shinyApp(
           )
         ),
         br(),
-        # fluidRow(
-        #   column(12,
-        #          id = 'bau',
-        #          tags$style('#bau {
-        #                     background-color: #00cca3;
-        #                     }'),
-        #          h3("Business As Usual (BAU)", align = "center")
-        #          
-        #   )
-        # ),
         fluidRow(
           column(12,
                 id = 'TABEL1',
@@ -1465,8 +1455,31 @@ app <- shiny::shinyApp(
       
     })
     
-    
-    
+    output$showNPV <- renderUI({
+      fluidPage(
+        fluidRow(
+          column(11,
+                 br(),
+                 br(),
+                 h1(paste0("TABEL NPV SELURUH SUT DALAM 1 WILAYAH"), align = "center")
+          )
+        ),
+        br(),
+        fluidRow(
+          column(12,
+                 id = 'TABELNPV',
+                 tags$style('#TABELNPV {
+                           background-color: #C4CCFF;
+                           }'),
+                 h1("TABEL NPV", align = "center"),
+                 plotOutput("showBar"),
+                 # tags$div(id = 'uiplotComparing')
+                 # tags$div(id = 'uiplotBar')
+          )
+        )
+      )
+    })
+
     
     # output$showHitung <- renderUI({
     #   fluidPage(
@@ -1988,133 +2001,133 @@ app <- shiny::shinyApp(
     
     
     
-    output$showResult <- renderUI({
-      fluidPage(
-        fluidRow(
-          column(11,
-                 br(),
-                 br(),
-                 h1(paste0("HASIL ANALISIS"," ",input$kom," ",input$sut), align = "center"),
-                 h1(paste0("di ",input$selected_wilayah," pada tahun ",input$th," dengan tipe lahan ", input$tipeLahan), align = "center"),
-                 br(),
-          )
-        ),
-        br(),
-        fluidRow(
-          column(6,
-                 id = 'bau',
-                 tags$style('#bau {
-                            background-color: #00cca3;
-                            }'),
-                 h3("Business As Usual (BAU)", align = "center")
-                 
-          ),
-          column(6,
-                 id = 'sim',
-                 tags$style('#sim {
-                            background-color: #b3b3ff;
-                            }'),
-                 h3("Simulasi", align = "center")
-          )
-        ),
-        fluidRow(
-          column(6,
-                 dataTableOutput("tableResultBAU1"),
-          ),
-          
-          column(6,
-                 dataTableOutput("tableResultSimulasi1"),
-                 
-          ),
-          
-          column(6,
-                 dataTableOutput("tableResultBAU2")
-                 
-          ),
-          column(6,
-                 dataTableOutput("tableResultSimulasi2")
-                 
-          ),
-        ),
-        
-        br(),
-        br(),
-        column(12,
-               id = 'tableNPV',
-               tags$style('#tableNPV {
-                            background-color: #CCFFCC;
-                            }'),
-               h3("Tabel NPV seluruh SUT dalam 1 Wilayah", align = "center")
-               
-        ),
-        fluidRow(
-          column(12,
-                 dataTableOutput('showTableAllProvinsi')
-          )
-        ),
-        br(),
-        br(),
-        fluidRow(
-          column(4,
-                 id = 'plotCom',
-                 tags$style('#plotCom {
-                            background-color: #CCFFCC;
-                            }'),
-                 h3("Barchart NPV BAU vs Simulasi", align = "center")
-                 
-          ),
-          column(8,
-                 id = 'plotAll',
-                 tags$style('#plotAll {
-                            background-color: #CCFFCC;
-                            }'),
-                 h3("Barchart NPV seluruh SUT dalam 1 Wilayah", align = "center")
-                 
-          ),
-          column(4,
-                 tags$div(id = 'uiplotComparing')
-                 ),
-          column(8,
-                 tags$div(id = 'uiShowPlotAllKomoditas')
-                 )
-        ),
-        br(),
-        br(),
-        column(12,
-               id = 'grafikProfit',
-               tags$style('#grafikProfit {
-                            background-color: #CCFFCC;
-                            }'),
-               h3("Grafik Profit Tahunan", align = "center")
-               
-        ),
-        fluidRow(
-          column(6,
-                 plotlyOutput('showPlotProfitPrivat')
-          ),
-          column(6,
-                 plotlyOutput('showPlotProfitSosial')
-          )
-        ),
-        fluidRow(
-          column(6,
-                 plotlyOutput('showPlotKumProfitPrivat')
-          ),
-          column(6,
-                 plotlyOutput('showPlotKumProfitSosial')
-          )
-        ),
-        fluidRow(
-          column(2,
-                 actionButton(("saveNewPAM"),"Simpan PAM baru",icon("paper-plane"),style="color: white;background-color: green;"),
-                 br(),
-                 tags$div(id='teksNewPamSave')
-          )
-        )
-        
-        
-      )
-    })
+    # output$showResult <- renderUI({
+    #   fluidPage(
+    #     fluidRow(
+    #       column(11,
+    #              br(),
+    #              br(),
+    #              h1(paste0("HASIL ANALISIS"," ",input$kom," ",input$sut), align = "center"),
+    #              h1(paste0("di ",input$selected_wilayah," pada tahun ",input$th," dengan tipe lahan ", input$tipeLahan), align = "center"),
+    #              br(),
+    #       )
+    #     ),
+    #     br(),
+    #     fluidRow(
+    #       column(6,
+    #              id = 'bau',
+    #              tags$style('#bau {
+    #                         background-color: #00cca3;
+    #                         }'),
+    #              h3("Business As Usual (BAU)", align = "center")
+    #              
+    #       ),
+    #       column(6,
+    #              id = 'sim',
+    #              tags$style('#sim {
+    #                         background-color: #b3b3ff;
+    #                         }'),
+    #              h3("Simulasi", align = "center")
+    #       )
+    #     ),
+    #     fluidRow(
+    #       column(6,
+    #              dataTableOutput("tableResultBAU1"),
+    #       ),
+    #       
+    #       column(6,
+    #              dataTableOutput("tableResultSimulasi1"),
+    #              
+    #       ),
+    #       
+    #       column(6,
+    #              dataTableOutput("tableResultBAU2")
+    #              
+    #       ),
+    #       column(6,
+    #              dataTableOutput("tableResultSimulasi2")
+    #              
+    #       ),
+    #     ),
+    #     
+    #     br(),
+    #     br(),
+    #     column(12,
+    #            id = 'tableNPV',
+    #            tags$style('#tableNPV {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #            h3("Tabel NPV seluruh SUT dalam 1 Wilayah", align = "center")
+    #            
+    #     ),
+    #     fluidRow(
+    #       column(12,
+    #              dataTableOutput('showTableAllProvinsi')
+    #       )
+    #     ),
+    #     br(),
+    #     br(),
+    #     fluidRow(
+    #       column(4,
+    #              id = 'plotCom',
+    #              tags$style('#plotCom {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #              h3("Barchart NPV BAU vs Simulasi", align = "center")
+    #              
+    #       ),
+    #       column(8,
+    #              id = 'plotAll',
+    #              tags$style('#plotAll {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #              h3("Barchart NPV seluruh SUT dalam 1 Wilayah", align = "center")
+    #              
+    #       ),
+    #       column(4,
+    #              tags$div(id = 'uiplotComparing')
+    #              ),
+    #       column(8,
+    #              tags$div(id = 'uiShowPlotAllKomoditas')
+    #              )
+    #     ),
+    #     br(),
+    #     br(),
+    #     column(12,
+    #            id = 'grafikProfit',
+    #            tags$style('#grafikProfit {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #            h3("Grafik Profit Tahunan", align = "center")
+    #            
+    #     ),
+    #     fluidRow(
+    #       column(6,
+    #              plotlyOutput('showPlotProfitPrivat')
+    #       ),
+    #       column(6,
+    #              plotlyOutput('showPlotProfitSosial')
+    #       )
+    #     ),
+    #     fluidRow(
+    #       column(6,
+    #              plotlyOutput('showPlotKumProfitPrivat')
+    #       ),
+    #       column(6,
+    #              plotlyOutput('showPlotKumProfitSosial')
+    #       )
+    #     ),
+    #     fluidRow(
+    #       column(2,
+    #              actionButton(("saveNewPAM"),"Simpan PAM baru",icon("paper-plane"),style="color: white;background-color: green;"),
+    #              br(),
+    #              tags$div(id='teksNewPamSave')
+    #       )
+    #     )
+    #     
+    #     
+    #   )
+    # })
     
     
     
@@ -2123,6 +2136,10 @@ app <- shiny::shinyApp(
                   input$asumsiMakro_button, input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       removeUI(selector = '#showplotComparing')
       removeUI(selector = '#showPlotAllKomoditas')
+      
+      # insertUI(selector='#uiplotBar',
+      #          where='afterEnd',
+      #          ui= plotlyOutput('showBar'))
       
       insertUI(selector='#uiplotComparing',
                where='afterEnd',
@@ -2133,7 +2150,8 @@ app <- shiny::shinyApp(
                ui= plotlyOutput('showPlotAllKomoditas'))
     })
 
-    output$showplotComparing <- renderPlotly({
+    output$showBar <- renderPlot({
+      # output$showplotComparing <- renderPlotly({
       # withProgress(message = 'Collecting data in progress',
       #              detail = 'This may take a while...', value = 0, {
       #                for (i in 1:15) {
@@ -2142,7 +2160,54 @@ app <- shiny::shinyApp(
       #                }
       #              })
       
-      preparePlot()
+      # plot_ly() %>%  add_markers(data=na.omit(rv$m),x=~time1(),y=~dBm1()  )
+      
+      
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_list <- list()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        
+        dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
+                                  komoditas=dataDefine$kom,
+                                  NPV.Privat.RP=dataDefine$npv[1,1])
+        
+        dat_list[[j]] <- dataPlotBAU
+        
+        print("cek grafik")
+        # dat_list
+      }
+      
+      # yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
+      # yes
+      yes <- lapply(1:length(listAll), function(i){
+      dat_list[[i]]%>%
+        group_by(wilayah) %>%
+        plot_ly(x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      })
+      # print(yes)
+      suppressWarnings(print(yes))
+      yes
+      
+      # preparePlot()
+      
+      
+      # yes <- 
+      # lapply(1:nrow(boxData$data), function(i){
+      #   preparePlot()[[i]]%>%
+      #   group_by(wilayah) %>%
+      #   plot_ly(x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      # })
+      # yes
     })
     
     output$showPlotAllKomoditas <- renderPlotly({
@@ -3563,53 +3628,70 @@ app <- shiny::shinyApp(
       datatable(data.graph.new()$tabel2, option=list(dom = "t"))
     })
     
-    # output$plotComparing <- renderPlotly({
-    #   preparePlot()
-    # })
-  
+
     
     preparePlot <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
 
-      print("persiapan membuat plot komoditas simulasi")
-      datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-      fileName <- paste0(datapath,"resultTemplate","_",
-                         input$sut,"_",input$kom,"_",
-                         input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
-      dataDefine <- readRDS(fileName)
       
       
-      dataPlotBAU <- data.frame(tipe.data=dataDefine$tipeData,
-                                komoditas=dataDefine$kom,
-                                NPV.Privat.RP=dataDefine$npv[1,1])
-      
-      # data simulasi Pam baru
-      # dataCheckNewPam <- loadRDSAllNewPam()
-      # dataCheckNewPam <- dataCheckNewPam[row_to_select_newPam]
-      # sut <- unlist(lapply(dataCheckNewPam, function(x)x[[15]]))
-      # sut<-paste0("PAM BARU ",sut)
-      # komoditas <- unlist(lapply(dataCheckNewPam, function(x)x[[16]]))
-      # komoditas<-paste0("PAM BARU ",komoditas) # supaya barchartnya terpisah dari setiap komoditas
-      # NPV.Privat.RP <- unlist(lapply(dataCheckNewPam, function(x)x[[7]][1,1]))
-      
+      # print("persiapan membuat plot komoditas simulasi")
       # datapath <- paste0("data/", input$sut, "/",input$kom, "/")
-      fileName <- paste0(datapath,"saveData","_",
-                         input$sut,"_",input$kom,"_",
-                         input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
-      dataDef <- readRDS(fileName)
+      # fileName <- paste0(datapath,"resultTemplate","_",
+      #                    input$sut,"_",input$kom,"_",
+      #                    input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
+      # dataDefine <- readRDS(fileName)
+
+
+      # dataPlotBAU <- data.frame(tipe.data=dataDefine$tipeData,
+      #                           komoditas=dataDefine$kom,
+      #                           NPV.Privat.RP=dataDefine$npv[1,1])
+      # 
+      # fileName <- paste0(datapath,"saveData","_",
+      #                    input$sut,"_",input$kom,"_",
+      #                    input$selected_wilayah,"_",input$th,"_",input$tipeLahan,".rds")
+      # dataDef <- readRDS(fileName)
+      # 
+      # dataPlotSimulasi <- data.frame(tipe.data=dataDef$tipeData,
+      #                                komoditas=dataDef$kom,
+      #                                NPV.Privat.RP=dataDef$npv[1,1])
+      # 
+      # 
+      # dataPlot <- rbind(dataPlotBAU,dataPlotSimulasi)
       
-      dataPlotSimulasi <- data.frame(tipe.data=dataDef$tipeData,
-                                     komoditas=dataDef$kom,
-                                     NPV.Privat.RP=dataDef$npv[1,1])
+
+      # contoh 
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
       
+      listAll <- lapply(vectorAlamat, readRDS)
       
-      dataPlot <- rbind(dataPlotBAU,dataPlotSimulasi)
-      
-      
-      dataPlot %>%
-        group_by(tipe.data) %>%
-        plot_ly(x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~tipe.data)
+      dat_list <- list()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        
+        dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
+                                  komoditas=dataDefine$kom,
+                                  NPV.Privat.RP=dataDefine$npv[1,1])
+        
+        dat_list[[j]] <- dataPlotBAU
+        
+        print("cek grafik")
+        dat_list
+      }
+      # yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
+      # yes
+      # yes <- lapply(1:length(listAll), function(i){
+        # dat_list[[i]]%>%
+        #   group_by(wilayah) %>%
+        #   plot_ly(x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+        # })
+      # yes
     })
-    
     
     
     # End - Section Popup Modal Dialog ---------------------------------------------
@@ -3806,7 +3888,7 @@ app <- shiny::shinyApp(
       
     })
     
-    output$showTableAllProvinsi <- renderDataTable({
+    output$showTableAllProvinsi <- renderUI({
       datatable(tableAllProvinsi())
     })
     
