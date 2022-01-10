@@ -1288,10 +1288,10 @@ app <- shiny::shinyApp(
               style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
-              tabName = "NPV seluruh SUT dalam satu wilayah",
+              tabName = "Bar Chart NPV",
               active = F,
               uiOutput(("showNPV")),
-              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:600px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Grafik profit tahunan",
@@ -1461,18 +1461,18 @@ app <- shiny::shinyApp(
           column(11,
                  br(),
                  br(),
-                 h1(paste0("TABEL NPV SELURUH SUT DALAM 1 WILAYAH"), align = "center")
+                 h1(paste0("BAR CHART NPV"), align = "center")
           )
         ),
         br(),
         fluidRow(
           column(12,
-                 id = 'TABELNPV',
-                 tags$style('#TABELNPV {
+                 id = 'BARNPV',
+                 tags$style('#BARNPV {
                            background-color: #C4CCFF;
                            }'),
-                 h1("TABEL NPV", align = "center"),
-                 plotOutput("showBar"),
+                 # plotlyOutput("showBar"),
+                 plotlyOutput("showBarCombine")
                  # tags$div(id = 'uiplotComparing')
                  # tags$div(id = 'uiplotBar')
           )
@@ -2137,10 +2137,6 @@ app <- shiny::shinyApp(
       removeUI(selector = '#showplotComparing')
       removeUI(selector = '#showPlotAllKomoditas')
       
-      # insertUI(selector='#uiplotBar',
-      #          where='afterEnd',
-      #          ui= plotlyOutput('showBar'))
-      
       insertUI(selector='#uiplotComparing',
                where='afterEnd',
                ui= plotlyOutput('showplotComparing'))
@@ -2150,19 +2146,7 @@ app <- shiny::shinyApp(
                ui= plotlyOutput('showPlotAllKomoditas'))
     })
 
-    output$showBar <- renderPlot({
-      # output$showplotComparing <- renderPlotly({
-      # withProgress(message = 'Collecting data in progress',
-      #              detail = 'This may take a while...', value = 0, {
-      #                for (i in 1:15) {
-      #                  incProgress(1/15)
-      #                  sum(runif(10000000,0,1))
-      #                }
-      #              })
-      
-      # plot_ly() %>%  add_markers(data=na.omit(rv$m),x=~time1(),y=~dBm1()  )
-      
-      
+    output$showBar <- renderPlotly({
       datapath <- boxData$data[,1]
       nbaris <- nrow(datapath)
       vectorAlamat <- NULL
@@ -2182,32 +2166,42 @@ app <- shiny::shinyApp(
                                   NPV.Privat.RP=dataDefine$npv[1,1])
         
         dat_list[[j]] <- dataPlotBAU
-        
-        print("cek grafik")
-        # dat_list
+      }
+      yes <- lapply(1:length(listAll), function(i){
+        plotly::plot_ly(dat_list[[i]], x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      })
+      subplot(yes)
+    })
+    
+    output$showBarCombine <- renderPlotly({
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
       }
       
-      # yes <- lapply(1:length(listAll), function(i){tfc(dat_list[[i]])})
-      # yes
-      yes <- lapply(1:length(listAll), function(i){
-      dat_list[[i]]%>%
-        group_by(wilayah) %>%
-        plot_ly(x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
-      })
-      # print(yes)
-      suppressWarnings(print(yes))
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_df <- NULL
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        
+        dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
+                                  komoditas=dataDefine$kom,
+                                  NPV.Privat.RP=dataDefine$npv[1,1])
+        
+        dat_df <- rbind(dat_df,dataPlotBAU)
+      }
+      
+      # yes <- plotly::plot_ly(dat_df, x = ~rownames(dat_df), y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      
+      yes <- plotly::plot_ly(dat_df, x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~wilayah)%>%
+            layout(yaxis = list(title = "NPV Privat"),
+                   barmode = "group")
       yes
       
-      # preparePlot()
-      
-      
-      # yes <- 
-      # lapply(1:nrow(boxData$data), function(i){
-      #   preparePlot()[[i]]%>%
-      #   group_by(wilayah) %>%
-      #   plot_ly(x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
-      # })
-      # yes
     })
     
     output$showPlotAllKomoditas <- renderPlotly({
