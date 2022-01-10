@@ -92,7 +92,7 @@ app <- shiny::shinyApp(
     
     reactData <- reactiveValues(
       timeInput = NULL,
-      tableP1 = NULL, #price inputF
+      tableP1 = NULL, #price input
       tableP2 = NULL, #price output
       tableIO1 = NULL, #io input
       tableIO2 = NULL, #io output
@@ -316,7 +316,7 @@ app <- shiny::shinyApp(
                            cum.landScene = cum.landScene,
                            rate.p = rate.p,
                            rate.s = rate.s,
-                           nilai.tukar=nilai.tukar)
+                           nilai.tukar = nilai.tukar)
         
         #informasi umum
         dataDefine$sut <- input$sut
@@ -638,6 +638,11 @@ app <- shiny::shinyApp(
         hp
         # ending  hp ------------------------------------------------------- 
         
+        # hitung profit --------------------------------------------------------------
+        p.profit.ha <- p.profit[-1]/readDataTemplate$total.area[1]
+        s.profit.ha <- s.profit[-1]/readDataTemplate$total.area[1]
+        # ending  profit -------------------------------------------------------
+        
         
         ##### save data template
         # RESULT 
@@ -647,6 +652,11 @@ app <- shiny::shinyApp(
         dataDefine$lfe <- lfe
         dataDefine$lfo <- lfo
         dataDefine$hp <- hp
+        
+        # dataDefine$tabel.profit <- tabel.profit
+        dataDefine$p.profit.ha <- p.profit.ha
+        dataDefine$s.profit.ha <- s.profit.ha
+        
         
         
         print("save result template untuk klik pertama asumsiMakro_button")
@@ -912,6 +922,7 @@ app <- shiny::shinyApp(
           
           rownames(hsl.npv)<-c("NPV (Rp/Ha)", "NPV (US/Ha)")
           hsl.npv
+          
           # ending  npv --------------------------------------------------------------
         }
         
@@ -979,6 +990,11 @@ app <- shiny::shinyApp(
         
         # ending  lr ------------------------------------------------------- 
         
+        # hitung profit --------------------------------------------------------------
+        p.profit.ha <- p.profit[-1]/readDataTemplate$total.area[1]
+        s.profit.ha <- s.profit[-1]/readDataTemplate$total.area[1]
+        # ending  profit ------------------------------------------------------
+        
         ##### save data template
         
         # RESULT 
@@ -988,6 +1004,9 @@ app <- shiny::shinyApp(
         dataDefine$hp <- hp
         dataDefine$lr <- lr
         
+        # dataDefine$tabel.profit <- tabel.profit
+        dataDefine$p.profit.ha <- p.profit.ha
+        dataDefine$s.profit.ha <- s.profit.ha
         
         print("save result template untuk klik pertama asumsiMakro_button")
         
@@ -1136,10 +1155,10 @@ app <- shiny::shinyApp(
     output$Main_table <- renderDataTable({
       if (nrow(boxData$data)>0){
         dataView <- boxData$data[,-c(1,2)]
-        dataView[["Actions"]]<-
+        dataView[["Tombol Hapus"]]<-
           paste0('
              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary delete" id=delete_',1:nrow(boxData$data),'>Delete</button>
+                <button type="button" class="btn btn-secondary delete" id=delete_',1:nrow(boxData$data),'>Hapus dari daftar</button>
              </div>
              
              ')
@@ -1291,12 +1310,12 @@ app <- shiny::shinyApp(
               tabName = "Bar Chart NPV",
               active = F,
               uiOutput(("showNPV")),
-              style = "height:600px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Grafik profit tahunan",
               active = F,
-              uiOutput(("showGrafik")),
+              uiOutput(("scatProfit")),
               style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
@@ -1471,12 +1490,61 @@ app <- shiny::shinyApp(
                  tags$style('#BARNPV {
                            background-color: #C4CCFF;
                            }'),
-                 # plotlyOutput("showBar"),
-                 plotlyOutput("showBarCombine")
+                 # selectInput("pilihKom", "Pilih Komoditas", choices = (boxData$data$KOMODITAS), selected = NULL),
+                 plotlyOutput("showBarCombine"),
+                 br(),
+                 br()
+                 # plotlyOutput("showBarSut")
+                 # tags$div(id = 'uiplotComparing')
+                 # tags$div(id = 'uiplotBar')
+          ),
+          column(12,
+                 id = 'BARNPVC',
+                 tags$style('#BARNPVC {
+                           background-color: #B3FAE0;
+                           }'),
+                 plotlyOutput("showBar")
+                 # plotlyOutput("showBarSut")
                  # tags$div(id = 'uiplotComparing')
                  # tags$div(id = 'uiplotBar')
           )
         )
+      )
+    })
+
+    output$scatProfit <- renderUI({
+      fluidPage(
+        column(12,
+               id = 'grafikProfit',
+               tags$style('#grafikProfit {
+                            background-color: #CCFFCC;
+                            }'),
+               # h3("Grafik Profit Tahunan", align = "center")
+
+        ),
+        fluidRow(
+          column(6,
+                 plotlyOutput('showPlotProfPrivat')
+          ),
+          column(6,
+                 plotlyOutput('showPlotProfSosial')
+          )
+        ),
+        fluidRow(
+          column(6,
+                 plotlyOutput('showPlotKumProfitPrivat')
+          ),
+          column(6,
+                 plotlyOutput('showPlotKumProfitSosial')
+          )
+        ),
+        # fluidRow(
+        #   column(2,
+        #          actionButton(("saveNewPAM"),"Simpan PAM baru",icon("paper-plane"),style="color: white;background-color: green;"),
+        #          br(),
+        #          tags$div(id='teksNewPamSave')
+        #   )
+        # )
       )
     })
 
@@ -2157,20 +2225,87 @@ app <- shiny::shinyApp(
       
       listAll <- lapply(vectorAlamat, readRDS)
       
-      dat_list <- list()
+      # dat_list <- list()
+      # for (j in 1:nrow(boxData$data)) {
+      #   dataDefine <- listAll[[j]]
+      #   
+      #   dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
+      #                             komoditas=dataDefine$kom,
+      #                             NPV.Privat.RP=dataDefine$npv[1,1])
+      #   
+      #   dat_list[[j]] <- dataPlotBAU
+      # }
+      # yes <- lapply(1:length(listAll), function(i){
+      #   plotly::plot_ly(dat_list[[i]], x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      # })
+      # subplot(yes)
+      
+      dat_df <- NULL
       for (j in 1:nrow(boxData$data)) {
         dataDefine <- listAll[[j]]
         
         dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
                                   komoditas=dataDefine$kom,
+                                  sut=dataDefine$sut,
+                                  tipeKebun=dataDefine$tipeKebun,
                                   NPV.Privat.RP=dataDefine$npv[1,1])
         
-        dat_list[[j]] <- dataPlotBAU
+        dat_df <- rbind(dat_df,dataPlotBAU)
       }
-      yes <- lapply(1:length(listAll), function(i){
-        plotly::plot_ly(dat_list[[i]], x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
-      })
-      subplot(yes)
+      
+      # yes <- plotly::plot_ly(dat_df, x = ~rownames(dat_df), y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      
+      yes <- plotly::plot_ly(dat_df, x = ~wilayah, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)%>%
+        layout(yaxis = list(title = "NPV Privat"), barmode = "group") %>%
+        layout(title = "Bar Chart NPV Privat Berdasarkan Wilayah")
+      yes
+    })
+    
+    output$showBarSut <- renderPlotly({
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      # dat_list <- list()
+      # for (j in 1:nrow(boxData$data)) {
+      #   dataDefine <- listAll[[j]]
+      #   
+      #   dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
+      #                             komoditas=dataDefine$kom,
+      #                             NPV.Privat.RP=dataDefine$npv[1,1])
+      #   
+      #   dat_list[[j]] <- dataPlotBAU
+      # }
+      # yes <- lapply(1:length(listAll), function(i){
+      #   plotly::plot_ly(dat_list[[i]], x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      # })
+      # subplot(yes)
+      
+      dat_df <- NULL
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        
+        dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
+                                  komoditas=dataDefine$kom,
+                                  sut=dataDefine$sut,
+                                  tipeKebun=dataDefine$tipeKebun,
+                                  NPV.Privat.RP=dataDefine$npv[1,1])
+        
+        dat_df <- rbind(dat_df,dataPlotBAU)
+      }
+      
+      # yes <- plotly::plot_ly(dat_df, x = ~rownames(dat_df), y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
+      
+      yes <- plotly::plot_ly(dat_df, x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~sut)%>%
+        layout(yaxis = list(title = "NPV Privat", title = "Plot NPV Berdasarkan Wilayah"),
+               barmode = "group")
+      yes
     })
     
     output$showBarCombine <- renderPlotly({
@@ -2190,6 +2325,8 @@ app <- shiny::shinyApp(
         
         dataPlotBAU <- data.frame(wilayah=dataDefine$wilayah,
                                   komoditas=dataDefine$kom,
+                                  sut=dataDefine$sut,
+                                  tipeKebun=dataDefine$tipeKebun,
                                   NPV.Privat.RP=dataDefine$npv[1,1])
         
         dat_df <- rbind(dat_df,dataPlotBAU)
@@ -2198,11 +2335,86 @@ app <- shiny::shinyApp(
       # yes <- plotly::plot_ly(dat_df, x = ~rownames(dat_df), y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
       
       yes <- plotly::plot_ly(dat_df, x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~wilayah)%>%
-            layout(yaxis = list(title = "NPV Privat"),
-                   barmode = "group")
+            layout(yaxis = list(title = "NPV Privat" ),barmode = "group") %>%
+            layout(title = "Bar Chart NPV Privat Berdasarkan Komoditas")
       yes
       
     })
+    
+    observeEvent(event_data("plotly_click"), {
+      barData = event_data("plotly_click")
+      showModal(modalDialog(title = "Informasi Grafik", renderPrint(c(barData$x,barData$y))))
+    })
+    
+    
+    output$showPlotProfPrivat <- renderPlotly({
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_df <- data.frame()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        dataPlotBAU <- data.frame(no = seq(1,length(dataDefine$p.profit.ha), 1),
+                                  profit.tahunan=dataDefine$p.profit.ha,
+                                  kom = dataDefine$kom,
+                                  urutan = rownames(boxData$data)[j]
+                                  )
+        dat_df <- rbind(dat_df,dataPlotBAU)
+      }
+      
+      dat_df$komUrutan <- paste0(dat_df$kom," (" ,dat_df$urutan,")")
+      
+      yes <- dat_df %>%
+        group_by(komUrutan) %>%
+        plot_ly(x=~no, y=~profit.tahunan, type='scatter', color=~komUrutan, mode="lines+markers", yaxis=~komUrutan) %>%
+        layout(xaxis=list(title="Tahun", domain = list(0.15, 0.95)), yaxis=list(title="Profit Tahunan Privat"))%>%
+        layout(legend = list(orientation = "h",   # show entries horizontally
+                             xanchor = "center",  # use center of legend as anchor
+                             x = 0.95))   
+      yes
+    })
+    
+    output$showPlotProfSosial <- renderPlotly({
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_df <- data.frame()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        dataPlotBAU <- data.frame(no = seq(1,length(dataDefine$s.profit.ha), 1),
+                                  profit.tahunan=dataDefine$s.profit.ha,
+                                  kom = dataDefine$kom,
+                                  urutan = rownames(boxData$data)[j]
+        )
+        dat_df <- rbind(dat_df,dataPlotBAU)
+      }
+      
+      dat_df$komUrutan <- paste0(dat_df$kom," (" ,dat_df$urutan,")")
+      
+      yes <- dat_df %>%
+        group_by(komUrutan) %>%
+        plot_ly(x=~no, y=~profit.tahunan, type='scatter', color=~komUrutan, mode="lines+markers", yaxis=~komUrutan) %>%
+        layout(xaxis=list(title="Tahun", domain = list(0.15, 0.95)), yaxis=list(title="Profit Tahunan Privat"))%>%
+        layout(legend = list(orientation = "h",   # show entries horizontally
+                             xanchor = "center",  # use center of legend as anchor
+                             x = 0.95))   
+      yes
+    })
+    
     
     output$showPlotAllKomoditas <- renderPlotly({
       withProgress(message = 'Collecting data in progress',
