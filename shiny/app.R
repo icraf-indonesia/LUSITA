@@ -1490,13 +1490,9 @@ app <- shiny::shinyApp(
                  tags$style('#BARNPV {
                            background-color: #C4CCFF;
                            }'),
-                 # selectInput("pilihKom", "Pilih Komoditas", choices = (boxData$data$KOMODITAS), selected = NULL),
                  plotlyOutput("showBarCombine"),
                  br(),
                  br()
-                 # plotlyOutput("showBarSut")
-                 # tags$div(id = 'uiplotComparing')
-                 # tags$div(id = 'uiplotBar')
           ),
           column(12,
                  id = 'BARNPVC',
@@ -1514,15 +1510,14 @@ app <- shiny::shinyApp(
 
     output$scatProfit <- renderUI({
       fluidPage(
-        column(12,
-               id = 'grafikProfit',
-               tags$style('#grafikProfit {
-                            background-color: #CCFFCC;
-                            }'),
-               # h3("Grafik Profit Tahunan", align = "center")
-
-        ),
         fluidRow(
+          column(12,
+                 id = 's1',
+                 tags$style('#s1 {
+                           background-color: #C4CCFF;
+                           }'),
+                 h1(paste0("Scatter Plot Profit Tahunan"), align = "center")
+          ),
           column(6,
                  plotlyOutput('showPlotProfPrivat')
           ),
@@ -1530,14 +1525,24 @@ app <- shiny::shinyApp(
                  plotlyOutput('showPlotProfSosial')
           )
         ),
+        br(),
+        br(),
         fluidRow(
-          column(6,
-                 plotlyOutput('showPlotKumProfitPrivat')
+          column(12,
+                 id = 's2',
+                 tags$style('#s2 {
+                           background-color: #B3FAE0;
+                           }'),
+                 h1(paste0("Scatter Plot Profit Kumulatif"), align = "center")
           ),
           column(6,
-                 plotlyOutput('showPlotKumProfitSosial')
+                 plotlyOutput('profitPlotKumP')
+          ),
+          column(6,
+                 plotlyOutput('profitPlotKumS')
           )
-        ),
+        )
+        
         # fluidRow(
         #   column(2,
         #          actionButton(("saveNewPAM"),"Simpan PAM baru",icon("paper-plane"),style="color: white;background-color: green;"),
@@ -2341,10 +2346,6 @@ app <- shiny::shinyApp(
       
     })
     
-    observeEvent(event_data("plotly_click"), {
-      barData = event_data("plotly_click")
-      showModal(modalDialog(title = "Informasi Grafik", renderPrint(c(barData$x,barData$y))))
-    })
     
     
     output$showPlotProfPrivat <- renderPlotly({
@@ -2375,9 +2376,12 @@ app <- shiny::shinyApp(
         group_by(komUrutan) %>%
         plot_ly(x=~no, y=~profit.tahunan, type='scatter', color=~komUrutan, mode="lines+markers", yaxis=~komUrutan) %>%
         layout(xaxis=list(title="Tahun", domain = list(0.15, 0.95)), yaxis=list(title="Profit Tahunan Privat"))%>%
-        layout(legend = list(orientation = "h",   # show entries horizontally
+        layout(legend = list(title=list(text='<b> Komoditas (Urutan) </b>'),
+                                  orientation = "h",   # show entries horizontally
                              xanchor = "center",  # use center of legend as anchor
-                             x = 0.95))   
+                             x = 0.95, y = -0.25))
+      # x = 0.95, y = 1.20))
+        # layout(legend = list(title=list(text='<b> Komoditas (Urutan) </b>')))
       yes
     })
     
@@ -2409,11 +2413,108 @@ app <- shiny::shinyApp(
         group_by(komUrutan) %>%
         plot_ly(x=~no, y=~profit.tahunan, type='scatter', color=~komUrutan, mode="lines+markers", yaxis=~komUrutan) %>%
         layout(xaxis=list(title="Tahun", domain = list(0.15, 0.95)), yaxis=list(title="Profit Tahunan Privat"))%>%
-        layout(legend = list(orientation = "h",   # show entries horizontally
+        layout(legend = list(title=list(text='<b> Komoditas (Urutan) </b>'),
+                             orientation = "h",   # show entries horizontally
                              xanchor = "center",  # use center of legend as anchor
-                             x = 0.95))   
+                             x = 0.95, y = -0.25)) 
+        # layout(legend = list(title=list(text='<b> Komoditas (Urutan) </b>')))
       yes
     })
+    
+    
+    output$profitPlotKumP <- renderPlotly({
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_df <- data.frame()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        dataPlotBAU <- data.frame(no = seq(1,length(dataDefine$p.profit.ha), 1),
+                                  profit.kumulatif=cumsum(dataDefine$p.profit.ha),
+                                  kom = dataDefine$kom,
+                                  urutan = rownames(boxData$data)[j]
+        )
+        dat_df <- rbind(dat_df,dataPlotBAU)
+      }
+      
+      dat_df$komUrutan <- paste0(dat_df$kom," (" ,dat_df$urutan,")")
+      
+      yes <- dat_df %>%
+        group_by(komUrutan) %>%
+        plot_ly(x=~no, y=~profit.kumulatif, type='scatter', color=~komUrutan, mode="lines+markers", yaxis=~komUrutan) %>%
+        layout(xaxis=list(title="Tahun", domain = list(0.15, 0.95)), yaxis=list(title="Profit Kumulatif Privat"))%>%
+        layout(legend = list(title=list(text='<b> Komoditas (Urutan) </b>'),
+                             orientation = "h",   # show entries horizontally
+                             xanchor = "center",  # use center of legend as anchor
+                             x = 0.95, y = -0.25))
+      
+      yes 
+      
+      # profit.gab %>%
+      #   group_by(yaxis) %>%
+      #   plot_ly(x=~no, y=~profit.kumulatif, type='scatter', color=~yaxis, mode="lines+markers", yaxis=~yaxis) %>%
+      #   layout(xaxis=list(title="Tahun", domain = list(0.15, 0.95)), yaxis=list(title="Profit Kumulatif Privat"), yaxis2=SIMULASI)%>%
+      #   layout(legend = list(orientation = "h",   # show entries horizontally
+      #                        xanchor = "center",  # use center of legend as anchor
+      #                        x = 0.95))             # put legend in center of x-axis
+    })
+    
+    output$profitPlotKumS <- renderPlotly({
+      datapath <- boxData$data[,1]
+      nbaris <- nrow(datapath)
+      vectorAlamat <- NULL
+      for (k in 1:nbaris) {
+        ekstractDataTable <- melt.data.table((datapath[k,]), measure.vars = 1)
+        vectorAlamat <- c(vectorAlamat,ekstractDataTable[,value])
+      }
+      
+      listAll <- lapply(vectorAlamat, readRDS)
+      
+      dat_df <- data.frame()
+      for (j in 1:nrow(boxData$data)) {
+        dataDefine <- listAll[[j]]
+        dataPlotBAU <- data.frame(no = seq(1,length(dataDefine$s.profit.ha), 1),
+                                  profit.kumulatif=cumsum(dataDefine$s.profit.ha),
+                                  kom = dataDefine$kom,
+                                  urutan = rownames(boxData$data)[j]
+        )
+        dat_df <- rbind(dat_df,dataPlotBAU)
+      }
+      
+      dat_df$komUrutan <- paste0(dat_df$kom," (" ,dat_df$urutan,")")
+      
+      yes <- dat_df %>%
+        group_by(komUrutan) %>%
+        plot_ly(x=~no, y=~profit.kumulatif, type='scatter', color=~komUrutan, mode="lines+markers", yaxis=~komUrutan) %>%
+        layout(xaxis=list(title="Tahun", domain = list(0.15, 0.95)), yaxis=list(title="Profit Kumulatif Sosial"))%>%
+        layout(legend = list(title=list(text='<b> Komoditas (Urutan) </b>'),
+                             orientation = "h",   # show entries horizontally
+                             xanchor = "center",  # use center of legend as anchor
+                             x = 0.95, y = -0.25))
+      
+      yes 
+    })
+    
+    
+    observeEvent(event_data("plotly_click"), {
+      barData = event_data("plotly_click")
+      showModal(modalDialog(title = "Informasi Grafik",
+                            footer = modalButton("Kembali ke Beranda"),
+                            # footer= list(
+                            #   actionButton(("batalSunting_button_kuantitasOutput"), "Batal", style="color: white;background-color: red;")
+                            # ),
+                            size="s",renderPrint(barData[c(3,4)])
+                                                                # c(barData$x,barData$y)
+                                                ))
+    })
+    
     
     
     output$showPlotAllKomoditas <- renderPlotly({
@@ -2439,7 +2540,7 @@ app <- shiny::shinyApp(
     # )
     
     
-    data.graph <- eventReactive(c(input$tampilkanTabel_button, input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    data.graph <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       
       datapath <- boxData$data[,1]
       nbaris <- nrow(datapath)
@@ -3125,7 +3226,7 @@ app <- shiny::shinyApp(
       }
     })
     
-    data.graph.new <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    data.graph.new <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       # observeEvent(input$running_button,{
       # browser()
       # 
@@ -3836,7 +3937,7 @@ app <- shiny::shinyApp(
     
 
     
-    preparePlot <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    preparePlot <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
 
       
       
@@ -3921,7 +4022,7 @@ app <- shiny::shinyApp(
     #     plot_ly(x = ~nama.komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~tipe.kebun)
     # })
     
-    plotAllKomoditas <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    plotAllKomoditas <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
     # plotAllKomoditas <- reactive({
       print("persiapan membuat plot seluruh komoditas")
       # DATA PLOT BAU -----------------------------------------------------------
@@ -4012,7 +4113,7 @@ app <- shiny::shinyApp(
           plot_ly(x = ~nama.komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~tipe.kebun) 
     })
     
-    tableAllProvinsi <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    tableAllProvinsi <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       
       # DATA PLOT BAU -----------------------------------------------------------
       folderSut <- sort(unique(komoditas$sut))
@@ -4106,7 +4207,7 @@ app <- shiny::shinyApp(
       profitPlotSosial()
     })
     
-    profitPlotPrivat <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotPrivat <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
@@ -4148,7 +4249,7 @@ app <- shiny::shinyApp(
       # fig
     })
     
-    profitPlotSosial <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotSosial <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
@@ -4200,7 +4301,7 @@ app <- shiny::shinyApp(
       profitPlotKumulatifSosial()
     })
     
-    profitPlotKumulatifPrivat <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotKumulatifPrivat <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
@@ -4229,19 +4330,9 @@ app <- shiny::shinyApp(
         layout(legend = list(orientation = "h",   # show entries horizontally
                              xanchor = "center",  # use center of legend as anchor
                              x = 0.95))             # put legend in center of x-axis
-      # panjangbaris <- length(profit.kumulatif)-1
-      # 
-      # x <- c(0:panjangbaris)
-      # data <- data.frame(x,profit.kumulatif,trace_s_p)
-      # 
-      # 
-      # fig <- plot_ly(data, x = ~x)
-      # fig <- fig %>% add_trace(y = ~profit.kumulatif, name = 'profit bau privat',mode = 'lines')
-      # fig <- fig %>% add_trace(y = ~trace_s_p, name = 'profit simulasi privat', mode = 'lines+markers')
-      # fig
     })
     
-    profitPlotKumulatifSosial <- eventReactive(c(input$tampilkanTabel_button,input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
+    profitPlotKumulatifSosial <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
       bau.profit <- data.graph()$tabel.profit
       simulasi.profit <- data.graph.new()$tabel.profit
       
