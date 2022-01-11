@@ -1301,15 +1301,15 @@ app <- shiny::shinyApp(
             width = 12,
             iconList = lapply(X = 1:4, FUN = argonIcon, name = "atom"),
             argonTab(
-              tabName = "Hasil Perhitungan Analisis Profitabilitas",
+              tabName = "Bar Chart NPV",
               active = T,
-              uiOutput(("showHitung")),
+              uiOutput(("showNPV")),
               style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
-              tabName = "Bar Chart NPV",
+              tabName = "Hasil Perhitungan Analisis Profitabilitas",
               active = F,
-              uiOutput(("showNPV")),
+              uiOutput(("showHitung")),
               style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(

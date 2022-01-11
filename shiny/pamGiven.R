@@ -83,25 +83,25 @@ pamGiven <- argonTabItem(
           tags$div(id = 'uiShowTable')
         )
       ),
-      argonRow(
-        argonColumn(
-          width = 12,
-          tags$div(id = 'uiShowButton')
-        )
-      ),
-      argonRow(
-        argonColumn(
-          width = 12,
-          tags$div(id = 'uiShowResult')
-        )
-      ),
-      argonRow(
-        argonColumn(
-          width = 12,
-          actionButton("browser_button","Browser Button")
-          
-        )
-      ),
+      # argonRow(
+      #   argonColumn(
+      #     width = 12,
+      #     tags$div(id = 'uiShowButton')
+      #   )
+      # ),
+      # argonRow(
+      #   argonColumn(
+      #     width = 12,
+      #     tags$div(id = 'uiShowResult')
+      #   )
+      # ),
+      # argonRow(
+      #   argonColumn(
+      #     width = 12,
+      #     actionButton("browser_button","Browser Button")
+      #     
+      #   )
+      # ),
 
     )
   )
