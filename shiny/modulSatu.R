@@ -1,21 +1,21 @@
-pamGiven <- argonTabItem(
+modulSatu <- argonTabItem(
   tabName = "modul1",
-  argonH1("PAM Data Template", display = 4),
+  argonH1("Database Profitability", display = 4),
   argonRow(
     argonCard(
       width = 12,
-      title = "PAM Data Template",
+      title = "Database Profitability",
       src = NULL,
       hover_lift = TRUE,
       shadow = TRUE,
       shadow_size = NULL,
-      hover_shadow = FALSE,
+      hover_shadow = T,
       border_level = 0,
       icon = argonIcon("tv-2"),
       status = "primary",
       background_color = NULL,
       gradient = FALSE, 
-      floating = FALSE,
+      floating = T,
       
       
       argonRow(
@@ -95,13 +95,13 @@ pamGiven <- argonTabItem(
       #     tags$div(id = 'uiShowResult')
       #   )
       # ),
-      # argonRow(
-      #   argonColumn(
-      #     width = 12,
-      #     actionButton("browser_button","Browser Button")
-      #     
-      #   )
-      # ),
+      argonRow(
+        argonColumn(
+          width = 12,
+          actionButton("browser_button","Browser Button")
+
+        )
+      ),
 
     )
   )

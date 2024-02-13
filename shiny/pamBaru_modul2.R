@@ -37,20 +37,47 @@ pamBaru <- argonTabItem(
                                choices = ""),
             ),
             column(2,
-                   selectInput("selected_wilayah_new",
-                               "Pilih Wilayah:",
-                               choices = ""),
+                   textInput("selected_wilayah_new","Wilayah", value = NULL ),
             ),
-            column(1,
+            # column(2,
+            #        selectInput("selected_wilayah_new",
+            #                    "Pilih Wilayah:",
+            #                    choices = ""),
+            # ),
+            # column(1,
+            #        selectInput(("th_new"),"Tahun",selected = as.integer(format(Sys.Date(), "%Y")),choices = c(1995:as.integer(format(Sys.Date(), "%Y"))) ),
+            # ),
+            # column(1,
+            #        selectInput(("tipeLahan_new"),"Tipe Lahan",choices = c("MINERAL","GAMBUT") ),
+            #        
+            # ),
+            # column(2,
+            #        selectInput(("tipeKebun_new"),"Tipe Lahan",choices = c("CROP", "SMALLHOLDER") ),
+            #        
+            # ),
+            # column(2,
+            #        br(),
+            #        actionButton(("asumsiMakro_button_new"),"Tentukan Asumsi Makro",icon("paper-plane"),style="color: white; 
+            #              background-color: green;"),
+            #        useShinyalert()
+            #        
+            # )
+          ),
+          
+          fluidRow(
+            column(2,
                    selectInput(("th_new"),"Tahun",selected = as.integer(format(Sys.Date(), "%Y")),choices = c(1995:as.integer(format(Sys.Date(), "%Y"))) ),
             ),
-            column(1,
+            column(2,
                    selectInput(("tipeLahan_new"),"Tipe Lahan",choices = c("MINERAL","GAMBUT") ),
                    
             ),
             column(2,
                    selectInput(("tipeKebun_new"),"Tipe Lahan",choices = c("CROP", "SMALLHOLDER") ),
                    
+            ),
+            column(4,
+                   br()
             ),
             column(2,
                    br(),

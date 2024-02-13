@@ -1000,7 +1000,7 @@ output$showMakro_par <- renderUI({
         ),
         
         column(2,
-               sliderInput(("nilai.tukar_par"), "Nilai Tukar Rupiah", 14831 ,min = 10000, max = 20000, step = 10)
+               sliderInput(("nilai.tukar_par"), "Nilai Tukar Rupiah", 14831 ,min = 10000, max = 20000, step = 1)
         ),
         column(2,
                br(),

@@ -15,7 +15,7 @@
 
 observe({
   updateSelectInput(session,
-                    "selected_provinsi_new",
+                    "selected_prov_new",
                     choices =sort(unique(indonesia$provinsi)))
 })
 
@@ -172,7 +172,7 @@ output$showMakro_new <- renderUI({
                sliderInput(("rate.s_new"), "Discount Rate Social", 2.4 ,min = 0, max = 8, step = 0.01)
         ),
         column(4,
-               sliderInput(("nilai.tukar_new"), "Nilai Tukar Rupiah", 14831 ,min = 10000, max = 20000, step = 10)
+               sliderInput(("nilai.tukar_new"), "Nilai Tukar Rupiah", 14831 ,min = 10000, max = 20000, step = 1)
         ),
         column(2,
                br(),

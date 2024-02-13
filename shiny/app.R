@@ -44,8 +44,8 @@ indonesia <- read.csv("data/template/prov sampai desa.csv", stringsAsFactors = F
 
 
 # elements
-source("pamTemplate_modul1.R")
-source("pamGiven.R")
+source("pamTemplate.R")
+source("modulSatu.R")
 source("pamBaru_modul2.R")
 source("pamParsial_modul3.R")
 
@@ -62,8 +62,8 @@ app <- shiny::shinyApp(
     body = argonDashBody(
       argonTabItems(
         #home,
-        pamGiven,
-        # pamTemplate,
+        modulSatu,
+        pamTemplate,
         pamParsial,
         pamBaru
         # ,
@@ -1225,7 +1225,7 @@ app <- shiny::shinyApp(
             ),
             
             column(2,
-                   sliderInput(("nilai.tukar"), "Nilai Tukar Rupiah", 14831 ,min = 10000, max = 20000, step = 10)
+                   sliderInput(("nilai.tukar"), "Nilai Tukar Rupiah", 14831 ,min = 10000, max = 20000, step = 1)
             )
             # ,
             # column(2,
@@ -1304,25 +1304,25 @@ app <- shiny::shinyApp(
               tabName = "Bar Chart NPV",
               active = T,
               uiOutput(("showNPV")),
-              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:1200px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Hasil Perhitungan Analisis Profitabilitas",
               active = F,
               uiOutput(("showHitung")),
-              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:1200px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Grafik profit tahunan",
               active = F,
               uiOutput(("scatProfit")),
-              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:1200px; overflow-y: scroll;overflow-x: scroll;"
             ),
             argonTab(
               tabName = "Data template",
               active = F,
               uiOutput(("showDataTemplate")),
-              style = "height:900px; overflow-y: scroll;overflow-x: scroll;"
+              style = "height:1200px; overflow-y: scroll;overflow-x: scroll;"
             )
             
             
@@ -1490,7 +1490,7 @@ app <- shiny::shinyApp(
                  tags$style('#BARNPV {
                            background-color: #C4CCFF;
                            }'),
-                 plotlyOutput("showBarCombine"),
+                 plotOutput("showBarCombine"),
                  br(),
                  br()
           ),
@@ -1499,7 +1499,7 @@ app <- shiny::shinyApp(
                  tags$style('#BARNPVC {
                            background-color: #B3FAE0;
                            }'),
-                 plotlyOutput("showBar")
+                 plotOutput("showBar")
                  # plotlyOutput("showBarSut")
                  # tags$div(id = 'uiplotComparing')
                  # tags$div(id = 'uiplotBar')
@@ -2219,7 +2219,7 @@ app <- shiny::shinyApp(
                ui= plotlyOutput('showPlotAllKomoditas'))
     })
 
-    output$showBar <- renderPlotly({
+    output$showBar <- renderPlot({
       datapath <- boxData$data[,1]
       nbaris <- nrow(datapath)
       vectorAlamat <- NULL
@@ -2260,13 +2260,43 @@ app <- shiny::shinyApp(
       
       # yes <- plotly::plot_ly(dat_df, x = ~rownames(dat_df), y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
       
-      yes <- plotly::plot_ly(dat_df, x = ~wilayah, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)%>%
-        layout(yaxis = list(title = "NPV Privat"), barmode = "group") %>%
-        layout(title = "Bar Chart NPV Privat Berdasarkan Wilayah")
-      yes
+      # yes <- plotly::plot_ly(dat_df, x = ~wilayah, y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)%>%
+      #   layout(yaxis = list(title = "NPV Privat"), barmode = "group") %>%
+      #   layout(title = "Bar Chart NPV Privat Berdasarkan Wilayah")
+      # yes
+      # format(sprintf("%0.2f", round(NPV.Privat.RP, digits = 2)),big.mark=".", trim=TRUE)
+      # format(sprintf("%0.2f", round(NPV.Privat.RP, digits = 2)), big.mark=",", scientific=FALSE)
+      # library(scales)
+      # comma(dat_df$NPV.Privat.RP, digits = 1)
+      # sprintf("%0.2f", round(dat_df$NPV.Privat.RP, digits = 2))
+      # 
+      # comma(sprintf("%0.2f", round(NPV.Privat.RP, digits = 2)), digits = 2)
+      # sprintf("%f", pi)
+      # sprintf("%.2f", pi)
+      # sprintf("%1.2f", pi)
+      # sprintf("%5.1f", pi)
+      # sprintf("%05.1f", pi)
+      # sprintf("%+f", pi)
+      # sprintf("% f", pi)
+      # sprintf("%-10f", pi) # left justified
+      # sprintf("%e", pi)
+      # sprintf("%E", pi)
+      # sprintf("%g", pi)
+      # sprintf("%g",   1e6 * pi) # -> exponential
+      # sprintf("%.9g", 1e6 * pi) # -> "fixed"
+      # sprintf("%G", 1e-6 * pi)
+      # xx <- sprintf("%1$d %1$x %1$X", 0:15)
+      # sprintf('%.2f', round(NPV.Privat.RP, digits = 2))
+      
+      ggplot(data=dat_df, aes(x=wilayah, y=NPV.Privat.RP, fill=komoditas)) +
+        geom_bar(stat="identity", position=position_dodge())+
+        geom_text(aes(label=scales::comma(NPV.Privat.RP)), vjust=1, color="black",
+                  position = position_dodge(0.9), size=3.5)+
+        scale_fill_brewer(palette="Paired")+
+        theme_minimal()
     })
     
-    output$showBarSut <- renderPlotly({
+    output$showBarSut <- renderPlot({
       datapath <- boxData$data[,1]
       nbaris <- nrow(datapath)
       vectorAlamat <- NULL
@@ -2311,9 +2341,12 @@ app <- shiny::shinyApp(
         layout(yaxis = list(title = "NPV Privat", title = "Plot NPV Berdasarkan Wilayah"),
                barmode = "group")
       yes
+      
+
+      
     })
     
-    output$showBarCombine <- renderPlotly({
+    output$showBarCombine <- renderPlot({
       datapath <- boxData$data[,1]
       nbaris <- nrow(datapath)
       vectorAlamat <- NULL
@@ -2337,12 +2370,27 @@ app <- shiny::shinyApp(
         dat_df <- rbind(dat_df,dataPlotBAU)
       }
       
+      
+      # ggplot(data=dat_df, aes(x=komoditas, y=NPV.Privat.RP, fill=wilayah)) +
+      #   geom_bar(stat="identity", position=position_dodge())+
+      #   geom_text(aes(label=sprintf("%0.2f", round(NPV.Privat.RP, digits = 2))), vjust=-1, color="black",
+      #             position = position_dodge(0.9), size=3.5)+
+      #   scale_fill_brewer(palette="Paired")+
+      #   theme_minimal()
+      
+      ggplot(data=dat_df, aes(x=komoditas, y=NPV.Privat.RP, fill=wilayah)) +
+        geom_bar(stat="identity", position=position_dodge())+
+        geom_text(aes(label=scales::comma(NPV.Privat.RP)), vjust=-1, color="black",
+                  position = position_dodge(0.9), size=3.5)+
+        scale_fill_brewer(palette="Paired")+
+        theme_minimal()
+      
       # yes <- plotly::plot_ly(dat_df, x = ~rownames(dat_df), y = ~NPV.Privat.RP, type = "bar", color = ~komoditas)
       
-      yes <- plotly::plot_ly(dat_df, x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~wilayah)%>%
-            layout(yaxis = list(title = "NPV Privat" ),barmode = "group") %>%
-            layout(title = "Bar Chart NPV Privat Berdasarkan Komoditas")
-      yes
+      # yes <- plotly::plot_ly(dat_df, x = ~komoditas, y = ~NPV.Privat.RP, type = "bar", color = ~wilayah)%>%
+      #       layout(yaxis = list(title = "NPV Privat" ),barmode = "group") %>%
+      #       layout(title = "Bar Chart NPV Privat Berdasarkan Komoditas")
+      # yes
       
     })
     
@@ -2383,6 +2431,9 @@ app <- shiny::shinyApp(
       # x = 0.95, y = 1.20))
         # layout(legend = list(title=list(text='<b> Komoditas (Urutan) </b>')))
       yes
+      
+      
+
     })
     
     output$showPlotProfSosial <- renderPlotly({
@@ -4025,6 +4076,43 @@ app <- shiny::shinyApp(
     plotAllKomoditas <- eventReactive(c(input$running_button,input$running_button_tanpaCapital, input$runningButton_capital, input$running_button_noEditCapital,input$running_button_LargeScale),{
     # plotAllKomoditas <- reactive({
       print("persiapan membuat plot seluruh komoditas")
+      
+      folderSut <- sort(unique(komoditas$sut))
+      kabTerpilih <- sort(unique(dat_df$wilayah))
+      dat_prov <- NULL
+
+      
+      for (i in 1:length(kabTerpilih)) {
+        filterKab <- filter(komoditas, wilayah == kabTerpilih[i])
+        dat_prov <- rbind(dat_prov,filterKab)
+      }
+      
+      
+      
+      folderProvinsi <- filter(komoditas, wilayah == input$selected_wilayah)
+      folderKom <- sort(unique(folderProvinsi$nama_komoditas))
+      
+      kombinasiFolder <- as.vector(outer(folderSut, folderKom, paste, sep="/"))
+      dirFile <- paste0("data/",kombinasiFolder)
+      
+      
+      
+      nameFiles <- list.files(path = paste0(dirFile,"/"),pattern = paste0("resultTemplate"))
+      kombinasiFile <- as.vector(outer(dirFile, nameFiles, paste, sep="/"))
+      cekFile <- file.exists(kombinasiFile) #cek keberadaan file ini ada atau engga
+      
+      # remove index yang cekFilenya == F, munculin yang cekFilenya == T aja
+      indexFileTrue <- which(cekFile == T)
+      kombinasiFile <- kombinasiFile[which(cekFile == T)]
+      
+      funcFile <- function(x){
+        a <- readRDS(x)
+        b <- c(x,a)
+        b}
+      
+      
+      
+      
       # DATA PLOT BAU -----------------------------------------------------------
       folderSut <- sort(unique(komoditas$sut))
       folderProvinsi <- filter(komoditas, wilayah == input$selected_wilayah)
@@ -4032,7 +4120,6 @@ app <- shiny::shinyApp(
 
       kombinasiFolder <- as.vector(outer(folderSut, folderKom, paste, sep="/"))
       dirFile <- paste0("data/",kombinasiFolder)
-
 
       
       nameFiles <- list.files(path = paste0(dirFile,"/"),pattern = paste0("resultTemplate"))

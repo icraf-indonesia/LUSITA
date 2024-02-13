@@ -1,0 +1,29 @@
+sut,komoditas,prov,wilayah,lokasi,tahun,tipe lahan,tipe kebun,rate.p,rate.s,nilai.tukar,total.area,asumsi.peneliti,bagian,faktor,komponen,jenis,unit harga,harga privat,harga sosial,unit,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y12,Y13,Y14,Y15,Y16,Y17,Y18,Y19,Y20,Y21,Y22,Y23,Y24,Y25,Y26,Y27,Y28,Y29,Y30
+AGROFORESTRI,KEBUN CAMPUR AF,KALIMANTAN TIMUR,BERAU,DESA MERAANG,2015.0,MINERAL,SMALLHOLDER,7.79,2.79,13389.0,1.0,Kebun campur diawali dengan penanaman pisang dan kelapa pada tahun selanjutnya ditanami coklat,bahan kimia,input,bahan kimia,Herbisida,rp/liter,50000,50000,liter,5.0,5.0,5.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0
+,,,,,,,,,,,,jumlah tanaman coklat 1/4 dari jumlah seharusnya 1100 (3x3),pupuk,input,pupuk,NPK,rp/kg,3000,3000,kg,50.0,50.0,50.0,50.0,,,,,,50.0,50.0,50.0,50.0,50.0,50.0,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,pupuk,input,pupuk,Urea,rp/kg,2400,2400,kg,100.0,100.0,100.0,100.0,,,,,,50.0,50.0,50.0,50.0,50.0,50.0,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Gramoxon,rp/lt,75000,75000,lt,5.0,5.0,5.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0
+,,,,,,,,,,,,,peralatan,input,peralatan,Cangkul ,rp/pieces,80000,80000,pieces,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Arit,rp/pieces,4000,4000,pieces,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Sprayer,rp/pieces,300000,300000,pieces,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Karung,rp/pieces,3000,3000,pieces,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Asahan,rp/pieces,20000,20000,pieces,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Angkong,rp/pieces,400000,400000,pieces,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Tangga,rp/pieces,50000,50000,pieces,,,,,,,,,,,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (Cacao),rp/batang,7500,7500,batang,275.0,27.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (Banana),rp/batang,5000,5000,batang,500.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (Coconut),rp/batang,500,500,batang,30.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Land Clearing/Preparation,rp/pers-day,100000,100000,pers-day,30.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tk penanaman,input,tenaga kerja,Cacao,rp/pers-day,100000,100000,pers-day,,7.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tk penanaman,input,tenaga kerja,Banana,rp/pers-day,100000,100000,pers-day,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,,8.0,
+,,,,,,,,,,,,,tk penanaman,input,tenaga kerja,Coconut,rp/pers-day,100000,100000,pers-day,2.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Fertilizer,rp/pers-day,100000,100000,pers-day,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Spraying (herbicide),rp/pers-day,100000,100000,pers-day,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Pemangkasan,rp/pers-day,100000,100000,pers-day,,,,,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting (Cacao),rp/pers-day,100000,100000,pers-day,,,,7.8375,11.1375,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,17.4625,5.775,5.775,5.775,5.775,5.775,5.775,5.775,5.775,5.775,5.775
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting (Banana),rp/pers-day,100000,100000,pers-day,,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting (coconut),rp/pers-day,100000,100000,pers-day,,,,,,,,,,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375,9.375
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Cacao procecing,rp/pers-day,100000,100000,pers-day,,,,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0
+,,,,,,,,,,,,,utama,output,utama,Coklat,rp/kg,22000,22000,kg,,,,71.25,101.25,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,158.75,52.5,52.5,52.5,52.5,52.5,52.5,52.5,52.5,52.5,52.5
+,,,,,,,,,,,,,utama,output,utama,Pisang,rp/bunches,5000,5000,bunches,,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0,1000.0
+,,,,,,,,,,,,,utama,output,utama,Kelapa,rp/pieces,2500,2500,pieces,,,,,,,,,,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0,750.0
