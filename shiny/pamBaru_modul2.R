@@ -17,7 +17,6 @@ pamBaru <- argonTabItem(
       gradient = FALSE, 
       floating = FALSE,
       
-      
       argonRow(
         argonColumn(
           width = 12,

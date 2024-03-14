@@ -1,0 +1,35 @@
+sut,komoditas,prov,wilayah,lokasi,tahun,tipe lahan,tipe kebun,rate.p,rate.s,nilai.tukar,total.area,asumsi.peneliti,bagian,faktor,komponen,jenis,unit harga,harga privat,harga sosial,unit,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y12,Y13,Y14,Y15,Y16,Y17,Y18,Y19,Y20,Y21,Y22,Y23,Y24,Y25,Y26,Y27,Y28,Y29,Y30
+AGROFORESTRI,KEBUN CAMPUR AF,KALIMANTAN TIMUR,PASER,DESA PADANG PANGRAPAT,2015.0,MINERAL,SMALLHOLDER,7.79,2.79,13389.0,1.0,,pupuk,input,pupuk,Farmyard Manure,rp/sack,10000,10000,sack,200.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Herbisida,rp/liter,50000,50000,liter,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0
+,,,,,,,,,,,,,pupuk,input,pupuk,NPK,rp/kg,3000,3000,kg,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,400.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Pestisida,rp/pack,110000,110000,pack,,,,,,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Fungisida,rp/pack,110000,110000,pack,,,,,,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+,,,,,,,,,,,,,peralatan,input,peralatan,Cangkul ,rp/pieces,80000,80000,pieces,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Arit,rp/pieces,4000,4000,pieces,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Sprayer,rp/pieces,300000,300000,pieces,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Karung,rp/pieces,3000,3000,pieces,,,,,,218.75,218.75,218.75,218.75,218.75,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0,200.0
+,,,,,,,,,,,,,peralatan,input,peralatan,Pisau salak,rp/pieces,80000,80000,pieces,,,,,,2.0,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Asahan,rp/pieces,20000,20000,pieces,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,,1.0,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Saringan tea,rp/pieces,5000,5000,pieces,,,,,,3.0,,,3.0,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Sikat gigi,rp/pieces,5000,5000,pieces,,,,,,3.0,,,3.0,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Angkong,rp/pieces,400000,400000,pieces,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,,1.0,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Tangga,rp/pieces,50000,50000,pieces,,,,,,,,,,,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+,,,,,,,,,,,,,peralatan,input,peralatan,Tali,rp/pieces,15000,15000,pieces,,,,,,2.0,2.0,2.0,2.0,2.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+,,,,,,,,,,,,,peralatan,input,peralatan,Nilon,rp/pieces,80000,80000,pieces,,,,,,1.0,1.0,1.0,1.0,1.0,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Penjolok/ galah,rp/pieces,15000,15000,pieces,,,,,,,,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (Rambutan),rp/batang,15000,15000,batang,100.0,6.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (durian),rp/batang,75000,75000,batang,50.0,3.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (salak),rp/batang,25000,25000,batang,250.0,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Land Clearing/Preparation,rp/pers-day,100000,100000,pers-day,42.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Planting,rp/pers-day,100000,100000,pers-day,14.0,4.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Fertilizer,rp/pers-day,100000,100000,pers-day,8.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Spraying (herbicide),rp/pers-day,100000,100000,pers-day,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8,1.8
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Pemangkasan,rp/pers-day,100000,100000,pers-day,,,,,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0,28.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Penyerbukan (salak),rp/pers-day,100000,100000,pers-day,,,,,,8.0,8.0,8.0,8.0,8.0,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Spraying (pest+fung),rp/pers-day,100000,100000,pers-day,,,,,,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting (salak),rp/pers-day,100000,100000,pers-day,,,,,,24.0,24.0,24.0,24.0,24.0,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting (durian),rp/pers-day,100000,100000,pers-day,,,,,,,,17.5,0.0,0.0,17.5,0.0,0.0,17.5,0.0,0.0,17.5,0.0,0.0,17.5,0.0,0.0,17.5,0.0,0.0,17.5,0.0,0.0,17.5,0.0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Transportation (durian),rp/pers-day,100000,100000,pers-day,,,,,,,,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0
+,,,,,,,,,,,,,utama,output,utama,Rambutan,rp/kg,1500,1500,kg,,,,,,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0,5000.0
+,,,,,,,,,,,,,utama,output,utama,Salak,rp/kg,8000,8000,kg,,,,,,750.0,750.0,750.0,750.0,750.0,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,utama,output,utama,Durian,rp/pieces,20000,20000,pieces,,,,,,,,700.0,,,700.0,,,700.0,,,700.0,,,700.0,,,700.0,,,700.0,,,700.0,

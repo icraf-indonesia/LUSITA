@@ -1,0 +1,30 @@
+sut,komoditas,prov,wilayah,lokasi,tahun,tipe lahan,tipe kebun,rate.p,rate.s,nilai.tukar,total.area,asumsi.peneliti,bagian,faktor,komponen,jenis,unit harga,harga privat,harga sosial,unit,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y12,Y13,Y14,Y15,Y16,Y17,Y18,Y19,Y20,Y21,Y22,Y23,Y24,Y25,Y26,Y27,Y28,Y29,Y30
+MONOKULTUR,KAPUK,SULAWESI SELATAN,BANTAENG,,2012,MINERAL,SMALLHOLDER,8,3,9085,1,,pupuk,input,pupuk,Urea,rp/kg,2000,,kg/ha,600,600,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,pupuk,input,pupuk,ZA,rp/kg,1800,,kg/ha,200,200,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Rambo,rp/liter,40000,,liter/ha,12,12,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Jagung,rp/kg,43000,,kg/ha,30,30,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Kapuk,rp/unit,1000,,batang,200,20,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Karung,rp/unit,1500,,unit,80,80,16.66666667,25,25,25,33.33333333,33.33333333,33.33333333,33.33333333,333.3333333,333.3333333,333.3333333,333.3333333,333.3333333,333.3333333,333.3333333,333.3333333,333.3333333,333.3333333,833.3333333,833.3333333,833.3333333,833.3333333,833.3333333,833.3333333,833.3333333,833.3333333,833.3333333,833.3333333
+,,,,,,,,,,,,,peralatan,input,peralatan,Parang,rp/unit,30000,,unit,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+,,,,,,,,,,,,,peralatan,input,peralatan,Cangkul,rp/unit,25000,,unit,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+,,,,,,,,,,,,,peralatan,input,peralatan,Sprayer,rp/unit,450000,,unit,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+,,,,,,,,,,,,,peralatan,input,peralatan,Ajir,rp/unit,150,,unit,200,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja jagung,input,tenaga kerja jagung,Persiapan lahan ,rp/HOK,30000,,HOK,18.5,18.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja jagung,input,tenaga kerja jagung,Penanaman,rp/HOK,30000,,HOK,8,8,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja jagung,input,tenaga kerja jagung,Penyemprotan,rp/HOK,30000,,HOK,8,8,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja jagung,input,tenaga kerja jagung,Pemupukan,rp/HOK,30000,,HOK,8,8,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja jagung,input,tenaga kerja jagung,Pemanenan,rp/HOK,30000,,HOK,9.6,9.6,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tk pasca panen jagung,input,tenaga kerja jagung,Pipil,rp/HOK,30000,,HOK,8,8,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tk pasca panen jagung,input,tenaga kerja jagung,Jemur,rp/HOK,30000,,HOK,1.2,1.2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja jagung,input,tenaga kerja jagung,Sewa transport,rp,35000,,Unit,2,2,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Persiapan lahan ,rp/HOK,30000,,HOK,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Pembuatan lubang tanam,rp/HOK,30000,,HOK,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Penanaman,rp/HOK,30000,,HOK,2,0.4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Penyiangan,rp/HOK,30000,,HOK,0,0,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Pemupukan,rp/HOK,30000,,HOK,0,0,0,0,0,0,0,0,0,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Pemangkasan,rp/HOK,30000,,HOK,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Perawatan lain,rp/HOK,30000,,HOK,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Pemanenan Kapuk,rp/HOK,30000,,HOK,0,0,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,93.33333333,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50
+,,,,,,,,,,,,,tenaga kerja kapuk,input,tenaga kerja kapuk,Pengupasan,rp/HOK,30000,,HOK,,,1.388888889,2.083333333,2.083333333,2.083333333,2.777777778,2.777777778,2.777777778,2.777777778,27.77777778,27.77777778,27.77777778,27.77777778,27.77777778,27.77777778,27.77777778,27.77777778,27.77777778,27.77777778,69.44444444,69.44444444,69.44444444,69.44444444,69.44444444,69.44444444,69.44444444,69.44444444,69.44444444,69.44444444
+,,,,,,,,,,,,,utama,output,utama,Kapuk,rp/kg,4500,,kg,0,0,200,300,300,300,400,400,400,400,4000,4000,4000,4000,4000,4000,4000,4000,4000,4000,10000,10000,10000,10000,10000,10000,10000,10000,10000,10000
+,,,,,,,,,,,,,sampingan,output,sampingan,Jagung,rp/kg,1600,,kg,4000,4000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

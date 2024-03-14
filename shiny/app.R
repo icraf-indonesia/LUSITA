@@ -633,7 +633,7 @@ app <- shiny::shinyApp(
         tot.prod <- sum(sum.prod)
         
         hp <- data.frame( tot.prod/total.labor)/1000 # karena ton jadi di bagi 1000
-        colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1st year only)")
+        colnames(hp)<-c("Harvesting Product (ton/HOK)")
         rownames(hp) <- c("Value")
         hp
         # ending  hp ------------------------------------------------------- 
@@ -933,8 +933,8 @@ app <- shiny::shinyApp(
         p.tot.cost<- sum(p.sum.cost)
         s.tot.cost<- sum(s.sum.cost)
         
-        p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
-        s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
+        p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja|tk|kerja|tenaga")))
+        s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja|tk|kerja|tenaga")))
         
         p.sum.labor <- p.labor.input[,-(1:5)] %>%
           sum(na.rm = T)
@@ -969,14 +969,14 @@ app <- shiny::shinyApp(
           colSums(na.rm = T)
         tot.prod <- sum(sum.prod)
         
-        fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja")))
-        fil.labor <- filter(fil.labor, str_detect(unit, c("hok")))
+        fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja|tk|kerja|tenaga")))
+        fil.labor <- filter(fil.labor, str_detect(unit, c("hok|HOK|pers-day")))
         sum.labor <- fil.labor[,-c(1:5,36)] %>%
           colSums(na.rm = T)
         tot.labor <- sum(sum.labor)
         
         hp <- data.frame(tot.prod/tot.labor)/1000 # karena ton jadi di bagi 1000
-        colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1st year only)")
+        colnames(hp)<-c("Harvesting Product (ton/HOK)")
         rownames(hp) <- c("Value")
         hp
         # ending  hp ------------------------------------------------------- 
@@ -2959,7 +2959,7 @@ app <- shiny::shinyApp(
           tot.prod <- sum(sum.prod)
           
           hp <- data.frame( tot.prod/total.labor)/1000 # karena ton jadi di bagi 1000
-          colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1st year only)")
+          colnames(hp)<-c("Harvesting Product (ton/HOK)")
           rownames(hp) <- c("Value")
           hp
           
@@ -3180,8 +3180,8 @@ app <- shiny::shinyApp(
           p.tot.cost<- sum(p.sum.cost)
           s.tot.cost<- sum(s.sum.cost)
           
-          p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
-          s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
+          p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja|tk|kerja|tenaga")))
+          s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja|tk|kerja|tenaga")))
           
           p.sum.labor <- p.labor.input[,-(1:5)] %>%
             sum(na.rm = T)
@@ -3216,14 +3216,14 @@ app <- shiny::shinyApp(
             colSums(na.rm = T)
           tot.prod <- sum(sum.prod)
           
-          fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja")))
-          fil.labor <- filter(fil.labor, str_detect(unit, c("hok")))
+          fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja|tk|kerja|tenaga")))
+          fil.labor <- filter(fil.labor, str_detect(unit, c("hok|HOK|pers-day")))
           sum.labor <- fil.labor[,-c(1:5,36)] %>%
             colSums(na.rm = T)
           tot.labor <- sum(sum.labor)
           
           hp <- data.frame(tot.prod/tot.labor)/1000 # karena ton jadi di bagi 1000
-          colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1 tahun pertama)")
+          colnames(hp)<-c("Harvesting Product (ton/HOK)")
           rownames(hp) <- c("Nilai")
           hp <- data.frame(t(hp))
           hp
@@ -3635,7 +3635,7 @@ app <- shiny::shinyApp(
         tot.prod <- sum(sum.prod)
         
         hp <- data.frame( tot.prod/total.labor)/1000 # karena ton jadi di bagi 1000
-        colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1st year only)")
+        colnames(hp)<-c("Harvesting Product (ton/HOK)")
         rownames(hp) <- c("Value")
         hp
         
@@ -3865,8 +3865,8 @@ app <- shiny::shinyApp(
         p.tot.cost<- sum(p.sum.cost)
         s.tot.cost<- sum(s.sum.cost)
         
-        p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
-        s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja")))
+        p.labor.input <- p.budget %>% filter(str_detect(komponen,c("tenaga kerja|tk|kerja|tenaga")))
+        s.labor.input <- s.budget %>% filter(str_detect(komponen,c("tenaga kerja|tk|kerja|tenaga")))
         
         p.sum.labor <- p.labor.input[,-(1:5)] %>%
           sum(na.rm = T)
@@ -3901,14 +3901,14 @@ app <- shiny::shinyApp(
           colSums(na.rm = T)
         tot.prod <- sum(sum.prod)
         
-        fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja")))
-        fil.labor <- filter(fil.labor, str_detect(unit, c("hok")))
+        fil.labor <- dataGeneral %>%  filter(str_detect(komponen, c("tenaga kerja|tk|kerja|tenaga")))
+        fil.labor <- filter(fil.labor, str_detect(unit, c("hok|HOK|pers-day")))
         sum.labor <- fil.labor[,-c(1:5,ncol(fil.prod))] %>%
           colSums(na.rm = T)
         tot.labor <- sum(sum.labor)
         
         hp <- data.frame(tot.prod/tot.labor)/1000 # karena ton jadi di bagi 1000
-        colnames(hp)<-c("Harvesting Product (ton/HOK) Labor Req for Est (1 tahun pertama)")
+        colnames(hp)<-c("Harvesting Product (ton/HOK)")
         rownames(hp) <- c("Nilai")
         hp <- data.frame(t(hp))
         hp
