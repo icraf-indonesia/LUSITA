@@ -17,11 +17,32 @@ modulSatu <- argonTabItem(
       gradient = FALSE, 
       floating = T,
       
+      # argonRow(
+      #   argonColumn(
+      #     width = 12,
+      #     
+      #     
+      #   )
+      # ),
       
       argonRow(
         argonColumn(
           width = 12,
           argonH1("Informasi Umum", display = 4),
+          
+          h5("Langkah 0: menentukan tipe landuse"),
+          br(),
+          fluidRow(
+            column(2,
+                   selectInput(("tipe_landuse"),"Tipe Landuse",choices = c("SAWAH","KEBUN")),
+            ),
+            
+          ),
+          
+          
+          
+          
+          
           h5("Langkah 1: menentukan informasi umum untuk data PAM yang dibangun"),
           br(),
           fluidRow(
@@ -38,7 +59,7 @@ modulSatu <- argonTabItem(
             ),
             column(2,
                    selectInput("selected_wilayah",
-                               "Pilih Wilayah:",
+                               "Pilih Kabupaten:",
                                choices = ""),
             ),
             column(2,

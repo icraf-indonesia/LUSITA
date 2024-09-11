@@ -1,0 +1,21 @@
+﻿sut,komoditas,prov,wilayah,lokasi,tahun,tipe lahan,tipe kebun,rate.p,rate.s,nilai.tukar,total.area,asumsi.peneliti,bagian,faktor,komponen,jenis,unit harga,harga privat,harga sosial,unit,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y12,Y13,Y14,Y15,Y16,Y17,Y18,Y19,Y20,Y21,Y22,Y23,Y24,Y25,Y26,Y27,Y28,Y29,Y30
+MONOKULTUR,COKLAT,PAPUA,PAPUA,ARSO,2011,MINERAL,SMALLHOLDER,7.78,2.78,9084.552419,1,Tidak dipupuk,pupuk,input,pupuk,npk,Rp/kg,2500,2500,kg,,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200,200
+,,,,,,,,,,,,Bibit yang digunakan: alam/cabutan,bahan kimia,input,bahan kimia,Gramoxon,Rp/kg,60000,60000,lt,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24
+,,,,,,,,,,,,"Dikelola turun-temurun, biasanya umur 4 tahun sudah menghasilkan",bahan kimia,input,bahan kimia,Allie,Rp/lt,53000,53000,Btl,,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Amirtantop,Rp/btl,60000,60000,Btl,,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Ridomid,Rp/btl,40000,40000,Bungkus,,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,coklat,Rp/btng,3000,3000,batang,800,80,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Sabit,Rp/unit,250000,250000,unit,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,
+,,,,,,,,,,,,,peralatan,input,peralatan,Pisau,Rp/unit,25000,25000,unit,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+,,,,,,,,,,,,,peralatan,input,peralatan,Sprayer,Rp/unit,400000,400000,unit,1,,,,1,,,,,1,,,,,1,,,,,1,,,,,1,,,,,1
+,,,,,,,,,,,,,peralatan,input,peralatan,Karung,Rp/unit,3000,3000,unit,0,0.2,6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,17.6,10.4,10.4,10.4,10.4,10.4,10.4,10.4,10.4,10.4,10.4
+,,,,,,,,,,,,,tk persiapan lahan,input,tenaga kerja,tebas+tebang,Rp/HOK,75000,75000,hok,40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tk persiapan lahan,input,tenaga kerja,Pembersihan,Rp/HOK,75000,75000,hok,15,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tk penanaman,input,tenaga kerja,Ajir+Lubang,Rp/HOK,75000,75000,hok,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tk penanaman,input,tenaga kerja,penanaman,Rp/HOK,75000,75000,hok,10,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tk pemeliharaan,input,tenaga kerja,Pemangkasan Batang,Rp/HOK,75000,75000,hok,3,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
+,,,,,,,,,,,,,tk pemeliharaan,input,tenaga kerja,Pemupukan,Rp/HOK,75000,75000,hok,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10
+,,,,,,,,,,,,,tk pemeliharaan,input,tenaga kerja,penyemprotan,Rp/HOK,75000,75000,hok,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20
+,,,,,,,,,,,,,tk pemanenan,input,tenaga kerja,pemanenan,Rp/HOK,75000,75000,hok,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
+,,,,,,,,,,,,,tk paska panen,input,tenaga kerja,pasca panen,Rp/HOK,75000,75000,hok,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+,,,,,,,,,,,,,utama,output,utama,coklat,rp,18000,18000,kg,0,10,300,880,880,880,880,880,880,880,880,880,880,880,880,880,880,880,880,880,520,520,520,520,520,520,520,520,520,520

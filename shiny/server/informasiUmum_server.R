@@ -64,12 +64,24 @@
 # })
 
 
+observe({
+  updateSelectInput(
+    session,
+    "sut",
+    choices = komoditas %>%
+      filter(tipe_landuse == input$tipe_landuse) %>%
+      select(sut) %>%
+      .[[1]]
+  )
+})
+
 
 observe({
   updateSelectInput(
     session,
     "kom",
     choices = komoditas %>%
+      filter(tipe_landuse == input$tipe_landuse) %>%
       filter(sut == input$sut) %>%
       select(nama_komoditas) %>%
       .[[1]]
