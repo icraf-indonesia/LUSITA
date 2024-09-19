@@ -87,7 +87,7 @@ app <- shiny::shinyApp(
     # # End - Section informasi umum ---------------------------------------
     
     observeEvent(input$browser_button,{
-      browser()
+      # browser()
     })
     
     reactData <- reactiveValues(
@@ -3444,7 +3444,7 @@ app <- shiny::shinyApp(
     
     
     observeEvent(input$saveNewPAM, {
-      browser()
+      # browser()
       datapath <- paste0("data/", input$sut, "/")
       fileName <- paste0(datapath,"saveData","_",
                          input$sut,"_",input$kom,"_",

@@ -1103,6 +1103,7 @@ app <- shiny::shinyApp(
     observeEvent(c(input$sut, input$kom, input$selected_prov, input$selected_wilayah, input$th, input$tipeLahan), {
       removeUI(selector='#showResult')
       removeUI(selector='#showMakro')
+      removeUI(selector='#showBox')
       removeUI(selector='#showTable')
       removeUI(selector='#showButton')
       
@@ -1113,6 +1114,7 @@ app <- shiny::shinyApp(
     observeEvent(c(input$sut, input$kom, input$selected_prov, input$selected_wilayah, input$th, input$tipeLahan,
                    input$rate.p,input$rate.s,input$nilai.tukar), {
       removeUI(selector='#showResult')
+      removeUI(selector='#showBox')
       removeUI(selector='#showTable')
       removeUI(selector='#showButton')
       

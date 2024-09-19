@@ -406,7 +406,7 @@ modalTabelKuantitasIn_new <- function(failed = FALSE) {
 }
 
 observeEvent(input$backtoRowInput,{
-  browser()
+  # browser()
   showModal(modalPilihBarisInput_new())
 })
 
@@ -728,7 +728,7 @@ modalTabelCapitalPrivat_new <- function(failed = FALSE) {
 }
 
 observeEvent(input$batalButtonCapitalP_new,{
-  browser()
+  # browser()
   removeModal()
 })
 
@@ -902,7 +902,7 @@ modalTabelCapitalSosial_No_new <- function(failed = FALSE) {
 }
 
 observeEvent(input$batalButtonCapitalS_new,{
-  browser()
+  # browser()
   removeModal()
 })
 

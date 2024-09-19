@@ -1,4 +1,4 @@
-reactData_par <- reactiveValues(
+ reactData_par <- reactiveValues(
   timeInput = NULL,
   tableP1 = NULL, #price input
   tableP2 = NULL, #price output
