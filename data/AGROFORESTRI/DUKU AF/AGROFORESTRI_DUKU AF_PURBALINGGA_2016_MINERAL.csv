@@ -1,0 +1,36 @@
+sut,komoditas,prov,wilayah,lokasi,tahun,tipe lahan,tipe kebun,rate.p,rate.s,nilai.tukar,total.area,asumsi.peneliti,bagian,faktor,komponen,jenis,unit harga,harga privat,harga sosial,unit,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y12,Y13,Y14,Y15,Y16,Y17,Y18,Y19,Y20,Y21,Y22,Y23,Y24,Y25,Y26,Y27,Y28,Y29,Y30
+AGROFORESTRI,DUKU AF,JAWA TENGAH,PURBALINGGA,,2016,MINERAL,SMALLHOLDER,7.72,2.72,13308,1,,pupuk,input,pupuk,farmyard manure,rp/kg,400,400,kg,8700,870,0,0,0,0,0,0,3200,320,0,0,0,0,0,3200,320,0,0,0,0,0,3200,320,0,0,0,0,0,0
+,,,,,,,,,,,,,peralatan,input,peralatan,npk,rp/kg,3000,3000,kg,174,261,348,,,,,,174,261,348,,,,,174,261,348,,,,,174,261,348,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Hand sprayer,rp/pieces,400000,400000,pieces,1,,,,,1,,,,,1,,,,,1,,,,,1,,,,,1,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Cangkul,rp/pieces,95000,95000,pieces,5,,,,,5,,,,,5,,,,,5,,,,,5,,,,,5,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Sabit,rp/pieces,50000,50000,pieces,3,,,,,3,,,,,3,,,,,3,,,,,3,,,,,3,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,kored,rp/pieces,50000,50000,pieces,3,,,,,3,,,,,3,,,,,3,,,,,3,,,,,3,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Gembor,rp/pieces,60000,60000,pieces,4,,,,,4,,,,,4,,,,,4,,,,,4,,,,,4,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Garpu,rp/pieces,50000,50000,pieces,4,,,,,4,,,,,4,,,,,4,,,,,4,,,,,4,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Pompa air dan selang,rp/pieces,1000000,1000000,pieces,1,,,,,1,,,,,1,,,,,1,,,,,1,,,,,1,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Sorongan,rp/pieces,400000,400000,pieces,2,,,,,2,,,,,2,,,,,2,,,,,2,,,,,2,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Bambu ajir,rp/pieces,250,250,pieces,410,41,0,0,0,0,0,0,160,16,0,0,0,0,0,160,16,0,0,0,0,0,160,16,0,0,0,0,0,0
+,,,,,,,,,,,,,peralatan,input,peralatan,Ember,rp/pieces,30000,30000,pieces,5,,,,,5,,,,,5,,,,,5,,,,,5,,,,,5,,,,
+,,,,,,,,,,,,,bahan tanam/bibit,input,bahan tanam/bibit,Seed (sengon),rp/batang,2000,2000,batang,160,16,,,,,,,160,16,,,,,,160,16,,,,,,160,16,,,,,,
+,,,,,,,,,,,,,bahan tanam/bibit,input,bahan tanam/bibit,Seed (Duku),rp/batang,15000,15000,batang,200,20,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam/bibit,input,bahan tanam/bibit,Seed (pisang),rp/batang,7500,7500,batang,50,5,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam/bibit,input,bahan tanam/bibit,Seed (Durian),rp/batang,50000,50000,batang,25,2.5,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Land Clearing/Preparation,rp/pers-day,60000,60000,pers-day,45,,,,,,,25,,,,,,,,25,,,,,,,25,,,,,,,
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Planting,rp/pers-day,60000,60000,pers-day,25.375,2.391666667,0,0,0,0,0,0,9.333333333,0.933333333,0,0,0,0,0,9.333333333,0.933333333,0,0,0,0,0,9.333333333,0.933333333,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Fertilizer (dasar),rp/pers-day,60000,60000,pers-day,10.875,1.0875,0,0,0,0,0,0,4,0.4,0,0,0,0,0,4,0.4,0,0,0,0,0,4,0.4,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Fertilizer,rp/pers-day,60000,60000,pers-day,2.32,3.48,4.64,0,0,0,0,0,2.32,3.48,4.64,0,0,0,0,2.32,3.48,4.64,0,0,0,0,2.32,3.48,4.64,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Weeding,rp/pers-day,60000,60000,pers-day,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Pruning (pemangkasan),rp/pers-day,60000,60000,pers-day,,,,,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Penyiraman,rp/pers-day,60000,60000,pers-day,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting and post harvesting (sengon),rp/pers-day,60000,60000,pers-day,0,0,0,0,0,0,0,84.0448,0,0,0,0,0,0,84.0448,0,0,0,0,0,0,84.0448,0,0,0,0,0,0,0,84.0448
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting and post harvesting (sengon1),rp/pers-day,60000,60000,pers-day,0,0,0,10.00533333,0,0,0,0,0,0,10.00533333,0,0,0,0,0,0,0,10.00533333,0,0,0,0,0,0,10.00533333,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting and post harvesting (sengon2),rp/pers-day,60000,60000,pers-day,0,0,0,0,16.00853333,0,0,0,0,0,0,16.00853333,0,0,0,0,0,0,0,16.00853333,0,0,0,0,0,0,16.00853333,0,0,0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting and post harvesting (Duku),rp/pers-day,60000,60000,pers-day,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,18,18,36,18,18,18,54,18,18,18,72,18,18,18,90
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting and post harvesting (pisang),rp/pers-day,60000,60000,pers-day,0,0,18.75,18.75,18.75,15,15,15,11.25,11.25,11.25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,tenaga kerja,input,tenaga kerja,Harvesting and post harvesting (Durian),rp/pers-day,60000,60000,pers-day,0,0,0,0,0,0,5.357142857,5.357142857,3.214285714,10.71428571,10.71428571,3.214285714,16.07142857,16.07142857,3.214285714,21.42857143,21.42857143,3.214285714,26.78571429,26.78571429,3.214285714,32.14285714,32.14285714,3.214285714,42.85714286,42.85714286,3.214285714,3.214285714,53.57142857,53.57142857
+,,,,,,,,,,,,,sampingan,output,sampingan,Sengon,rp/m3,700000,700000,m3,0,0,0,0,0,0,0,38.4,0,0,0,0,0,0,38.4,0,0,0,0,0,0,38.4,0,0,0,0,0,0,0,38.4
+,,,,,,,,,,,,,sampingan,output,sampingan,Sengon (penjarangan I),rp/m3,500000,500000,m3,0,0,0,6.4,0,0,0,0,0,0,6.4,0,0,0,0,0,0,0,6.4,0,0,0,0,0,0,6.4,0,0,0,0
+,,,,,,,,,,,,,sampingan,output,sampingan,Sengon (penjarangan II),rp/m3,600000,600000,m3,0,0,0,0,8.533333333,0,0,0,0,0,0,8.533333333,0,0,0,0,0,0,0,8.533333333,0,0,0,0,0,0,8.533333333,0,0,0
+,,,,,,,,,,,,,utama,output,utama,Duku,rp/kg,8000,8000,kg,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1800,1800,1800,3600,1800,1800,1800,5400,1800,1800,1800,7200,1800,1800,1800,9000
+,,,,,,,,,,,,,sampingan,output,sampingan,Pisang,rp/kg,5000,5000,kg,0,0,1125,1125,1125,900,900,900,675,675,675,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,,,,,,,,,sampingan,output,sampingan,Durian,rp/kg,7500,7500,kg,0,0,0,0,0,0,112.5,112.5,67.5,225,225,67.5,337.5,337.5,67.5,450,450,67.5,562.5,562.5,67.5,675,675,67.5,900,900,67.5,67.5,1125,1125

@@ -1,0 +1,37 @@
+sut,komoditas,prov,wilayah,lokasi,tahun,tipe lahan,tipe kebun,rate.p,rate.s,nilai.tukar,total.area,asumsi.peneliti,bagian,faktor,komponen,jenis,unit harga,harga privat,harga sosial,unit,Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y12,Y13,Y14,Y15,Y16,Y17,Y18,Y19,Y20,Y21,Y22,Y23,Y24,Y25,Y26,Y27,Y28,Y29,Y30
+MONOKULTUR,KARET,KALIMANTAN TIMUR,PASER,DESA KERANG DAYO,2015.0,MINERAL,SMALLHOLDER,7.79,2.79,13389.0,1.0,,pupuk,input,pupuk,Urea,rp/kg,2200,2200,kg,150.0,,,,,,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0,150.0
+,,,,,,,,,,,,,pupuk,input,pupuk,NPK,rp/kg,5000,5000,kg,20.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,pupuk,input,pupuk,SP,rp/kg,2700,2700,kg,50.0,,,,,,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0
+,,,,,,,,,,,,,pupuk,input,pupuk,KCL,rp/kg,8000,8000,kg,50.0,,,,,,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0,50.0
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Herbisida,rp/liter,75000,75000,liter,15.0,15.0,15.0,15.0,10.0,10.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0
+,,,,,,,,,,,,,bahan kimia,input,bahan kimia,Herbisida,rp/liter,50000,50000,liter,5.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Bambu (ajir),rp/pieces,500,500,pieces,460.0,46.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Cangkul,rp/pieces,100000,100000,pieces,1.0,,,,,,,,,,1.0,,,,,,,,,,1.0,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Parang,rp/pieces,150000,150000,pieces,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,,1.0,
+,,,,,,,,,,,,,peralatan,input,peralatan,Mangkok penampung (latex cup),rp/pieces,1200,1200,pieces,,,,,,,460.0,50.0,50.0,50.0,460.0,50.0,50.0,50.0,460.0,50.0,50.0,50.0,460.0,50.0,50.0,50.0,460.0,50.0,50.0,50.0,460.0,50.0,50.0,50.0
+,,,,,,,,,,,,,peralatan,input,peralatan,Handsprayer,rp/pieces,400000,400000,pieces,1.0,,,,,,,1.0,,,,,,,1.0,,,,,,,1.0,,,,,,,1.0,
+,,,,,,,,,,,,,peralatan,input,peralatan,Sack,rp/pieces,4000,4000,pieces,40.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,peralatan,input,peralatan,Knife (pisau sadap),rp/pieces,75000,75000,pieces,,,,,,,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+,,,,,,,,,,,,,peralatan,input,peralatan,Ember karet,rp/pieces,20000,20000,pieces,,,,,,,2.0,,2.0,,2.0,,2.0,,2.0,,2.0,,2.0,,2.0,,2.0,,2.0,,2.0,,2.0,
+,,,,,,,,,,,,,peralatan,input,peralatan,Cuka,rp/pieces,15000,15000,pieces,0.0,0.0,0.0,0.0,0.0,0.0,4.51,4.51,4.62,4.62,4.73,4.84,5.06,5.17,5.28,5.39,5.61,5.72,5.83,5.94,6.16,6.27,6.49,6.27,5.94,5.72,5.39,5.17,4.84,4.62
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (paddy),rp/pieces,7000,7000,pieces,20.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,bahan tanam /bibit,input,bahan tanam /bibit,Seed (karet),rp/pieces,7000,7000,pieces,460.0,46.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Planting ,rp/pers-day,100000,100000,pers-day,10.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Weeding,rp/pers-day,100000,100000,pers-day,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Crop watching from pig,rp/pers-day,100000,100000,pers-day,10.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Crop watching from bird,rp/pers-day,100000,100000,pers-day,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Harvesting,rp/pers-day,100000,100000,pers-day,25.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Drying,rp/pers-day,100000,100000,pers-day,3.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Transportation,rp/pers-day,100000,100000,pers-day,1.75,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja padi,input,tenaga kerja padi,Rice mill,rp/pers-day,100000,100000,pers-day,9.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Land Clearing/Preparation (tebas+tebang),rp/pers-day,100000,100000,pers-day,25.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Land preparation (cincang+bakar),rp/pers-day,100000,100000,pers-day,15.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Fencing,rp/pers-day,100000,100000,pers-day,3.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Planting ,rp/pers-day,100000,100000,pers-day,14.0,2.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Fertilize ,rp/pers-day,100000,100000,pers-day,1.5,1.0,1.0,1.0,1.0,1.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Spraying (herbicide),rp/pers-day,100000,100000,pers-day,9.0,9.0,9.0,9.0,6.0,6.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Pruning,rp/pers-day,100000,100000,pers-day,10.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,tenaga kerja karet,input,tenaga kerja karet,Harvesting,rp/pers-day,100000,100000,pers-day,,,,,,0.0,41.041,41.041,42.042,42.042,43.043,44.044,46.046,47.047,48.048,49.049,51.051,52.052,53.053,54.054,56.056,57.057,59.059,57.057,54.054,52.052,49.049,47.047,44.044,42.042
+,,,,,,,,,,,,,sampingan,output,sampingan,Rice,rp/kg,10000,10000,kg,1120.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,sampingan,output,sampingan,Bran,rp/kg,15000,15000,kg,8.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,utama,output,utama,Latex ,rp/kg,6500,6500,kg,,,,,,,1804.0,1804.0,1848.0,1848.0,1892.0,1936.0,2024.0,2068.0,2112.0,2156.0,2244.0,2288.0,2332.0,2376.0,2464.0,2508.0,2596.0,2508.0,2376.0,2288.0,2156.0,2068.0,1936.0,1848.0
