@@ -38,29 +38,6 @@ pamBaru <- argonTabItem(
             column(2,
                    textInput("selected_wilayah_new","Wilayah", value = NULL ),
             ),
-            # column(2,
-            #        selectInput("selected_wilayah_new",
-            #                    "Pilih Wilayah:",
-            #                    choices = ""),
-            # ),
-            # column(1,
-            #        selectInput(("th_new"),"Tahun",selected = as.integer(format(Sys.Date(), "%Y")),choices = c(1995:as.integer(format(Sys.Date(), "%Y"))) ),
-            # ),
-            # column(1,
-            #        selectInput(("tipeLahan_new"),"Tipe Lahan",choices = c("MINERAL","GAMBUT") ),
-            #        
-            # ),
-            # column(2,
-            #        selectInput(("tipeKebun_new"),"Tipe Lahan",choices = c("CROP", "SMALLHOLDER") ),
-            #        
-            # ),
-            # column(2,
-            #        br(),
-            #        actionButton(("asumsiMakro_button_new"),"Tentukan Asumsi Makro",icon("paper-plane"),style="color: white; 
-            #              background-color: green;"),
-            #        useShinyalert()
-            #        
-            # )
           ),
           
           fluidRow(
@@ -81,8 +58,8 @@ pamBaru <- argonTabItem(
             column(2,
                    br(),
                    actionButton(("asumsiMakro_button_new"),"Tentukan Asumsi Makro",icon("paper-plane"),style="color: white; 
-                         background-color: green;"),
-                   useShinyalert()
+                         background-color: green;")
+                   #useShinyalert()
                    
             )
           )
@@ -101,12 +78,6 @@ pamBaru <- argonTabItem(
           tags$div(id = 'uiShowTable_new')
         )
       ),
-      # argonRow(
-      #   argonColumn(
-      #     width = 12,
-      #     tags$div(id = 'uiShowButton_new')
-      #   )
-      # ),
       argonRow(
         argonColumn(
           width = 12,

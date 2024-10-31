@@ -1380,6 +1380,7 @@ observeEvent(input$runSimPrice,{
 
 observeEvent(c(input$runSimPrice, input$runSimIO),{
   removeModal()
+  removeUI(selector='#showResult_par')
   insertUI(selector='#uiShowResult_par',
            where='afterEnd',
            ui= uiOutput('showResult_par'))
@@ -1436,19 +1437,19 @@ output$showResult_par <- renderUI({
     
     br(),
     br(),
-    column(12,
-           id = 'tableNPV_par',
-           tags$style('#tableNPV_par {
-                            background-color: #CCFFCC;
-                            }'),
-           h3("Tabel NPV dalam 1 Wilayah", align = "center")
-           
-    ),
-    fluidRow(
-      column(12,
-             dataTableOutput('showTableAllKomoditas_par')
-      )
-    ),
+    # column(12,
+    #        id = 'tableNPV_par',
+    #        tags$style('#tableNPV_par {
+    #                         background-color: #CCFFCC;
+    #                         }'),
+    #        h3("Tabel NPV dalam 1 Wilayah", align = "center")
+    #        
+    # ),
+    # fluidRow(
+    #   column(12,
+    #          dataTableOutput('showTableAllKomoditas_par')
+    #   )
+    # ),
     
     br(),
     br(),

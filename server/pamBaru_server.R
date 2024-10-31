@@ -1021,8 +1021,10 @@ observeEvent(input$running_button_No_new,{
 #                                                                              #
 ################################################################################
 # Section tampilkan tabel---------------------------------------------
-observeEvent(c(input$running_button_No_new,input$running_button_Yes_new, input$running_button_new), {
+observeEvent(c(input$running_button_new), {
   removeModal()
+  removeUI(selector='#showTable_new')
+  removeUI(selector='#showResult_new')
   insertUI(selector='#uiShowTable_new',
            where='afterEnd',
            ui= uiOutput('showTable_new'))
