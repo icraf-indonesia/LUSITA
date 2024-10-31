@@ -1369,7 +1369,7 @@ app <- shiny::shinyApp(
       argonRow(
         argonColumn(
           width = 12,
-          argonH1("Tabel", display = 4),
+          argonH1("Output", display = 4),
           h5("Langkah 3: Menampilkan atau menyunting Tabel PAM yang terpilih"),
           
           # jika tdk bisa jadi input buttton maka coba ubah nama action  buttonnya sepertinya conflict dengan script lain
