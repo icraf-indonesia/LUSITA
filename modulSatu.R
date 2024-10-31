@@ -116,13 +116,13 @@ modulSatu <- argonTabItem(
       #     tags$div(id = 'uiShowResult')
       #   )
       # ),
-      argonRow(
-        argonColumn(
-          width = 12,
-          actionButton("browser_button","Browser Button")
-
-        )
-      ),
+      # argonRow(
+      #   argonColumn(
+      #     width = 12,
+      #     actionButton("browser_button","Browser Button")
+      # 
+      #   )
+      # ),
 
     )
   )

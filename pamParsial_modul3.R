@@ -82,13 +82,13 @@ pamParsial <- argonTabItem(
           tags$div(id = 'uiShowResult_par')
         )
       ),
-      argonRow(
-        argonColumn(
-          width = 12,
-          actionButton("browser_button_par","Browser Button")
-          
-        )
-      ),
+      # argonRow(
+      #   argonColumn(
+      #     width = 12,
+      #     actionButton("browser_button_par","Browser Button")
+      #     
+      #   )
+      # ),
       
     )
   )
